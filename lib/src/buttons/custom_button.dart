@@ -6,8 +6,8 @@ import '../../global365_widgets.dart';
 import '../constants/branding.dart';
 import '../constants/colors.dart';
 import '../constants/constants.dart';
-import 'button_theme.dart';
 
+// ignore: must_be_immutable
 class GCustomButton extends StatelessWidget {
   GCustomButton({
     super.key,
@@ -93,8 +93,8 @@ class GCustomButton extends StatelessWidget {
               ? BoxDecoration(
                   color: backgroundColor ?? (isOnDark ? Colors.transparent : lightBackgroundColor),
                   border: isButtonInHeader
-                      ? Border.all(color: Colors.white.withOpacity(0.25))
-                      : Border(right: BorderSide(color: Colors.white.withOpacity(0.25))),
+                      ? Border.all(color: Colors.white.withValues(alpha: 0.25))
+                      : Border(right: BorderSide(color: Colors.white.withValues(alpha: 0.25))),
                   // border: Border.all(color: Colors.white.withOpacity(0.5)),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(Branding.tFborderR),
@@ -105,7 +105,7 @@ class GCustomButton extends StatelessWidget {
                   color: backgroundColor ?? (isOnDark ? Colors.transparent : lightBackgroundColor),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(Branding.tFborderR),
-                    side: BorderSide(color: bColor ?? (isOnDark ? whiteColor.withOpacity(0.25) : borderColor)),
+                    side: BorderSide(color: bColor ?? (isOnDark ? whiteColor.withValues(alpha: 0.25) : borderColor)),
                   ),
                 ),
           child: Center(
@@ -121,7 +121,10 @@ class GCustomButton extends StatelessWidget {
                             svgPath ?? "",
                             width: 14,
                             height: 14,
-                            color: iconColor ?? (isOnDark ? whiteColor : bodyTextDark),
+                            colorFilter: ColorFilter.mode(
+                              iconColor ?? (isOnDark ? whiteColor : bodyTextDark),
+                              BlendMode.srcIn,
+                            ),
                           ),
                 if (icon != null || svgPath != null)
                   if (isIconLeft && !onlyIcon) SizedBox(width: 4),
@@ -141,7 +144,10 @@ class GCustomButton extends StatelessWidget {
                             svgPath ?? "",
                             width: 14,
                             height: 14,
-                            color: iconColor ?? (isOnDark ? whiteColor : bodyTextDark),
+                            colorFilter: ColorFilter.mode(
+                              iconColor ?? (isOnDark ? whiteColor : bodyTextDark),
+                              BlendMode.srcIn,
+                            ),
                           ),
               ],
             ),

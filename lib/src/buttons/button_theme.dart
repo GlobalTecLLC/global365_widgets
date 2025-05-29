@@ -45,7 +45,7 @@ class ButtonThemeCustom {
         return ButtonColorPalete(
           backgroundColor: Colors.transparent,
           textColor: whiteColor,
-          borderColor: whiteColor.withOpacity(0.25),
+          borderColor: whiteColor.withValues(alpha: 0.25),
           iconColor: whiteColor,
         );
       case ButtonVariant.outlineBodyText:

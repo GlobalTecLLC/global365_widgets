@@ -13,6 +13,6 @@ export 'text_variants/text_heading6.dart';
 export 'text_variants/paragraph_normal.dart';
 export 'text_variants/paragraph_small.dart';
 export 'text_variants/paragraph_semi_bold.dart';
-export 'text_variants/small_Text.dart';
+export 'text_variants/text_small.dart';
 export 'text_variants/stats_label.dart';
 export 'label_body_text.dart';

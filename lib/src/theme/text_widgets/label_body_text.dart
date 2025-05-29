@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../constants/constants.dart';
-import '../text/text_variants/body_text.dart';
+import '../text_widgets/text_variants/body_text.dart';
 import 'text_variants/label_semi_bold.dart';
 
 class LabelBodyText extends StatelessWidget {
