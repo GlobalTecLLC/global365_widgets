@@ -12,7 +12,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  path: ^1.8.0
+  get: ^4.6.5
+  flutter_svg:
 
 dev_dependencies:
   lints: ^5.0.0

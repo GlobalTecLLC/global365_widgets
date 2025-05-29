@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 import '../../app_style.dart';
 // import 'package:gcountyusa/theme/text_style.dart';
 
-class Paragraph13 extends StatelessWidget {
-  const Paragraph13(this.text, {super.key, this.color, this.textAlign});
+class GParagraph13 extends StatelessWidget {
+  const GParagraph13(this.text, {super.key, this.color, this.textAlign});
 
   final String text;
   final Color? color;
@@ -14,7 +14,7 @@ class Paragraph13 extends StatelessWidget {
     return Text(
       text,
       textAlign: textAlign,
-      style: AppStyle.style13w600(color: color),
+      style: GAppStyle.style13w600(color: color),
     );
   }
 }

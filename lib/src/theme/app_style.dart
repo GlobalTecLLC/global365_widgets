@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../constants/constants.dart';
 
-class AppStyle {
+class GAppStyle {
   // Font Styles
 
   static TextStyle style9w600({Color? color = titleColor}) {

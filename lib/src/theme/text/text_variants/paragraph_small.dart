@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 import '../../app_style.dart';
 // import 'package:gcountyusa/theme/text_style.dart';
 
-class ParagraphSmall extends StatelessWidget {
-  const ParagraphSmall(this.text, {super.key, this.color, this.textAlign});
+class GParagraphSmall extends StatelessWidget {
+  const GParagraphSmall(this.text, {super.key, this.color, this.textAlign});
 
   final String text;
   final Color? color;
@@ -11,6 +11,6 @@ class ParagraphSmall extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text, style: AppStyle.style11w400(color: color));
+    return Text(text, style: GAppStyle.style11w400(color: color));
   }
 }

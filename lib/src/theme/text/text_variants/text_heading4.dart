@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import '../../app_style.dart';
 
-class TextHeading4 extends StatelessWidget {
-  const TextHeading4(this.text, {super.key, this.color, this.textAlign});
+class GTextHeading4 extends StatelessWidget {
+  const GTextHeading4(this.text, {super.key, this.color, this.textAlign});
 
   final String text;
   final Color? color;
@@ -12,7 +12,7 @@ class TextHeading4 extends StatelessWidget {
     return Text(
       textAlign: textAlign,
       text,
-      style: AppStyle.style16w600(color: color),
+      style: GAppStyle.style16w600(color: color),
     );
   }
 }

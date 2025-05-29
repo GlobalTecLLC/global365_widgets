@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../constants/constants.dart';
 
-class TextFiledTheme {
+class GTextFiledTheme {
   // DropDown Decoration
   static InputDecoration inputDecoration({
     double? fontSizeForAll,

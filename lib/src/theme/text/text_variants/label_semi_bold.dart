@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 import '../../app_style.dart';
 // import 'package:gcountyusa/theme/text_style.dart';
 
-class LabelSemiBold extends StatelessWidget {
-  const LabelSemiBold(this.text, {super.key, this.color, this.textAlign, this.isUnderLine = false});
+class GLabelSemiBold extends StatelessWidget {
+  const GLabelSemiBold(this.text, {super.key, this.color, this.textAlign, this.isUnderLine = false});
 
   final String text;
   final Color? color;
@@ -15,7 +15,7 @@ class LabelSemiBold extends StatelessWidget {
     return Text(
       text,
       textAlign: textAlign,
-      style: AppStyle.style12w600(color: color, isUnderLine: isUnderLine),
+      style: GAppStyle.style12w600(color: color, isUnderLine: isUnderLine),
     );
   }
 }

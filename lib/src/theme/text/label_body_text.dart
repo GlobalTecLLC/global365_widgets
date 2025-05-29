@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../constants/constants.dart';
+import '../text/text_variants/body_text.dart';
 import 'text_variants/label_semi_bold.dart';
-
-import 'text_variants/body_text.dart';
 
 class LabelBodyText extends StatelessWidget {
   const LabelBodyText(this.label, this.text, {super.key, this.icon});
@@ -18,7 +17,7 @@ class LabelBodyText extends StatelessWidget {
       children: [
         if (icon != null) Icon(icon!, size: 16, color: titleColor),
         if (icon != null) SizedBox(width: 4),
-        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [LabelSemiBold(label), BodyText(text)]),
+        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [GLabelSemiBold(label), GBodyText(text)]),
       ],
     );
   }
