@@ -1,0 +1,223 @@
+import 'package:flutter/material.dart';
+
+import '../constants/constants.dart';
+
+class AppStyle {
+  // Font Styles
+
+  static TextStyle style9w600({Color? color = titleColor}) {
+    return TextStyle(color: color, fontSize: 9, fontFamily: 'Montserrat', fontWeight: FontWeight.w600);
+  }
+
+  static TextStyle style9w400({Color? color = titleColor}) {
+    return TextStyle(color: color, fontSize: 9, fontFamily: 'Montserrat', fontWeight: FontWeight.w400);
+  }
+
+  static TextStyle style9w500({Color? color = titleColor}) {
+    return TextStyle(color: color, fontSize: 9, fontFamily: 'Montserrat', fontWeight: FontWeight.w500);
+  }
+
+  static TextStyle style32w600({Color? color = titleColor}) {
+    return TextStyle(color: color, fontSize: 32, fontFamily: 'Montserrat', fontWeight: FontWeight.w600);
+  }
+
+  static TextStyle style24w600({Color? color = titleColor}) {
+    return TextStyle(color: color, fontSize: 24, fontFamily: 'Montserrat', fontWeight: FontWeight.w600);
+  }
+
+  static TextStyle style20w600({Color? color = titleColor}) {
+    return TextStyle(color: color, fontSize: 20, fontFamily: 'Montserrat', fontWeight: FontWeight.w600);
+  }
+
+  static TextStyle style16w600({Color? color = titleColor}) {
+    return TextStyle(color: color, fontSize: 16, fontFamily: 'Montserrat', fontWeight: FontWeight.w600);
+  }
+
+  static TextStyle style16w400({Color? color = titleColor}) {
+    return TextStyle(color: color, fontSize: 16, fontFamily: 'Montserrat', fontWeight: FontWeight.w400);
+  }
+
+  static TextStyle style16w700({Color? color = titleColor}) {
+    return TextStyle(color: color, fontSize: 16, fontFamily: 'Montserrat', fontWeight: FontWeight.w700);
+  }
+
+  static TextStyle style14w600({Color? color = titleColor}) {
+    return TextStyle(color: color, fontSize: 14, fontFamily: 'Montserrat', fontWeight: FontWeight.w600);
+  }
+
+  static TextStyle style14w400({Color? color = titleColor}) {
+    return TextStyle(color: color, fontSize: 14, fontFamily: 'Montserrat', fontWeight: FontWeight.w400);
+  }
+
+  static TextStyle style13w400({Color? color = titleColor}) {
+    return TextStyle(color: color, fontSize: 13, fontFamily: 'Montserrat', fontWeight: FontWeight.w400);
+  }
+
+  static TextStyle style13w500({Color? color = titleColor}) {
+    return TextStyle(color: color, fontSize: 13, fontFamily: 'Montserrat', fontWeight: FontWeight.w500);
+  }
+
+  static TextStyle style12w700({Color? color = titleColor, bool isUnderLine = false}) {
+    return TextStyle(
+      color: color,
+      fontSize: 12,
+      fontFamily: 'Montserrat',
+      fontWeight: FontWeight.w700,
+      decoration: isUnderLine ? TextDecoration.underline : TextDecoration.none,
+    );
+  }
+
+  static TextStyle style12w600({Color? color = titleColor, bool isUnderLine = false}) {
+    return TextStyle(
+      color: color,
+      fontSize: 12,
+      fontFamily: 'Montserrat',
+      fontWeight: FontWeight.w600,
+      height: 14.63 / 12,
+      decoration: isUnderLine ? TextDecoration.underline : TextDecoration.none,
+    );
+  }
+
+  static TextStyle style12w400({Color? color = bodyTextDark}) {
+    return TextStyle(color: color, fontSize: 12, fontFamily: 'Montserrat', fontWeight: FontWeight.w400);
+  }
+
+  static TextStyle style12w500({Color? color = titleColor}) {
+    return TextStyle(color: color, fontSize: 12, fontFamily: 'Montserrat', fontWeight: FontWeight.w500);
+  }
+
+  static TextStyle style11w400({Color? color = titleColor}) {
+    return TextStyle(color: color, fontSize: 11, fontFamily: 'Montserrat', fontWeight: FontWeight.w400);
+  }
+
+  static TextStyle style11w600({Color? color = titleColor}) {
+    return TextStyle(
+      color: color,
+      fontSize: 11,
+      fontFamily: 'Montserrat',
+      fontWeight: FontWeight.w600,
+      height: 13.41 / 11,
+    );
+  }
+
+  static TextStyle style11w700({Color? color = titleColor}) {
+    return TextStyle(color: color, fontSize: 11, fontFamily: 'Montserrat', fontWeight: FontWeight.w700);
+  }
+
+  static TextStyle style10w400({Color? color = titleColor}) {
+    return TextStyle(color: color, fontSize: 10, fontFamily: 'Montserrat', fontWeight: FontWeight.w400);
+  }
+
+  static TextStyle style13w600({Color? color = titleColor}) {
+    return TextStyle(color: color, fontSize: 13, fontFamily: 'Montserrat', fontWeight: FontWeight.w600);
+  }
+
+  //////////////////////////////////////////
+  /////////////////
+  static TextStyle style6w700({Color color = titleColor}) {
+    return TextStyle(color: color, fontSize: 6, fontFamily: 'Montserrat', fontWeight: FontWeight.w700);
+  }
+
+  static TextStyle style7w500({Color color = titleColor}) {
+    return TextStyle(color: color, fontSize: 6, fontFamily: 'Montserrat', fontWeight: FontWeight.w500);
+  }
+
+  static TextStyle style8w700({Color color = titleColor}) {
+    return TextStyle(color: color, fontSize: 8, fontFamily: 'Montserrat', fontWeight: FontWeight.w700);
+  }
+
+  // static TextStyle style10w400({Color color = titleColor}) {
+  //   return TextStyle(
+  //     color: color,
+  //     fontSize: 10,
+  //     fontFamily: 'Montserrat',
+  //     fontWeight: FontWeight.w400,
+  //   );
+  // }
+
+  static TextStyle style10w600({Color color = titleColor}) {
+    return TextStyle(color: color, fontSize: 10, fontFamily: 'Montserrat', fontWeight: FontWeight.w600);
+  }
+
+  static TextStyle style10w700({Color color = titleColor}) {
+    return TextStyle(color: color, fontSize: 10, fontFamily: 'Montserrat', fontWeight: FontWeight.w700);
+  }
+
+  // static TextStyle style11w400({Color color = titleColor}) {
+  //   return TextStyle(
+  //     color: color,
+  //     fontSize: 11,
+  //     fontFamily: 'Montserrat',
+  //     fontWeight: FontWeight.w400,
+  //   );
+  // }
+
+  // static TextStyle style11w700({Color color = titleColor}) {
+  //   return TextStyle(
+  //     color: color,
+  //     fontSize: 11,
+  //     fontFamily: 'Montserrat',
+  //     fontWeight: FontWeight.w700,
+  //   );
+  // }
+
+  // static TextStyle style12w600({Color color = titleColor}) {
+  //   return TextStyle(
+  //     color: color,
+  //     fontSize: 12,
+  //     fontFamily: 'Montserrat',
+  //     fontWeight: FontWeight.w600,
+  //   );
+  // }
+
+  // static TextStyle style13w400({Color color = titleColor}) {
+  //   return TextStyle(
+  //     color: color,
+  //     fontSize: 13,
+  //     fontFamily: 'Montserrat',
+  //     fontWeight: FontWeight.w400,
+  //   );
+  // }
+
+  // static TextStyle style13w600({Color color = titleColor}) {
+  //   return TextStyle(
+  //     color: color,
+  //     fontSize: 13,
+  //     fontFamily: 'Montserrat',
+  //     fontWeight: FontWeight.w600,
+  //   );
+  // }
+
+  static TextStyle style14w500({Color color = titleColor}) {
+    return TextStyle(color: color, fontSize: 14, fontFamily: 'Montserrat', fontWeight: FontWeight.w500);
+  }
+
+  static TextStyle style14w700({Color color = titleColor}) {
+    return TextStyle(color: color, fontSize: 14, fontFamily: 'Montserrat', fontWeight: FontWeight.w700);
+  }
+
+  static TextStyle style15w500({Color color = titleColor}) {
+    return TextStyle(color: color, fontSize: 15, fontFamily: 'Montserrat', fontWeight: FontWeight.w500);
+  }
+
+  // static TextStyle style16w600({Color color = titleColor}) {
+  //   return TextStyle(
+  //     color: color,
+  //     fontSize: 16,
+  //     fontFamily: 'Montserrat',
+  //     fontWeight: FontWeight.w600,
+  //   );
+  // }
+
+  static TextStyle style18w700({Color color = titleColor}) {
+    return TextStyle(color: color, fontSize: 18, fontFamily: 'Montserrat', fontWeight: FontWeight.w700);
+  }
+
+  static TextStyle style24w700({Color color = titleColor}) {
+    return TextStyle(color: color, fontSize: 24, fontFamily: 'Montserrat', fontWeight: FontWeight.w700);
+  }
+
+  static TextStyle style30w700({Color color = titleColor}) {
+    return TextStyle(color: color, fontSize: 30, fontFamily: 'Montserrat', fontWeight: FontWeight.w700);
+  }
+}
