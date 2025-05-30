@@ -11,8 +11,8 @@ class GAppSp {
   static double xxl = 32;
 }
 
-class SizedH extends StatelessWidget {
-  SizedH(this.height, {super.key});
+class GSizeH extends StatelessWidget {
+  GSizeH(this.height, {super.key});
   final double height;
 
   @override
@@ -21,8 +21,8 @@ class SizedH extends StatelessWidget {
   }
 }
 
-class SizedW extends StatelessWidget {
-  SizedW(this.width, {super.key});
+class GSizeW extends StatelessWidget {
+  GSizeW(this.width, {super.key});
   final double width;
   @override
   Widget build(BuildContext context) {
