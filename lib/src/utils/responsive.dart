@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class Responsive extends StatelessWidget {
+class GResponsive extends StatelessWidget {
   final Widget mobile;
   final Widget? tablet;
   final Widget desktop;
 
-  const Responsive({required this.mobile, this.tablet, required this.desktop});
+  const GResponsive({required this.mobile, this.tablet, required this.desktop});
 
   // This size work fine on my design, maybe you need some customization depends on your design
 
