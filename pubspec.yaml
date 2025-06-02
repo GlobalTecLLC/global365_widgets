@@ -17,6 +17,8 @@ dependencies:
   intl: ^0.20.2
   delightful_toast: ^1.1.0
   vph_common_widgets: ^0.0.3
+  dropdown_button2:
+  bootstrap_icons:
 
 dev_dependencies:
   lints: ^5.0.0
