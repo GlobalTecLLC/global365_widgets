@@ -108,10 +108,7 @@ class GCustomDropdownButton extends StatelessWidget {
                           )
                         : Border(right: BorderSide(color: Colors.white.withOpacity(0.25))),
                     color: primaryColor,
-                    borderRadius: const BorderRadius.only(
-                      bottomRight: Radius.circular(4),
-                      topRight: Radius.circular(4),
-                    ),
+                    borderRadius: const BorderRadius.only(bottomRight: Radius.circular(4), topRight: Radius.circular(4)),
                   ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
@@ -132,20 +129,22 @@ class GCustomDropdownButton extends StatelessWidget {
         menuItemStyleData: MenuItemStyleData(
           customHeights: [
             ...List<double>.filled(
-              isSaveDropdown ? MenuItems.firstItemsforRecords.length : MenuItems.firstItemsSetting.length,
+              isSaveDropdown
+                  ? MenuItemsForDropdownButton.firstItemsforRecords.length
+                  : MenuItemsForDropdownButton.firstItemsSetting.length,
               isSaveDropdown ? dropDownValuesforSave.length * 29 : dropDownValuesforSave.length * 29,
             ),
             0,
-            ...List<double>.filled(MenuItems.secondItems.length, 48),
+            ...List<double>.filled(MenuItemsForDropdownButton.secondItems.length, 48),
           ],
           height: 48,
           padding: const EdgeInsets.all(0),
         ),
         items: [
-          ...MenuItems.firstItemsforRecords.map(
+          ...MenuItemsForDropdownButton.firstItemsforRecords.map(
             (item) => DropdownMenuItem<MenuItem>(
               value: item,
-              child: MenuItems.buildItem(
+              child: MenuItemsForDropdownButton.buildItem(
                 context,
                 item,
                 isSrNumberDropdown,
@@ -169,10 +168,10 @@ class GCustomDropdownButton extends StatelessWidget {
             ),
           ),
           const DropdownMenuItem<Divider>(enabled: false, child: Divider(thickness: 0)),
-          ...MenuItems.secondItems.map(
+          ...MenuItemsForDropdownButton.secondItems.map(
             (item) => DropdownMenuItem<MenuItem>(
               value: item,
-              child: MenuItems.buildItem(
+              child: MenuItemsForDropdownButton.buildItem(
                 context,
                 item,
                 isSrNumberDropdown,
@@ -193,7 +192,7 @@ class GCustomDropdownButton extends StatelessWidget {
           ),
         ],
         onChanged: (value) {
-          MenuItems.onChanged(context, value as MenuItem);
+          MenuItemsForDropdownButton.onChanged(context, value as MenuItem);
         },
         dropdownStyleData: DropdownStyleData(
           width: (isSaveDropdown || isRecord || isPay || isFromBankCard || isFromCreditCrad) ? 125 : 220,
@@ -218,7 +217,7 @@ class MenuItem {
   const MenuItem({required this.text});
 }
 
-class MenuItems {
+class MenuItemsForDropdownButton {
   static const List<MenuItem> firstItemsSetting = [firstItemsforSetting]; // setting
   static const List<MenuItem> firstItemsforRecords = [isFromSave];
 
@@ -367,11 +366,9 @@ class MenuItems {
                                 if (isSettingForTableListing)
                                   if (controller.checkboxValues[index]) Text("", style: TextStyle(fontSize: 0)),
                                 if (isMemberDropdown)
-                                  if (controller.checkboxValuesforMembers[index])
-                                    Text("", style: TextStyle(fontSize: 0)),
+                                  if (controller.checkboxValuesforMembers[index]) Text("", style: TextStyle(fontSize: 0)),
                                 if (isFromSetting)
-                                  if (controller.checkboxValuesforSettng[index])
-                                    Text("", style: TextStyle(fontSize: 0)),
+                                  if (controller.checkboxValuesforSettng[index]) Text("", style: TextStyle(fontSize: 0)),
                                 // SvgPicture.asset(
                                 //     "assets/icons/selectedcheckboxcolor.svg"),
                                 if (isFromSave ||
@@ -384,11 +381,7 @@ class MenuItems {
                                   if (controller.checkboxValuesforSave[index]) Text("", style: TextStyle(fontSize: 0)),
                                 if (isSettingForTableListing)
                                   Obx(
-                                    () => GCustomCheckBox(
-                                      value: controller.checkboxValues[index],
-                                      size: 18,
-                                      isMarginRight: true,
-                                    ),
+                                    () => GCustomCheckBox(value: controller.checkboxValues[index], size: 18, isMarginRight: true),
                                   ),
                                 // SizedBox(
                                 //   height: 20,
@@ -452,10 +445,10 @@ class MenuItems {
 
   static onChanged(BuildContext context, MenuItem item) {
     switch (item) {
-      case MenuItems.isFromSave:
+      case MenuItemsForDropdownButton.isFromSave:
         // Get.toNamed("/Settings");
         break;
-      case MenuItems.logout:
+      case MenuItemsForDropdownButton.logout:
         // Handle logout logic
         break;
     }
