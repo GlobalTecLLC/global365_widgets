@@ -34,7 +34,7 @@ class ApiCalls {
         receiveTimeout: Duration(seconds: 100), // Adjust as needed
       ),
     );
-
+    setAuthToken("");
     // // Add the certificate as a trusted root CA
     // // Use `createHttpClient` for SSL pinning
     // (dioClient.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
