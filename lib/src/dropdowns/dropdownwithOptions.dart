@@ -66,10 +66,10 @@ class GCustomDropdownButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // printLog("isSaveDropdown $isSaveDropdown and isSetting $isSettingDropdown");
-    // printLog(
+    // gLogger("isSaveDropdown $isSaveDropdown and isSetting $isSettingDropdown");
+    // gLogger(
     //     "copyListHeaderEntries in the custom drop down is ${copyListHeaderEntries[0].isAscendingSortingShow} and ${copyListHeaderEntries[0].isDescendingSortingShow}");
-    // printLog("isSaveAndClose ====>$isSaveAndClose");
+    // gLogger("isSaveAndClose ====>$isSaveAndClose");
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
         customButton: Container(
@@ -249,10 +249,10 @@ class MenuItemsForDropdownButton {
     void Function()? onTap,
     loopStartValue = 0,
   }) {
-    // printLog("isFromSave $isFromSave");
-    // printLog("Print in build item $isSrNumberDropdown  $isFromSetting  and $isFromSave $isSaveAndClose  and item is ${item.text} ");
-    // printLog("isPay $isPay");
-    // printLog("isSettingTable $isSettingForTableListing");
+    // gLogger("isFromSave $isFromSave");
+    // gLogger("Print in build item $isSrNumberDropdown  $isFromSetting  and $isFromSave $isSaveAndClose  and item is ${item.text} ");
+    // gLogger("isPay $isPay");
+    // gLogger("isSettingTable $isSettingForTableListing");
 
     return Column(
       children: [
@@ -316,8 +316,8 @@ class MenuItemsForDropdownButton {
                       child: Obx(
                         () => InkWell(
                           onTap: () async {
-                            // printLog("print list checkbox value ${controller.dropDownValuesforSetting}");
-                            // printLog("controller.dropDownValuesforSetting ${controller.dropDownValuesforSetting}");
+                            // gLogger("print list checkbox value ${controller.dropDownValuesforSetting}");
+                            // gLogger("controller.dropDownValuesforSetting ${controller.dropDownValuesforSetting}");
                             if (isFromSave) {
                               controller.checkboxValuesforSave[index] = !controller.checkboxValuesforSave[index];
                               if (dropDownValuesforSave[index] == "Save and New") {

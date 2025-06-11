@@ -24,7 +24,7 @@ class GAmountFunctions {
       var formatter = NumberFormat('###,###,###,###,##0.00');
 
       String fromated = formatter.format(newAmount);
-      // printLog("fromated=======================$fromated");
+      // gLogger("fromated=======================$fromated");
 
       return "($currencyUnit$fromated)";
     } else {

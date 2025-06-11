@@ -45,7 +45,7 @@ class GTextFiledTheme {
       // filled: true,
       suffixIcon: suffixIcon,
       prefixIcon: prefixIcon,
-      // fillColor: AppColors.white,
+      // fillColor: whiteColor,
     );
   }
 

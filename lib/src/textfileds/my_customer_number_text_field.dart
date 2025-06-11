@@ -104,13 +104,13 @@ class _GNumberTextFormFieldState extends State<GNumberTextFormField> {
   @override
   void initState() {
     super.initState();
-    // printLog("initState is called");
+    // gLogger("initState is called");
     _focusNode.addListener(_onFocusChange);
   }
 
   @override
   void dispose() {
-    // printLog("dispose is called");
+    // gLogger("dispose is called");
     _focusNode.removeListener(_onFocusChange);
     _focusNode.dispose();
     super.dispose();
