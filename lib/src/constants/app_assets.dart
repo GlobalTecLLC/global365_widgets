@@ -3,8 +3,8 @@ class AppAssets {
   // Base Path
   static const String imgPath = "assets/imgs/";
   static const String iconPathNew = "assets/icons/new/";
-  static const String iconUsaPath = "assets/icons/usa/";
-  static const String iconPath = "assets/icons/";
+  static const String iconUsaPath = "assets/svg/";
+  static const String iconPath = "assets/svg/";
 
   //Image
   static const String bgLoginImg = "${imgPath}bg-login.png";

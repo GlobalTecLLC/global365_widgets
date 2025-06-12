@@ -47,7 +47,7 @@ class SignUpController extends GetxController {
     isLoading.value = true;
     gLogger("User Data: $data");
 
-    ResponseModel response = await ApiCalls.POSTAPICall(context, url: "Users/Register", data: data);
+    ResponseModel response = await ApiCalls.POSTAPICall(context, url: "Users/Register", data: data, isAuth: false);
     isLoading.value = false;
     if (response.statusCode == 200 || response.statusCode == 201) {
       //TODO : Handle successful sign-up response
