@@ -55,7 +55,7 @@ class SoftwareInfoScreen extends StatelessWidget {
     return Column(
       children: [
         SizedBox(height: 60),
-        SizedBox(width: 282, height: 56, child: SvgPicture.asset('assets/imgs/countylogo.svg', fit: BoxFit.fill)),
+        SizedBox(width: 282, height: 56, child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill)),
         SizedBox(height: 40),
         Container(
           // height: 130,

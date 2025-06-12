@@ -65,7 +65,7 @@ class ToastCard extends StatelessWidget {
               radius: 23,
               backgroundColor: highlightColor ?? Colors.transparent,
               child: Image.asset(
-                'assets/imgs/usa/Global Group Logo.png',
+                'assets/imgs/Global Group Logo.png',
                 height: 30,
                 width: 30,
               ),

@@ -21,11 +21,11 @@ class ApiCalls {
   // static Dio dioClient = Dio(
   //     BaseOptions(baseUrl: ApiConstant.baseUrl, connectTimeout: Duration(seconds: 100), receiveTimeout: Duration(seconds: 100)));
   // ..interceptors.add(SSLPinningInterceptor.fromCertFiles([File("assets/certificate.pem")]));
-  static Future<void> initialize() async {
+  static Future<void> initialize(String baseUrl) async {
     // Load the certificate as bytes from the asset bundle
     // ByteData certificateData = await rootBundle.load('assets/certificate.pem');
     // List<int> certBytes = certificateData.buffer.asUint8List();
-
+ApiConstant.baseUrl = baseUrl;
     // Set up the Dio instance with SSL pinning
     dioClient = Dio(
       BaseOptions(

@@ -54,5 +54,5 @@ class AppAssets {
   static const String creditCardIcon = "${iconUsaPath}credit.svg";
   static const String masterCardIcon = "${iconUsaPath}mastercard_icon.svg";
   static const String visaWhiteIcon = "${iconUsaPath}visa_white.svg";
-  static const String poweredByIcon = "${iconUsaPath}powered_by.svg";
+  static const String poweredByIcon = "assets/svg/powered_by.svg";
 }

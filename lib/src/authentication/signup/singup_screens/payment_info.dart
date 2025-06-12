@@ -62,7 +62,7 @@ class _PaymentInfoState extends State<PaymentInfo> {
       child: Column(
         children: [
           SizedBox(height: 80),
-          SizedBox(width: 282, height: 56, child: SvgPicture.asset('assets/imgs/countylogo.svg', fit: BoxFit.fill)),
+          SizedBox(width: 282, height: 56, child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill)),
           SizedBox(height: 40),
           GTextHeading2("Enter Payment Information"),
           SizedBox(height: 12),

@@ -95,7 +95,7 @@ class _BillPaymentState extends State<BillPayment> {
               child: SizedBox(
                 width: 110,
                 height: 22,
-                child: SvgPicture.asset('assets/imgs/countylogo.svg', fit: BoxFit.fill),
+                child: SvgPicture.asset('assets/svgs/countylogo.svg', fit: BoxFit.fill),
               ),
             ),
             SizedBox(height: 24),

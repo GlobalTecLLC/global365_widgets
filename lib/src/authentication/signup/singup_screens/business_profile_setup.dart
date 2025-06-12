@@ -81,7 +81,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
             child: SizedBox(
               width: 282,
               height: 56,
-              child: SvgPicture.asset('assets/imgs/countylogo.svg', fit: BoxFit.fill),
+              child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill),
             ),
           ),
           GSizeH(16),
