@@ -6,4 +6,7 @@ class GRouteConfig {
   static const String businessProfileSetupRoute = "/BusinessProfileSetup";
   static const String softwareInfoScreenRoute = "/SoftwareInfoScreen";
   static const String finalizeSignupRoute = "/FinalizeSignup";
+  static const String paymentInfoRoute = "/paymentInfo";
+
+  static const String loginUsaPageRoute = "/Login";
 }

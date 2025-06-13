@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:global365_widgets/global365_widgets.dart';
+import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/setup_screen_controller.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/sign_up_controller.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/constants/globals.dart';
+import 'package:global365_widgets/src/utils/go_routes.dart';
 
 class FinalizeSignup extends StatelessWidget {
   const FinalizeSignup({super.key});
@@ -71,7 +73,7 @@ class FinalizeSignup extends StatelessWidget {
               InkWell(
                 onTap: () {
                   // AutoRouter.of(context).push(const LoginPageUSARoute());
-                  // GNav.pushNav(context, RouteConfig.loginUsaPageRoute); TODO:
+                  GNav.pushNav(context, GRouteConfig.loginUsaPageRoute);
                 },
                 child: Text(
                   " Change Plan",
@@ -93,7 +95,7 @@ class FinalizeSignup extends StatelessWidget {
           InkWell(
             onTap: () {
               // AutoRouter.of(context).push(const LoginPageUSARoute());
-              // GNav.pushNav(context, RouteConfig.loginUsaPageRoute); TODO:
+              GNav.pushNav(context, GRouteConfig.loginUsaPageRoute); 
             },
             child: Text(
               "No Thanks, I’ll Explore Myself",
@@ -121,7 +123,7 @@ class FinalizeSignup extends StatelessWidget {
     return InkWell(
       onTap: () {
         // AutoRouter.of(context).push(const LoginPageUSARoute());
-        // GNav.pushNav(context, RouteConfig.loginUsaPageRoute); TODO:
+        GNav.pushNav(context, GRouteConfig.loginUsaPageRoute);
       },
       child: Container(
         height: 48,

@@ -4,11 +4,13 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
+import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/sign_up_controller.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/constants/globals.dart';
 import 'package:global365_widgets/src/textfileds/my_login_text_field.dart';
+import 'package:global365_widgets/src/utils/go_routes.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -81,7 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 InkWell(
                   onTap: () {
                     // AutoRouter.of(context).push(const LoginPageUSARoute());
-                    // GNav.pushNav(context, RouteConfig.loginUsaPageRoute); TODO:
+                    GNav.pushNav(context, GRouteConfig.loginUsaPageRoute);
                   },
                   child: Text(
                     " Sign In",

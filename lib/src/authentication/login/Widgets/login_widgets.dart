@@ -212,7 +212,11 @@ Widget title(BuildContext context) {
   return Column(
     children: [
       GSizeH(10),
-      SizedBox(width: 282, height: 56, child: SvgPicture.asset('assets/imgs/countylogo.svg', fit: BoxFit.fill)),
+      SizedBox(
+        width: 282,
+        height: 56,
+        child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill, package: packageName),
+      ),
       GSizeH(20),
       Text("Sign In", style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700)),
       GSizeH(20),

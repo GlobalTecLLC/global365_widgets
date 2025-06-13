@@ -336,7 +336,7 @@ class _BillPaymentState extends State<BillPayment> {
     return InkWell(
       onTap: () {
         // AutoRouter.of(context).push(const SetUpScreenRoute());
-        GNav.pushNav(context, GRouteConfig.setUpScreenRoute); //TODO:
+        GNav.pushNav(context, GRouteConfig.setUpScreenRoute); 
       },
       child: Opacity(
         opacity: (true) ? 1.0 : 0.5,

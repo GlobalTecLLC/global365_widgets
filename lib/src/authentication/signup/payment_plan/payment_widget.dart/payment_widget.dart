@@ -5,6 +5,7 @@ import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/signup/payment_plan/talus_pay/add_card_widget.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/constants/globals.dart';
+import 'package:global365_widgets/src/utils/go_routes.dart';
 
 alertForAddPaymentMethod(
   BuildContext context,
@@ -46,7 +47,7 @@ alertForAddPaymentMethod(
                       InkWell(
                         onTap: () {
                           // context.router.pop();
-                          // GNav.popNav(context); //TODO
+                          GNav.popNav(context); 
                         },
                         child: SvgPicture.asset('assets/svg/usa/crossicon.svg', package: packageName),
                       ),

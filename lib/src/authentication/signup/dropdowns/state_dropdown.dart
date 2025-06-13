@@ -69,7 +69,7 @@ class _StateDropdownState extends State<StateDropdown> {
         isLoading = false;
       });
       APIsCallGet.getData(
-        "Country/GetStatesByLocationId?locationId=${BusinessProfileController.to.selectedLocationId.value}",
+        "Companies/GetStatesByLocationId?locationId=${BusinessProfileController.to.selectedLocationId.value}",
       ).then((response) {
         print(response.statusCode);
         print(response.data);

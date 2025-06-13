@@ -66,7 +66,7 @@ class _BusinessLocationDropdownState extends State<BusinessLocationDropdown> {
         isLoading = false;
       });
 
-      APIsCallGet.getData("Country/GetLocations").then((response) {
+      APIsCallGet.getData("Companies/GetLocations").then((response) {
         print(response.statusCode);
         print(response.data);
         if (response.statusCode == 200) {

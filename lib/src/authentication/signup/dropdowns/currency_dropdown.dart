@@ -66,7 +66,7 @@ class _CurrencyDropdownState extends State<CurrencyDropdown> {
       });
       // (CF-36) GetAllCreditLimitsOptions
 
-      APIsCallGet.getData("Config/GetConfigs").then((response) {
+      APIsCallGet.getData("Companies/GetConfigs?Type=sc").then((response) {
         print(response.statusCode);
         print(response.data);
         if (response.statusCode == 200) {

@@ -5,11 +5,14 @@ import 'package:get/get.dart';
 import 'dart:convert';
 
 import 'package:global365_widgets/global365_widgets.dart';
+import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/sign_up_controller.dart';
+import 'package:global365_widgets/src/constants/globals.dart';
 import 'package:global365_widgets/src/utils/Services/ResponseModel/resonse_model.dart';
 import 'package:global365_widgets/src/utils/Services/post_requests.dart';
 import 'package:global365_widgets/src/utils/Services/put_requests.dart';
 import 'package:global365_widgets/src/utils/api_client/api_client.dart';
+import 'package:global365_widgets/src/utils/go_routes.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 import 'package:global365_widgets/src/utils/progressDialog.dart';
 
@@ -37,11 +40,12 @@ class VerifyOtpController extends GetxController {
     isLoading.value = false;
     if (response.statusCode == 200 || response.statusCode == 201) {
       dynamic decodedData = jsonDecode(response.data);
-      String accessToken = decodedData["payload"]["token"];
+      String accessToken1 = decodedData["payload"]["token"];
+      accessToken= accessToken1;
       gLogger("accessToken: $accessToken");
       // AutoRouter.of(context).push(const SetUpScreenRoute());
       // AutoRouter.of(context).push(const PaymentInfoRoute());
-      // GNav.pushNav(context, RouteConfig.paymentInfoRoute); //TODO: AFTER VERIFY MOVE TO NEXT
+      GNav.pushNav(context, GRouteConfig.paymentInfoRoute); 
       // AutoRouter.of(context).push(const PaymentInfoRoute());
 
       gLogger("API Response: ${response.data}");

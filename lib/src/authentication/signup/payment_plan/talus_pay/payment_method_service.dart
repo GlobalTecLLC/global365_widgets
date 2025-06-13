@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:global365_widgets/global365_widgets.dart';
+import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/constants/globals.dart';
 import 'package:global365_widgets/src/utils/Services/ResponseModel/resonse_model.dart';
 import 'package:global365_widgets/src/utils/Services/post_requests.dart';
 import 'package:global365_widgets/src/utils/api_client/api_client.dart';
 import 'package:global365_widgets/src/utils/api_constant.dart';
+import 'package:global365_widgets/src/utils/go_routes.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 import 'package:global365_widgets/src/utils/progressDialog.dart';
 
@@ -112,11 +114,14 @@ class PaymentMethodService {
     // call api to add card
     gLogger("inside Create user api call");
     ResponseModel response = await APIsCallPost.submitRequest("Users/ValidateAndCreateCustomer?Token=$token", {});
+    gLogger("Response from ValidateAndCreateCustomer: ${response.data}");
+    gLogger("Response status code: ${response.statusCode}");
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       // AutoRouter.of(context).push(const SetUpScreenRoute());
-      // GNav.goNav(context, RouteConfig.setUpScreenRoute); //TODO:
       GProgressDialog(context).hide();
+      GNav.goNav(context, GRouteConfig.setUpScreenRoute); 
+    
     }
   }
 }

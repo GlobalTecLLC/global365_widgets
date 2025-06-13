@@ -7,3 +7,4 @@ export 'src/utils/export_utils.dart';
 export 'src/theme/theme_export.dart';
 export 'src/dropdowns/export_dropdowns.dart';
 export 'src/authentication/authentication_export.dart';
+export 'intializer.dart';

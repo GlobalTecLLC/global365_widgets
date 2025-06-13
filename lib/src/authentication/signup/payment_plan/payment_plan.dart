@@ -6,11 +6,13 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
+import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/payment_plan_controller.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/constants/globals.dart';
 import 'package:global365_widgets/src/functions/functions.dart';
+import 'package:global365_widgets/src/utils/go_routes.dart';
 
 class PaymentPlan extends StatefulWidget {
   const PaymentPlan({super.key});
@@ -47,7 +49,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
             Container(
               height: 48,
               width: width,
-              color: lightBackgroundColor,
+              color: primaryColor,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -58,7 +60,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                           // width: 152,
                           padding: EdgeInsets.symmetric(vertical: 0),
                           child: SvgPicture.asset(
-                            "assets/imgs/global365white.svg",
+                            "assets/svg/global365white.svg",
                             package: packageName,
                             fit: BoxFit.contain,
                             alignment: Alignment.centerLeft,
@@ -69,7 +71,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                           // width: 152,
                           padding: EdgeInsets.symmetric(vertical: 0),
                           child: SvgPicture.asset(
-                            "assets/imgs/usa/g365.svg",
+                            "assets/svg/g365.svg",
                             package: packageName,
                             fit: BoxFit.contain,
                             alignment: Alignment.centerLeft,
@@ -82,7 +84,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                     child: GCustomButton(
                       onTap: () {
                         // AutoRouter.of(context).push(const LoginPageUSARoute());
-                        // GNav.pushNav(context, RouteConfig.loginUsaPageRoute); //TODO
+                        GNav.pushNav(context, GRouteConfig.loginUsaPageRoute); 
                       },
                       btnText: "Login",
                       // bColor: primaryColor,
@@ -99,10 +101,10 @@ class _PaymentPlanState extends State<PaymentPlan> {
             SizedBox(
               height: 160,
               width: width,
-              child: SvgPicture.asset('assets/imgs/payment_plan_header.svg', fit: BoxFit.fill, package: packageName),
+              child: SvgPicture.asset('assets/svg/payment_plan_header.svg', fit: BoxFit.fill, package: packageName),
             ),
             GSizeH(20),
-            const GTextHeading3("Choose the package that suits your needs", color: lightBackgroundColor),
+            const GTextHeading3("Choose the package that suits your needs", color: primaryColor),
             GSizeH(10),
             Obx(
               () => Row(
@@ -302,7 +304,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                       height: 12,
                                                       width: 12,
                                                       child: SvgPicture.asset(
-                                                        'assets/imgs/prefix_icon.svg',
+                                                        'assets/svg/prefix_icon.svg',
                                                         package: packageName,
                                                         fit: BoxFit.fill,
                                                       ),
@@ -340,7 +342,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                       height: 12,
                                                       width: 12,
                                                       child: SvgPicture.asset(
-                                                        'assets/imgs/prefix_icon.svg',
+                                                        'assets/svg/prefix_icon.svg',
                                                         package: packageName,
                                                         fit: BoxFit.fill,
                                                       ),
@@ -379,7 +381,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                       height: 12,
                                                       width: 12,
                                                       child: SvgPicture.asset(
-                                                        'assets/imgs/prefix_icon.svg',
+                                                        'assets/svg/prefix_icon.svg',
                                                         package: packageName,
                                                         fit: BoxFit.fill,
                                                       ),
@@ -418,7 +420,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                       height: 12,
                                                       width: 12,
                                                       child: SvgPicture.asset(
-                                                        'assets/imgs/prefix_icon.svg',
+                                                        'assets/svg/prefix_icon.svg',
                                                         package: packageName,
                                                         fit: BoxFit.fill,
                                                       ),
@@ -572,7 +574,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                             onTap: () {
                                               // controller.selectedPlan.value = "professional";
                                               // AutoRouter.of(context).push(const SignUpScreenRoute());
-                                              // GNav.pushNav(context, RouteConfig.signUpScreenRoute); //TODO
+                                              GNav.pushNav(context, GRouteConfig.signUpScreenRoute); 
                                             },
                                             child: Container(
                                               // height: 40,
@@ -719,7 +721,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                   height: 12,
                                                                   width: 12,
                                                                   child: SvgPicture.asset(
-                                                                    'assets/imgs/prefix_icon.svg',
+                                                                    'assets/svg/prefix_icon.svg',
                                                                     package: packageName,
                                                                     fit: BoxFit.fill,
                                                                   ),
@@ -1039,7 +1041,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                       height: 12,
                                                       width: 12,
                                                       child: SvgPicture.asset(
-                                                        'assets/imgs/prefix_icon.svg',
+                                                        'assets/svg/prefix_icon.svg',
                                                         package: packageName,
                                                         fit: BoxFit.fill,
                                                       ),
@@ -1077,7 +1079,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                       height: 12,
                                                       width: 12,
                                                       child: SvgPicture.asset(
-                                                        'assets/imgs/prefix_icon.svg',
+                                                        'assets/svg/prefix_icon.svg',
                                                         package: packageName,
                                                         fit: BoxFit.fill,
                                                       ),
@@ -1116,7 +1118,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                       height: 12,
                                                       width: 12,
                                                       child: SvgPicture.asset(
-                                                        'assets/imgs/prefix_icon.svg',
+                                                        'assets/svg/prefix_icon.svg',
                                                         package: packageName,
                                                         fit: BoxFit.fill,
                                                       ),
@@ -1155,7 +1157,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                       height: 12,
                                                       width: 12,
                                                       child: SvgPicture.asset(
-                                                        'assets/imgs/prefix_icon.svg',
+                                                        'assets/svg/prefix_icon.svg',
                                                         package: packageName,
                                                         fit: BoxFit.fill,
                                                       ),

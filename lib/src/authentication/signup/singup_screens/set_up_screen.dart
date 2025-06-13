@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
+import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/business_profile_controller.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/setup_screen_controller.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/sign_up_controller.dart';
@@ -10,6 +11,7 @@ import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/constants/globals.dart';
 import 'package:global365_widgets/src/textfileds/my_login_text_field.dart';
+import 'package:global365_widgets/src/utils/go_routes.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 
 class SetUpScreen extends StatefulWidget {
@@ -176,7 +178,7 @@ class _SetUpScreenState extends State<SetUpScreen> {
           GToast.error("Select Bussiness Location", context);
         } else {
           // AutoRouter.of(context).push(const BusinessProfileSetupRoute());
-          // GNav.pushNav(context, RouteConfig.businessProfileSetupRoute); TODO:
+          GNav.pushNav(context, GRouteConfig.businessProfileSetupRoute); 
         }
         // _showMyDialogLoader("");
         // if (SetUpController.to.formKey.currentState!.validate()) {

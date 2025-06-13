@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/utils/Services/ResponseModel/resonse_model.dart';
 import 'package:global365_widgets/src/utils/Services/post_requests.dart';
 import 'package:global365_widgets/src/utils/api_client/api_client.dart';
+import 'package:global365_widgets/src/utils/go_routes.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 import 'package:global365_widgets/src/utils/toast/delightful_toast_class.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -51,7 +53,7 @@ class SignUpController extends GetxController {
     ResponseModel response = await APIsCallPost.submitRequest("Users/Register", data);
     isLoading.value = false;
     if (response.statusCode == 200 || response.statusCode == 201) {
-      //TODO : Handle successful sign-up response
+      GNav.pushNav(context, GRouteConfig.verifyOtpScreenRoute);
       gLogger("API Response: ${response.data}");
     } else {
       var responseData = json.decode(response.data);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
+import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/business_profile_controller.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/setup_screen_controller.dart';
 import 'package:global365_widgets/src/authentication/signup/dropdowns/business_location_dropdown.dart';
@@ -197,13 +198,9 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                         ),
                 ),
               ),
-            ],
-          ),
-          GSizeH(20),
-          Obx(
-            () => Row(
-              children: [
-                Expanded(
+              GSizeW(20),
+
+              Expanded(
                   flex: 1,
                   child: GTextFieldForSingleLine(
                     containerHeight: 40,
@@ -218,7 +215,13 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                     // isDropdownStyle: true,
                   ),
                 ),
-                GSizeW(20),
+            ],
+          ),
+          GSizeH(20),
+          Obx(
+            () => Row(
+              children: [
+            
                 Expanded(
                   flex: 1,
                   child: SetUpController.to.isUpdatingCOntroller.isTrue
@@ -243,6 +246,33 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                           },
                         ),
                 ),
+                   
+                GSizeW(20),
+                Expanded(
+                  child: GLoginEmailField(
+                    showheading: true,
+                    isRequired: true,
+                    labelText: "Company Phone Number",
+                    controller: BusinessProfileController.to.phoneNumber,
+                    hintText: "Enter Company Phone Number",
+                  ),
+                ),
+                // Expanded(
+                //   flex: 1,
+                //   child: GTextFieldForSingleLine(
+                //     containerHeight: 40,
+                //     // isExtraHeightField: true,
+                //     isRequired: true,
+                //     isCustomHeight: true,
+                //     controller: BusinessProfileController.to.phoneNumber,
+                //     labelText: 'Company Phone Number',
+                //     fontSizeForLabel: 14.0,
+                //     maxLine: 1,
+                //     paddingBelowHeading: 5,
+                //     fontSizeForAll: 12.0,
+                //     // isDropdownStyle: true,
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -286,7 +316,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
   Widget _submitButton(BuildContext context) {
     return InkWell(
       onTap: () {
-        if (SetUpController.to.businessName.text.isEmpty
+        if (SetUpController.to.businessName.text.isEmpty || BusinessProfileController.to.phoneNumber.text.isEmpty 
         // BusinessProfileController.to.industryDropdown.value == null ||
         // BusinessProfileController.to.languageDropdown.value == null ||
         // BusinessProfileController.to.stateDropdown.value == null ||
@@ -303,7 +333,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
           GToast.info(context, "Please enter all details");
         } else {
           // AutoRouter.of(context).push(const SoftwareInfoScreenRoute());
-          // GNav.pushNav(context, RouteConfig.softwareInfoScreenRoute); TODO:
+          GNav.pushNav(context, GRouteConfig.softwareInfoScreenRoute); 
         }
       },
       child: Container(

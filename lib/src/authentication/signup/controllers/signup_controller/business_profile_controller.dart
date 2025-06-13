@@ -22,6 +22,7 @@ class BusinessProfileController extends GetxController {
   TextEditingController tecaddressLine2 = TextEditingController();
   TextEditingController tecCity = TextEditingController();
   TextEditingController tecZip = TextEditingController();
+  TextEditingController phoneNumber = TextEditingController();
 
   //Dropdowns initialization
 
@@ -40,7 +41,7 @@ class BusinessProfileController extends GetxController {
   RxList statesList = [].obs;
   RxInt selectedLocationId = 0.obs;
   void getDropDownsData(context) async {
-      ResponseModel response = await APIsCallGet.getData('Config/GetConfigs', baseUrl: apiLink2);
+      ResponseModel response = await APIsCallGet.getData('Companies/GetConfigs?Type=sc');
     if (response.statusCode == 200 || response.statusCode == 201) {
       dynamic payLoad = jsonDecode(response.data);
       gLogger("data: $payLoad");
@@ -55,7 +56,7 @@ class BusinessProfileController extends GetxController {
   }
 
   void getStatesData(context) async {
-       ResponseModel response = await APIsCallGet.getData('Country/GetStatesByLocationId?locationId=${selectedLocationId.value}');
+       ResponseModel response = await APIsCallGet.getData('Companies/GetStatesByLocationId?locationId=${selectedLocationId.value}');
     if (response.statusCode == 200 || response.statusCode == 201) {
       dynamic payLoad = jsonDecode(response.data);
       gLogger("data: $payLoad");
@@ -69,7 +70,7 @@ class BusinessProfileController extends GetxController {
 
   RxList locationsList = [].obs;
   void getLocationsDropDown(context) async {
-  ResponseModel response = await APIsCallGet.getData('Country/GetLocations');
+  ResponseModel response = await APIsCallGet.getData('Companies/GetLocations');
     if (response.statusCode == 200 || response.statusCode == 201) {
       dynamic payLoad = jsonDecode(response.data);
       gLogger("data: $payLoad");

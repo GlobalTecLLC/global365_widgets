@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
+import 'package:global365_widgets/src/constants/globals.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class GProgressDialog {
@@ -25,7 +26,7 @@ class GProgressDialog {
                 //   "assets/gifs/loading_icon.gif",
                 //   fit: BoxFit.cover,
                 // ),
-                child: SvgPicture.asset("assets/icons/usa/g365_dark.svg"),
+                child: SvgPicture.asset("assets/svg/g365_dark.svg", package: packageName),
               ),
             ),
           ],

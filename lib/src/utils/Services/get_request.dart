@@ -36,10 +36,7 @@ class APIsCallGet {
       //  gLogger("Complete url is " + apiLink + requestUrl);
       final url = baseUrl != null ? Uri.parse(baseUrl + requestUrl) : Uri.parse(apiLink + requestUrl);
       gLogger("Complete url is $url");
-      final response = await http.get(
-        url,
-        headers: <String, String>{'Accept': 'application/json', 'Authorization': "$tokenType $accessToken"},
-      );
+      final response = await http.get(url, headers: <String, String>{'Accept': 'application/json', 'Authorization': "$tokenType $accessToken"});
 
       final res = ResponseModel(statusCode: response.statusCode, data: response.body);
 
@@ -54,7 +51,7 @@ class APIsCallGet {
     gLogger("access token get Data$accessToken");
 
     try {
-      // print(tokenType + " " + accessToken);
+      print(apiLink + requestUrl);
       final response = await http.get(
         Uri.parse(apiLink + requestUrl),
         headers: <String, String>{

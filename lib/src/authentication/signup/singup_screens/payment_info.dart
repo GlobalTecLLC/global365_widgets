@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
+import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/authentication/signup/payment_plan/talus_pay/add_card_signup_widget.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/constants/globals.dart';
+import 'package:global365_widgets/src/utils/go_routes.dart';
 
 import '../controllers/signup_controller/payment_info_controller.dart';
 
@@ -185,7 +187,7 @@ class _PaymentInfoState extends State<PaymentInfo> {
     return InkWell(
       onTap: () {
         // AutoRouter.of(context).push(const SetUpScreenRoute());
-        // GNav.pushNav(context, RouteConfig.setUpScreenRoute); TODO:
+        GNav.pushNav(context, GRouteConfig.setUpScreenRoute);
       },
       child: Opacity(
         opacity: (true) ? 1.0 : 0.5,

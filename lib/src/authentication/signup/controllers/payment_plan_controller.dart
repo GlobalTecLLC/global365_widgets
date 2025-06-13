@@ -49,8 +49,8 @@ class PaymentPlanController extends GetxController {
     // (Sp-1)GetSubScriptionPlansV2
     gLogger("INSIDE THE getSubScriptionPlans");
     isPlansListLoading.value = true;
-     ResponseModel response = await APIsCallGet.getDataWithOutAuth("PlanSubscription/GetSubScriptionPlansV2");
-    gLogger(response.data);
+    ResponseModel response = await APIsCallGet.getDataWithOutAuth("Companies/GetSubScriptionPlansV2");
+    gLogger("getSubScriptionPlans" + response.data.toString());
     gLogger(response.statusCode);
     isPlansListLoading.value = false;
 
@@ -85,14 +85,7 @@ class PaymentPlanController extends GetxController {
   final List<Map<String, dynamic>> essential = [
     {
       "title": "Financial Management",
-      "items": [
-        "Manage Income & Expenses",
-        "Write & Print Checks",
-        "Record Credit Card Transactions",
-        "Reconciliation",
-        "Import Transactions",
-        "Export Transactions",
-      ],
+      "items": ["Manage Income & Expenses", "Write & Print Checks", "Record Credit Card Transactions", "Reconciliation", "Import Transactions", "Export Transactions"],
       "isExpanded": true,
     },
     {
@@ -105,14 +98,7 @@ class PaymentPlanController extends GetxController {
   final List<Map<String, dynamic>> professional = [
     {
       "title": "Financial Management",
-      "items": [
-        "Manage Income & Expenses",
-        "Write & Print Checks",
-        "Record Credit Card Transactions",
-        "Reconciliation",
-        "Import Transactions",
-        "Export Transactions",
-      ],
+      "items": ["Manage Income & Expenses", "Write & Print Checks", "Record Credit Card Transactions", "Reconciliation", "Import Transactions", "Export Transactions"],
       "isExpanded": true,
     },
     {
@@ -125,14 +111,7 @@ class PaymentPlanController extends GetxController {
   final List<Map<String, dynamic>> enterprise = [
     {
       "title": "Financial Management",
-      "items": [
-        "Manage Income & Expenses",
-        "Write & Print Checks",
-        "Record Credit Card Transactions",
-        "Reconciliation",
-        "Import Transactions",
-        "Export Transactions",
-      ],
+      "items": ["Manage Income & Expenses", "Write & Print Checks", "Record Credit Card Transactions", "Reconciliation", "Import Transactions", "Export Transactions"],
       "isExpanded": true,
     },
     {
@@ -145,14 +124,7 @@ class PaymentPlanController extends GetxController {
   final List<Map<String, dynamic>> corporate = [
     {
       "title": "Financial Management",
-      "items": [
-        "Manage Income & Expenses",
-        "Write & Print Checks",
-        "Record Credit Card Transactions",
-        "Reconciliation",
-        "Import Transactions",
-        "Export Transactions",
-      ],
+      "items": ["Manage Income & Expenses", "Write & Print Checks", "Record Credit Card Transactions", "Reconciliation", "Import Transactions", "Export Transactions"],
       "isExpanded": true,
     },
     {
