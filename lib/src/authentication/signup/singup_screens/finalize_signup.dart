@@ -5,6 +5,7 @@ import 'package:global365_widgets/src/authentication/signup/controllers/signup_c
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/sign_up_controller.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
+import 'package:global365_widgets/src/constants/globals.dart';
 
 class FinalizeSignup extends StatelessWidget {
   const FinalizeSignup({super.key});
@@ -24,7 +25,11 @@ class FinalizeSignup extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: 140),
-          SizedBox(width: 282, height: 56, child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill)),
+          SizedBox(
+            width: 282,
+            height: 56,
+            child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill, package: packageName),
+          ),
           SizedBox(height: 55),
           Text(
             "Welcome ${SignUpController.to.firstName.text} ${SignUpController.to.lastName.text}!",

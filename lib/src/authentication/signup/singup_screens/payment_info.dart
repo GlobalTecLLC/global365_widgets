@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
+import 'package:global365_widgets/src/authentication/signup/payment_plan/talus_pay/add_card_signup_widget.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
+import 'package:global365_widgets/src/constants/globals.dart';
 
 import '../controllers/signup_controller/payment_info_controller.dart';
 
@@ -62,7 +64,11 @@ class _PaymentInfoState extends State<PaymentInfo> {
       child: Column(
         children: [
           SizedBox(height: 80),
-          SizedBox(width: 282, height: 56, child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill)),
+          SizedBox(
+            width: 282,
+            height: 56,
+            child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill, package: packageName),
+          ),
           SizedBox(height: 40),
           GTextHeading2("Enter Payment Information"),
           SizedBox(height: 12),
@@ -87,7 +93,7 @@ class _PaymentInfoState extends State<PaymentInfo> {
           ),
           SizedBox(height: 40),
 
-          // const AddCardSignUpWidget(), TODO: Uncomment this when AddCardSignUpWidget is available
+          const AddCardSignUpWidget(), 
           // MyTextFieldForSingleLine(
           //   showheading: true,
           //   labelText: "Name on Card",

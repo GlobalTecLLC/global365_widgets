@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
+import 'package:global365_widgets/src/constants/globals.dart';
 import 'package:global365_widgets/src/dropdowns/searchabledropdowncustom/dropdown_plus.dart';
+import 'package:global365_widgets/src/utils/Services/ResponseModel/resonse_model.dart';
+import 'package:global365_widgets/src/utils/Services/get_request.dart';
 import 'package:global365_widgets/src/utils/api_client/api_client.dart';
-import 'package:global365_widgets/src/utils/api_client/resonse_model.dart';
+
 import 'package:global365_widgets/src/utils/print_log.dart';
 
 class BusinessProfileController extends GetxController {
@@ -37,7 +40,7 @@ class BusinessProfileController extends GetxController {
   RxList statesList = [].obs;
   RxInt selectedLocationId = 0.obs;
   void getDropDownsData(context) async {
-    ResponseModel response = await ApiCalls.getAPICall(context, url: 'Config/GetConfigs');
+      ResponseModel response = await APIsCallGet.getData('Config/GetConfigs', baseUrl: apiLink2);
     if (response.statusCode == 200 || response.statusCode == 201) {
       dynamic payLoad = jsonDecode(response.data);
       gLogger("data: $payLoad");
@@ -52,10 +55,7 @@ class BusinessProfileController extends GetxController {
   }
 
   void getStatesData(context) async {
-    ResponseModel response = await ApiCalls.getAPICall(
-      context,
-      url: 'Country/GetStatesByLocationId?locationId=${selectedLocationId.value}',
-    );
+       ResponseModel response = await APIsCallGet.getData('Country/GetStatesByLocationId?locationId=${selectedLocationId.value}');
     if (response.statusCode == 200 || response.statusCode == 201) {
       dynamic payLoad = jsonDecode(response.data);
       gLogger("data: $payLoad");
@@ -69,7 +69,7 @@ class BusinessProfileController extends GetxController {
 
   RxList locationsList = [].obs;
   void getLocationsDropDown(context) async {
-    ResponseModel response = await ApiCalls.getAPICall(context, url: 'Country/GetLocations');
+  ResponseModel response = await APIsCallGet.getData('Country/GetLocations');
     if (response.statusCode == 200 || response.statusCode == 201) {
       dynamic payLoad = jsonDecode(response.data);
       gLogger("data: $payLoad");

@@ -12,7 +12,7 @@ class GAppSp {
 }
 
 class GSizeH extends StatelessWidget {
-  GSizeH(this.height, {super.key});
+  const GSizeH(this.height, {super.key});
   final double height;
 
   @override
@@ -22,7 +22,7 @@ class GSizeH extends StatelessWidget {
 }
 
 class GSizeW extends StatelessWidget {
-  GSizeW(this.width, {super.key});
+  const GSizeW(this.width, {super.key});
   final double width;
   @override
   Widget build(BuildContext context) {

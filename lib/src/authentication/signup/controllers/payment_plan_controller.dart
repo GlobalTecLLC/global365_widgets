@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
+import 'package:global365_widgets/src/utils/Services/ResponseModel/resonse_model.dart';
+import 'package:global365_widgets/src/utils/Services/get_request.dart';
 import 'package:global365_widgets/src/utils/api_client/api_client.dart';
-import 'package:global365_widgets/src/utils/api_client/resonse_model.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 
 class PaymentPlanController extends GetxController {
@@ -48,11 +49,7 @@ class PaymentPlanController extends GetxController {
     // (Sp-1)GetSubScriptionPlansV2
     gLogger("INSIDE THE getSubScriptionPlans");
     isPlansListLoading.value = true;
-    ResponseModel response = await ApiCalls.getAPICall(
-      context,
-      url: "PlanSubscription/GetSubScriptionPlansV2",
-      isAuth: false,
-    );
+     ResponseModel response = await APIsCallGet.getDataWithOutAuth("PlanSubscription/GetSubScriptionPlansV2");
     gLogger(response.data);
     gLogger(response.statusCode);
     isPlansListLoading.value = false;

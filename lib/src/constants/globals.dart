@@ -5,6 +5,17 @@ import 'package:global365_widgets/src/constants/branding.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 
+
+const String packageName = "global365_widgets";
+RxBool isLoggingInInvitedUser = false.obs;
+bool isFirstpurchase = false;
+String accessToken = "";
+String tokenType = "Bearer";
+String apiLink = "https://api.global365.com/api/v1/";
+String apiLink2 = "https://api.global365.com/api/v1/";
+
+String companyId = "";
+
 extension TextEditingControllerExt on TextEditingController {
   void selectAll() {
     if (text.isEmpty) return;

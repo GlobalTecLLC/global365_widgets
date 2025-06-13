@@ -8,6 +8,7 @@ import 'package:global365_widgets/src/authentication/signup/controllers/signup_c
 import 'package:global365_widgets/src/authentication/signup/dropdowns/business_location_dropdown.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
+import 'package:global365_widgets/src/constants/globals.dart';
 import 'package:global365_widgets/src/textfileds/my_login_text_field.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 
@@ -114,7 +115,11 @@ class _SetUpScreenState extends State<SetUpScreen> {
       child: Column(
         children: [
           GSizeH(80),
-          SizedBox(width: 282, height: 56, child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill)),
+          SizedBox(
+            width: 282,
+            height: 56,
+            child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill, package: packageName),
+          ),
           SizedBox(height: 40),
           GTextHeading2(
             "Welcome ${SignUpController.to.firstName.text} ${SignUpController.to.lastName.text}",

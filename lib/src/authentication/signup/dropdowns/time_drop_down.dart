@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:global365_widgets/src/dropdowns/searchabledropdowncustom/dropdown_plus.dart';
 import 'package:global365_widgets/src/theme/dropdown_theme.dart';
 import 'package:global365_widgets/src/theme/theme_export.dart';
+import 'package:global365_widgets/src/utils/Services/get_request.dart';
 import 'package:global365_widgets/src/utils/api_client/api_client.dart';
 import 'package:global365_widgets/src/constants/globals.dart';
 
@@ -116,7 +117,7 @@ class _TimeDropdownState extends State<TimeDropdown> {
         isLoading = false;
       });
 
-      ApiCalls.getAPICall(context, url: "ServicesAndProduct/GetServiceOptions?CompanyId=").then((response) {
+      APIsCallGet.getData("ServicesAndProduct/GetServiceOptions?CompanyId=").then((response) {
         if (response.statusCode == 200) {
           // final parsed = jsonDecode(response.data);
           dynamic payLoad = jsonDecode(response.data);

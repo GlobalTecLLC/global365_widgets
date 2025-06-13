@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/signup/payment_plan/talus_pay/add_card_widget.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
+import 'package:global365_widgets/src/constants/globals.dart';
 
 alertForAddPaymentMethod(
   BuildContext context,
@@ -47,7 +48,7 @@ alertForAddPaymentMethod(
                           // context.router.pop();
                           // GNav.popNav(context); //TODO
                         },
-                        child: SvgPicture.asset('assets/icons/usa/crossicon.svg'),
+                        child: SvgPicture.asset('assets/svg/usa/crossicon.svg', package: packageName),
                       ),
                     ],
                   ),

@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
+import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/bill_payment_controller.dart';
 import 'package:global365_widgets/src/authentication/signup/payment_plan/payment_widget.dart/payment_widget.dart';
 import 'package:global365_widgets/src/buttons/custom_radio_button_with_text_and_textSpan.dart';
 import 'package:global365_widgets/src/constants/app_assets.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
+import 'package:global365_widgets/src/constants/globals.dart';
+import 'package:global365_widgets/src/utils/go_routes.dart';
 
 class BillPayment extends StatefulWidget {
   const BillPayment({super.key});
@@ -65,7 +68,7 @@ class _BillPaymentState extends State<BillPayment> {
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: EdgeInsets.only(bottom: 20),
-              child: SvgPicture.asset(AppAssets.poweredByIcon, fit: BoxFit.fill),
+              child: SvgPicture.asset(AppAssets.poweredByIcon, fit: BoxFit.fill, package: packageName),
             ),
           ),
         ],
@@ -95,7 +98,7 @@ class _BillPaymentState extends State<BillPayment> {
               child: SizedBox(
                 width: 110,
                 height: 22,
-                child: SvgPicture.asset('assets/svgs/countylogo.svg', fit: BoxFit.fill),
+                child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill, package: packageName),
               ),
             ),
             SizedBox(height: 24),
@@ -249,7 +252,7 @@ class _BillPaymentState extends State<BillPayment> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SvgPicture.asset(cardIcon),
+            SvgPicture.asset(cardIcon, package: packageName),
             GSizeH(4),
             GTextHeading5(cardType, color: Colors.white),
             GSizeH(6),
@@ -333,7 +336,7 @@ class _BillPaymentState extends State<BillPayment> {
     return InkWell(
       onTap: () {
         // AutoRouter.of(context).push(const SetUpScreenRoute());
-        // GNav.pushNav(context, RouteConfig.setUpScreenRoute); //TODO:
+        GNav.pushNav(context, GRouteConfig.setUpScreenRoute); //TODO:
       },
       child: Opacity(
         opacity: (true) ? 1.0 : 0.5,
@@ -351,7 +354,7 @@ class _BillPaymentState extends State<BillPayment> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(AppAssets.creditCardIcon),
+              SvgPicture.asset(AppAssets.creditCardIcon, package: packageName),
               GSizeW(6),
               Text("Pay Now", style: GAppStyle.style14w500(color: Colors.white)),
             ],

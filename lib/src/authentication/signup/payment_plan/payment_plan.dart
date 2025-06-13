@@ -58,7 +58,8 @@ class _PaymentPlanState extends State<PaymentPlan> {
                           // width: 152,
                           padding: EdgeInsets.symmetric(vertical: 0),
                           child: SvgPicture.asset(
-                            "assets/icons/usa/global365white.svg",
+                            "assets/imgs/global365white.svg",
+                            package: packageName,
                             fit: BoxFit.contain,
                             alignment: Alignment.centerLeft,
                           ),
@@ -68,7 +69,8 @@ class _PaymentPlanState extends State<PaymentPlan> {
                           // width: 152,
                           padding: EdgeInsets.symmetric(vertical: 0),
                           child: SvgPicture.asset(
-                            "assets/icons/usa/g365.svg",
+                            "assets/imgs/usa/g365.svg",
+                            package: packageName,
                             fit: BoxFit.contain,
                             alignment: Alignment.centerLeft,
                           ),
@@ -97,7 +99,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
             SizedBox(
               height: 160,
               width: width,
-              child: SvgPicture.asset('assets/imgs/payment_plan_header.svg', fit: BoxFit.fill),
+              child: SvgPicture.asset('assets/imgs/payment_plan_header.svg', fit: BoxFit.fill, package: packageName),
             ),
             GSizeH(20),
             const GTextHeading3("Choose the package that suits your needs", color: lightBackgroundColor),
@@ -301,6 +303,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                       width: 12,
                                                       child: SvgPicture.asset(
                                                         'assets/imgs/prefix_icon.svg',
+                                                        package: packageName,
                                                         fit: BoxFit.fill,
                                                       ),
                                                     ).marginOnly(left: 10, right: 5),
@@ -338,6 +341,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                       width: 12,
                                                       child: SvgPicture.asset(
                                                         'assets/imgs/prefix_icon.svg',
+                                                        package: packageName,
                                                         fit: BoxFit.fill,
                                                       ),
                                                     ).marginOnly(left: 10, right: 5),
@@ -376,6 +380,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                       width: 12,
                                                       child: SvgPicture.asset(
                                                         'assets/imgs/prefix_icon.svg',
+                                                        package: packageName,
                                                         fit: BoxFit.fill,
                                                       ),
                                                     ).marginOnly(left: 10, right: 5),
@@ -414,6 +419,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                       width: 12,
                                                       child: SvgPicture.asset(
                                                         'assets/imgs/prefix_icon.svg',
+                                                        package: packageName,
                                                         fit: BoxFit.fill,
                                                       ),
                                                     ).marginOnly(left: 10, right: 5),
@@ -714,6 +720,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                   width: 12,
                                                                   child: SvgPicture.asset(
                                                                     'assets/imgs/prefix_icon.svg',
+                                                                    package: packageName,
                                                                     fit: BoxFit.fill,
                                                                   ),
                                                                 ),
@@ -1033,6 +1040,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                       width: 12,
                                                       child: SvgPicture.asset(
                                                         'assets/imgs/prefix_icon.svg',
+                                                        package: packageName,
                                                         fit: BoxFit.fill,
                                                       ),
                                                     ).marginOnly(left: 10, right: 5),
@@ -1070,6 +1078,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                       width: 12,
                                                       child: SvgPicture.asset(
                                                         'assets/imgs/prefix_icon.svg',
+                                                        package: packageName,
                                                         fit: BoxFit.fill,
                                                       ),
                                                     ).marginOnly(left: 10, right: 5),
@@ -1108,6 +1117,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                       width: 12,
                                                       child: SvgPicture.asset(
                                                         'assets/imgs/prefix_icon.svg',
+                                                        package: packageName,
                                                         fit: BoxFit.fill,
                                                       ),
                                                     ).marginOnly(left: 10, right: 5),
@@ -1146,6 +1156,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                       width: 12,
                                                       child: SvgPicture.asset(
                                                         'assets/imgs/prefix_icon.svg',
+                                                        package: packageName,
                                                         fit: BoxFit.fill,
                                                       ),
                                                     ).marginOnly(left: 10, right: 5),
@@ -1249,449 +1260,13 @@ class _PaymentPlanState extends State<PaymentPlan> {
                               }),
                             ),
 
-                            // SizedBox(
-                            //   width: 20,
-                            // ),
-                            // //Corporate
-                            // Obx(() {
-                            //   return Container(
-                            //     height: 977,
-                            //     width: 352,
-                            //     decoration: BoxDecoration(
-                            //       color: Colors.white,
-                            //       border: Border.all(color: controller.selectedPlan.value == "corporate" ? secondaryColorOrange : Colors.grey, width: 1),
-                            //       borderRadius: BorderRadius.circular(10),
-                            //     ),
-                            //     child: Column(
-                            //       children: [
-                            //         Container(
-                            //           height: 40,
-                            //           width: 312,
-                            //           decoration: BoxDecoration(
-                            //             color: lightBackgroundColor,
-                            //             borderRadius: BorderRadius.circular(6),
-                            //           ),
-                            //           child: Center(
-                            //             child: GLabelSemiBold(
-                            //               "Corporate",
-                            //             ),
-                            //           ),
-                            //         ).marginOnly(top: 20),
-
-                            //         Row(
-                            //           crossAxisAlignment: CrossAxisAlignment.center,
-                            //           mainAxisAlignment: MainAxisAlignment.center,
-                            //           children: [
-                            //             GTextHeading3(
-                            //               "\$",
-                            //             ).marginOnly(bottom: 20),
-                            //             Text(
-                            //               "1500",
-                            //               style: TextStyle(fontSize: 44, fontFamily: 'Montserrat', fontWeight: FontWeight.w600, color: lightBackgroundColor),
-                            //             ),
-                            //           ],
-                            //         ),
-
-                            //         GLabelSemiBold(
-                            //           "Estimated Monthly Equivalent",
-                            //           color: Colors.grey,
-                            //         ).marginOnly(top: 10),
-                            //         //Select Plan
-                            //         InkWell(
-                            //           onTap: () {
-                            //             controller.selectedPlan.value = "corporate";
-                            //           },
-                            //           child: Container(
-                            //             height: 40,
-                            //             width: 312,
-                            //             decoration: BoxDecoration(
-                            //               color: controller.selectedPlan.value == "corporate" ? secondaryColorOrange : Colors.black,
-                            //               borderRadius: BorderRadius.circular(6),
-                            //             ),
-                            //             child: Center(
-                            //               child: GParagraph13(
-                            //                 "Select Plan",
-                            //                 color: Colors.white,
-                            //               ),
-                            //             ),
-                            //           ).marginOnly(top: 20),
-                            //         ),
-
-                            //         buildExpansionPanelList(controller, controller.corporate),
-
-                            //         Container(
-                            //           height: 28,
-                            //           width: 312,
-                            //           decoration: BoxDecoration(
-                            //             color: lightBackground3,
-                            //             borderRadius: BorderRadius.circular(1),
-                            //           ),
-                            //           child: Align(
-                            //             alignment: Alignment.centerLeft,
-                            //             child: GLabelSemiBold(
-                            //               "Basic Reports",
-                            //             ).marginOnly(left: 5),
-                            //           ),
-                            //         ).marginOnly(top: 10),
-                            //         Container(
-                            //           height: 28,
-                            //           width: 312,
-                            //           decoration: BoxDecoration(
-                            //               color: lightBackground3, borderRadius: BorderRadius.circular(1), border: const Border(top: BorderSide(color: Color(0xffc4d2d8)))),
-                            //           child: Align(
-                            //             alignment: Alignment.centerLeft,
-                            //             child: GLabelSemiBold(
-                            //               "Chat & Email Support",
-                            //             ).marginOnly(left: 5),
-                            //           ),
-                            //         ),
-                            //         Container(
-                            //           height: 28,
-                            //           width: 312,
-                            //           decoration: BoxDecoration(
-                            //             color: lightBackground3,
-                            //             borderRadius: BorderRadius.circular(1),
-                            //             border: const Border(
-                            //               top: BorderSide(
-                            //                 color: Color(0xffc4d2d8),
-                            //               ),
-                            //               bottom: BorderSide(
-                            //                 color: Color(0xffc4d2d8),
-                            //               ),
-                            //             ),
-                            //           ),
-                            //           child: Align(
-                            //             alignment: Alignment.centerLeft,
-                            //             child: GLabelSemiBold(
-                            //               "Elite Onboarding",
-                            //             ).marginOnly(left: 5),
-                            //           ),
-                            //         ),
-                            //         SizedBox(
-                            //           height: 28,
-                            //           width: 312,
-                            //           child: Text(
-                            //             "*One time fee to assist in setting up account and provide training to help get customer acquainted with Global software",
-                            //             style: GAppStyle.style12w600(),
-                            //             maxLines: 2,
-                            //           ),
-                            //         ),
-                            //         Container(
-                            //           height: 28,
-                            //           width: 312,
-                            //           decoration: BoxDecoration(
-                            //             color: lightBackground3,
-                            //             borderRadius: BorderRadius.circular(1),
-                            //             border: const Border(
-                            //               bottom: BorderSide(
-                            //                 color: Color(0xffc4d2d8),
-                            //               ),
-                            //             ),
-                            //           ),
-                            //           child: Align(
-                            //             alignment: Alignment.centerLeft,
-                            //             child: GLabelSemiBold(
-                            //               "Additional User Access",
-                            //             ).marginOnly(left: 5),
-                            //           ),
-                            //         ),
-                            //         SizedBox(
-                            //           height: 28,
-                            //           width: 312,
-                            //           child: Text(
-                            //             "*This account automatically comes with 1 standard user and 1 Accountant/CPA user.",
-                            //             style: GAppStyle.style12w600(),
-                            //             maxLines: 2,
-                            //           ),
-                            //         ),
-                            //         Container(
-                            //           height: 28,
-                            //           width: 312,
-                            //           decoration: BoxDecoration(
-                            //             color: lightBackground3,
-                            //             borderRadius: BorderRadius.circular(1),
-                            //             border: const Border(
-                            //               bottom: BorderSide(
-                            //                 color: Color(0xffc4d2d8),
-                            //               ),
-                            //             ),
-                            //           ),
-                            //           child: Align(
-                            //             alignment: Alignment.centerLeft,
-                            //             child: GLabelSemiBold(
-                            //               "Recommended Add-Ons",
-                            //             ).marginOnly(left: 5),
-                            //           ),
-                            //         ),
-
-                            //         Container(
-                            //           height: 28,
-                            //           width: 312,
-                            //           decoration: BoxDecoration(
-                            //             borderRadius: BorderRadius.circular(1),
-                            //             border: const Border(
-                            //               bottom: BorderSide(
-                            //                 color: Color(0xffc4d2d8),
-                            //               ),
-                            //             ),
-                            //           ),
-                            //           child: Align(
-                            //             alignment: Alignment.centerLeft,
-                            //             child: Row(
-                            //               children: [
-                            //                 SizedBox(
-                            //                   height: 12,
-                            //                   width: 12,
-                            //                   child: SvgPicture.asset(
-                            //                     'assets/imgs/prefix_icon.svg',
-                            //                     fit: BoxFit.fill,
-                            //                   ),
-                            //                 ).marginOnly(left: 10, right: 5),
-                            //                 GLabelSemiBold(
-                            //                   "Add Additional Entities",
-                            //                 ).marginOnly(left: 5),
-                            //                 const Spacer(),
-                            //                 Obx(() => Padding(
-                            //                       padding: EdgeInsets.only(right: 4, top: 3, bottom: 3),
-                            //                       child: CustomSwitch(
-                            //                         value: controller.corAddAdditionalEntities.value,
-                            //                         onChanged: (value) {
-                            //                           controller.corAddAdditionalEntities.value = value;
-                            //                         },
-                            //                       ),
-                            //                     )),
-                            //               ],
-                            //             ),
-                            //           ),
-                            //         ),
-
-                            //         Container(
-                            //           height: 28,
-                            //           width: 312,
-                            //           decoration: BoxDecoration(
-                            //             borderRadius: BorderRadius.circular(1),
-                            //             border: const Border(
-                            //               bottom: BorderSide(
-                            //                 color: Color(0xffc4d2d8),
-                            //               ),
-                            //             ),
-                            //           ),
-                            //           child: Align(
-                            //             alignment: Alignment.centerLeft,
-                            //             child: Row(
-                            //               children: [
-                            //                 SizedBox(
-                            //                   height: 12,
-                            //                   width: 12,
-                            //                   child: SvgPicture.asset(
-                            //                     'assets/imgs/prefix_icon.svg',
-                            //                     fit: BoxFit.fill,
-                            //                   ),
-                            //                 ).marginOnly(left: 10, right: 5),
-                            //                 GLabelSemiBold(
-                            //                   "Online Bill Pay",
-                            //                 ).marginOnly(left: 5),
-                            //                 const Spacer(),
-                            //                 Obx(() => Padding(
-                            //                       padding: EdgeInsets.only(right: 4, top: 3, bottom: 3),
-                            //                       child: CustomSwitch(
-                            //                         value: controller.corOnlineBillPay.value,
-                            //                         onChanged: (value) {
-                            //                           controller.corOnlineBillPay.value = value;
-                            //                         },
-                            //                       ),
-                            //                     )),
-                            //               ],
-                            //             ),
-                            //           ),
-                            //         ),
-
-                            //         //Contractor payments
-                            //         Container(
-                            //           height: 28,
-                            //           width: 312,
-                            //           decoration: BoxDecoration(
-                            //             borderRadius: BorderRadius.circular(1),
-                            //             border: const Border(
-                            //               bottom: BorderSide(
-                            //                 color: Color(0xffc4d2d8),
-                            //               ),
-                            //             ),
-                            //           ),
-                            //           child: Align(
-                            //             alignment: Alignment.centerLeft,
-                            //             child: Row(
-                            //               children: [
-                            //                 SizedBox(
-                            //                   height: 12,
-                            //                   width: 12,
-                            //                   child: SvgPicture.asset(
-                            //                     'assets/imgs/prefix_icon.svg',
-                            //                     fit: BoxFit.fill,
-                            //                   ),
-                            //                 ).marginOnly(left: 10, right: 5),
-                            //                 GLabelSemiBold(
-                            //                   "Contractor Payments",
-                            //                 ).marginOnly(left: 5),
-                            //                 const Spacer(),
-                            //                 Obx(() => Padding(
-                            //                       padding: EdgeInsets.only(right: 4, top: 3, bottom: 3),
-                            //                       child: CustomSwitch(
-                            //                         value: controller.corContractorPayments.value,
-                            //                         onChanged: (value) {
-                            //                           controller.corContractorPayments.value = value;
-                            //                         },
-                            //                       ),
-                            //                     )),
-                            //               ],
-                            //             ),
-                            //           ),
-                            //         ),
-
-                            //         //1099 E-fillings
-                            //         Container(
-                            //           height: 28,
-                            //           width: 312,
-                            //           decoration: BoxDecoration(
-                            //             borderRadius: BorderRadius.circular(1),
-                            //             border: const Border(
-                            //               bottom: BorderSide(
-                            //                 color: Color(0xffc4d2d8),
-                            //               ),
-                            //             ),
-                            //           ),
-                            //           child: Align(
-                            //             alignment: Alignment.centerLeft,
-                            //             child: Row(
-                            //               children: [
-                            //                 SizedBox(
-                            //                   height: 12,
-                            //                   width: 12,
-                            //                   child: SvgPicture.asset(
-                            //                     'assets/imgs/prefix_icon.svg',
-                            //                     fit: BoxFit.fill,
-                            //                   ),
-                            //                 ).marginOnly(left: 10, right: 5),
-                            //                 GLabelSemiBold(
-                            //                   "1099 E-Fillings",
-                            //                 ).marginOnly(left: 5),
-                            //                 const Spacer(),
-                            //                 Obx(() => Padding(
-                            //                       padding: EdgeInsets.only(right: 4, top: 3, bottom: 3),
-                            //                       child: CustomSwitch(
-                            //                         value: controller.corEFilings.value,
-                            //                         onChanged: (value) {
-                            //                           controller.corEFilings.value = value;
-                            //                         },
-                            //                       ),
-                            //                     )),
-                            //               ],
-                            //             ),
-                            //           ),
-                            //         ),
-
-                            //         Container(
-                            //           height: 150,
-                            //           width: 312,
-                            //           decoration: BoxDecoration(
-                            //             color: lightBackgroundColor,
-                            //             borderRadius: BorderRadius.circular(6),
-                            //           ),
-                            //           child: Column(
-                            //             children: [
-                            //               GLabelSemiBold(
-                            //                 "Updated Cost",
-                            //                 color: const Color(0xff777777),
-                            //               ).marginOnly(top: 5),
-                            //               Row(
-                            //                 crossAxisAlignment: CrossAxisAlignment.center,
-                            //                 mainAxisAlignment: MainAxisAlignment.center,
-                            //                 children: [
-                            //                   GTextHeading3(
-                            //                     "\$",
-                            //                   ).marginOnly(bottom: 20),
-                            //                   Text(
-                            //                     "1585",
-                            //                     style: TextStyle(fontSize: 44, fontFamily: 'Montserrat', fontWeight: FontWeight.w600),
-                            //                   ),
-                            //                 ],
-                            //               ),
-                            //               const Divider(
-                            //                 color: Color(0xffbbbbbb),
-                            //               ).marginSymmetric(horizontal: 15),
-                            //               SizedBox(
-                            //                 width: 180,
-                            //                 child: Container(
-                            //                   constraints: BoxConstraints(
-                            //                     maxWidth: 180,
-                            //                   ),
-                            //                   child: RichText(
-                            //                     text: TextSpan(
-                            //                       children: [
-                            //                         TextSpan(
-                            //                           text: "15% ",
-                            //                           style: GAppStyle.style12w600(
-                            //                             color: secondaryColorOrange,
-                            //                           ),
-                            //                         ),
-                            //                         TextSpan(
-                            //                           text: "Promotional Discount applied. A first year monthly saving of ",
-                            //                           style: GAppStyle.style12w600(
-                            //                             color: lightBackgroundColor,
-                            //                           ),
-                            //                         ),
-                            //                         TextSpan(
-                            //                           text: "\$250",
-                            //                           style: GAppStyle.style12w600(
-                            //                             color: secondaryColorOrange,
-                            //                           ),
-                            //                         ),
-                            //                       ],
-                            //                     ),
-                            //                   ),
-                            //                 ),
-                            //               )
-                            //             ],
-                            //           ),
-                            //         ).marginOnly(top: 20),
-                            //         InkWell(
-                            //           onTap: () {
-                            //             controller.selectedPlan.value = "corporate";
-                            //           },
-                            //           child: Container(
-                            //             height: 40,
-                            //             width: 312,
-                            //             decoration: BoxDecoration(
-                            //               color: controller.selectedPlan.value == "corporate" ? secondaryColorOrange : Colors.black,
-                            //               borderRadius: BorderRadius.circular(6),
-                            //             ),
-                            //             child: Center(
-                            //               child: GParagraph13(
-                            //                 "Select Plan",
-                            //                 color: Colors.white,
-                            //               ),
-                            //             ),
-                            //           ).marginOnly(top: 20),
-                            //         ),
-                            //       ],
-                            //     ),
-                            //   );
-                            // }),
+                          
                           ],
                         ),
                       ],
                     ),
             ),
-            // MaterialButton(
-            //     color: const Color(0xfff8f8f8),
-            //     child: TextHeading4(
-            //       "Start 15 days Free Trial",
-            //     ),
-            //     onPressed: () {
-            //       AutoRouter.of(context).push(const SignUpScreenRoute());
-            //     }).marginSymmetric(
-            //   vertical: 20,
-            // ),
+           
           ],
         ),
       ),

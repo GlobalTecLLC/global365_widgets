@@ -2,16 +2,17 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:global365_widgets/global365_widgets.dart';
 import 'package:get/get.dart';
 
 class ToastWidget extends StatelessWidget {
   const ToastWidget({
-    
+    Key? key,
     required this.msg,
     required this.color,
     required this.txtcolor,
     required this.icon,
-  });
+  }) : super(key: key);
   final String msg;
   final Color color;
   final Color txtcolor;
@@ -32,11 +33,11 @@ class ToastWidget extends StatelessWidget {
       children: [
         if (!kIsWeb)
           if (!(Platform.isAndroid || Platform.isIOS))
-           const SizedBox(
+            const SizedBox(
               height: 40,
             ),
         if (kIsWeb)
-         const SizedBox(
+          const SizedBox(
             height: 40,
           ),
         Padding(
@@ -49,7 +50,7 @@ class ToastWidget extends StatelessWidget {
                   : !(Platform.isAndroid || Platform.isIOS)
                       ? Get.width / 5
                       : Get.width / 1.3,
-              color: color.withValues(alpha: 0.7),
+              color: color.withOpacity(0.7),
               padding: const EdgeInsets.symmetric(
                 vertical: 8,
                 horizontal: 8,
@@ -62,19 +63,14 @@ class ToastWidget extends StatelessWidget {
                     color: txtcolor,
                     size: 25,
                   ),
-                const  SizedBox(
+                  const SizedBox(
                     width: 5,
                   ),
                   Expanded(
-                    child: Text(
-                      msg,
-                      style: TextStyle(
-                          color: txtcolor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          decoration: TextDecoration.none),
-                    ),
-                  )
+                      child: GTextHeading5(
+                    msg,
+                    color: txtcolor,
+                  ))
                 ],
               ),
             ),

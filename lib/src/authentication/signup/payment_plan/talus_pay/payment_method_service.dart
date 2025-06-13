@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:global365_widgets/global365_widgets.dart';
+import 'package:global365_widgets/src/constants/globals.dart';
+import 'package:global365_widgets/src/utils/Services/ResponseModel/resonse_model.dart';
+import 'package:global365_widgets/src/utils/Services/post_requests.dart';
 import 'package:global365_widgets/src/utils/api_client/api_client.dart';
-import 'package:global365_widgets/src/utils/api_client/resonse_model.dart';
 import 'package:global365_widgets/src/utils/api_constant.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 import 'package:global365_widgets/src/utils/progressDialog.dart';
@@ -93,11 +95,11 @@ class PaymentMethodService {
   }
 
   static void apiToAddCard(String token, BuildContext context) async {
-    ResponseModel resp = await ApiCalls.POSTAPICall(
-      context,
-      url: "Companies/AddPaymentMethod?Token=$token&CompanyId=${ApiConstant.companyId}",
-      data: {},
+    ResponseModel resp = await APIsCallPost.submitRequest(
+      "Companies/AddPaymentMethod?Token=$token&CompanyId=$companyId",
+      {},
     );
+
 
     if (resp.statusCode == 200 || resp.statusCode == 201) {
       Navigator.of(context).pop();
@@ -109,11 +111,7 @@ class PaymentMethodService {
   static void validateAndCreateCustomer(String token, BuildContext context) async {
     // call api to add card
     gLogger("inside Create user api call");
-    ResponseModel response = await ApiCalls.POSTAPICall(
-      context,
-      url: "Users/ValidateAndCreateCustomer?Token=$token",
-      data: {},
-    );
+    ResponseModel response = await APIsCallPost.submitRequest("Users/ValidateAndCreateCustomer?Token=$token", {});
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       // AutoRouter.of(context).push(const SetUpScreenRoute());

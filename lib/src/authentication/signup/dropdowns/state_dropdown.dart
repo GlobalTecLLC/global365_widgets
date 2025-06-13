@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/business_profile_controller.dart';
 import 'package:global365_widgets/src/dropdowns/searchabledropdowncustom/dropdown_plus.dart';
 import 'package:global365_widgets/src/theme/dropdown_theme.dart';
+import 'package:global365_widgets/src/utils/Services/get_request.dart';
 import 'package:global365_widgets/src/utils/api_client/api_client.dart';
 import 'package:global365_widgets/src/utils/toast/delightful_toast_class.dart';
 import 'package:global365_widgets/src/constants/globals.dart';
@@ -67,9 +68,8 @@ class _StateDropdownState extends State<StateDropdown> {
       setState(() {
         isLoading = false;
       });
-      ApiCalls.getAPICall(
-        context,
-        url: "Country/GetStatesByLocationId?locationId=${BusinessProfileController.to.selectedLocationId.value}",
+      APIsCallGet.getData(
+        "Country/GetStatesByLocationId?locationId=${BusinessProfileController.to.selectedLocationId.value}",
       ).then((response) {
         print(response.statusCode);
         print(response.data);

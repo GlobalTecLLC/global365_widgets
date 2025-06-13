@@ -3,8 +3,9 @@ import 'dart:convert';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/business_profile_controller.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/setup_screen_controller.dart';
+import 'package:global365_widgets/src/utils/Services/ResponseModel/resonse_model.dart';
+import 'package:global365_widgets/src/utils/Services/post_requests.dart';
 import 'package:global365_widgets/src/utils/api_client/api_client.dart';
-import 'package:global365_widgets/src/utils/api_client/resonse_model.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 import 'package:global365_widgets/src/utils/progressDialog.dart';
 
@@ -115,7 +116,7 @@ class SoftwareInfoController extends GetxController {
     gLogger("Before Calling API");
     try {
       GProgressDialog(context).show();
-      ResponseModel response = await ApiCalls.POSTAPICall(context, url: 'Companies/RegisterCompany', data: data);
+   ResponseModel response = await APIsCallPost.submitRequest('Companies/RegisterCompany', data);
       GProgressDialog(context).hide();
       dynamic responseData = jsonDecode(response.data);
 

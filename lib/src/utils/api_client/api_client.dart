@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
+import 'package:global365_widgets/src/authentication/login/Controllers/login_controller.dart';
+import 'package:global365_widgets/src/constants/globals.dart';
 import 'package:global365_widgets/src/utils/api_client/resonse_model.dart';
 import 'package:global365_widgets/src/utils/api_constant.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
@@ -22,10 +24,16 @@ class ApiCalls {
   //     BaseOptions(baseUrl: ApiConstant.baseUrl, connectTimeout: Duration(seconds: 100), receiveTimeout: Duration(seconds: 100)));
   // ..interceptors.add(SSLPinningInterceptor.fromCertFiles([File("assets/certificate.pem")]));
   static Future<void> initialize(String baseUrl) async {
+    if (!Get.isRegistered<LoginController>()) {
+      Get.put(LoginController());
+    }
+
     // Load the certificate as bytes from the asset bundle
     // ByteData certificateData = await rootBundle.load('assets/certificate.pem');
     // List<int> certBytes = certificateData.buffer.asUint8List();
-ApiConstant.baseUrl = baseUrl;
+    ApiConstant.baseUrl = baseUrl;
+    apiLink = baseUrl;
+    gLogger("API Base URL: $baseUrl");
     // Set up the Dio instance with SSL pinning
     dioClient = Dio(
       BaseOptions(
@@ -54,164 +62,164 @@ ApiConstant.baseUrl = baseUrl;
     return isAuth ? Options(headers: {'Authorization': 'Bearer $authToken'}) : Options(headers: {});
   }
 
-  ///
-  ///Url : pass end point without base url
-  ///isAuth : pass false if you want to call post API without auth token true is set as defualt
-  ///
-  static Future<ResponseModel> getAPICall(
-    BuildContext context, {
-    required String url,
-    bool isAuth = true,
-    bool showError = true,
-  }) async {
-    // addInterceptor(isAuth: isAuth);
-    try {
-      log('this is my userToken $authToken');
-      gLogger("This is my Token: $authToken");
-      gLogger("API URL: ${ApiConstant.baseUrl + url}");
+  // ///
+  // ///Url : pass end point without base url
+  // ///isAuth : pass false if you want to call post API without auth token true is set as defualt
+  // ///
+  // static Future<ResponseModel> getAPICall(
+  //   BuildContext context, {
+  //   required String url,
+  //   bool isAuth = true,
+  //   bool showError = true,
+  // }) async {
+  //   // addInterceptor(isAuth: isAuth);
+  //   try {
+  //     log('this is my userToken $authToken');
+  //     gLogger("This is my Token: $authToken");
+  //     gLogger("API URL: ${ApiConstant.baseUrl + url}");
 
-      final response = await dioClient.get(ApiConstant.baseUrl + url, options: getAuth(isAuth));
-      if (response.statusCode == 200) {
-        gLogger("Response: ${jsonEncode(response.data)}");
-        return ResponseModel(statusCode: 200, data: response.data);
-      } else {
-        return ResponseModel(statusCode: response.statusCode ?? -1, data: response.data);
-      }
-      // return response.data;
-    } on DioException catch (error) {
-      gLogger("Error: ${error.response?.data}");
-      return handleErrorResponses(context, error, isShowError: showError);
-    } catch (error) {
-      return ResponseModel(statusCode: -1, data: error.toString());
-    }
-  }
+  //     final response = await dioClient.get(url, options: getAuth(isAuth));
+  //     if (response.statusCode == 200) {
+  //       gLogger("Response: ${jsonEncode(response.data)}");
+  //       return ResponseModel(statusCode: 200, data: response.data);
+  //     } else {
+  //       return ResponseModel(statusCode: response.statusCode ?? -1, data: response.data);
+  //     }
+  //     // return response.data;
+  //   } on DioException catch (error) {
+  //     gLogger("Error: ${error.response?.data}");
+  //     return handleErrorResponses(context, error, isShowError: showError);
+  //   } catch (error) {
+  //     return ResponseModel(statusCode: -1, data: error.toString());
+  //   }
+  // }
 
-  ///
-  ///Url : pass end point without base url
-  ///bodyParams : pass body params
-  ///isAuth : pass false if you want to call post API without auth token true is set as defualt
-  ///
+  // ///
+  // ///Url : pass end point without base url
+  // ///bodyParams : pass body params
+  // ///isAuth : pass false if you want to call post API without auth token true is set as defualt
+  // ///
 
-  static Future PUTAPICall(
-    BuildContext context, {
-    required String url,
-    required dynamic data,
-    bool isShowError = true,
-    bool isAuth = true,
-  }) async {
-    gLogger('toke $authToken');
-    gLogger("API URL: ${ApiConstant.baseUrl + url}");
+  // static Future PUTAPICall(
+  //   BuildContext context, {
+  //   required String url,
+  //   required dynamic data,
+  //   bool isShowError = true,
+  //   bool isAuth = true,
+  // }) async {
+  //   gLogger('toke $authToken');
+  //   gLogger("API URL: ${ApiConstant.baseUrl + url}");
 
-    try {
-      final response = await dioClient.put(ApiConstant.baseUrl + url, data: data, options: getAuth(isAuth));
-      gLogger("Status Code: ${response.statusCode}");
-      gLogger("Response: ${response.data}");
-      if (response.statusCode == 200 || response.statusCode == 201 || response.statusCode == 204) {
-        return ResponseModel(data: response.data, statusCode: 200);
-      } else if (response.statusCode == 400) {
-        showCustomDialog();
-      } else if (response.statusCode == 400) {
-        showCustomDialog();
-        return ResponseModel(data: response.data, statusCode: 400);
-      } else if (response.statusCode == 501) {
-        return ResponseModel(data: response.data, statusCode: 501);
-      } else {
-        return ResponseModel(data: response.data, statusCode: -1);
-      }
-      return response.data;
-    } on DioException catch (error) {
-      gLogger("Error: ${error.response?.data}");
-      return handleErrorResponses(context, error, isShowError: isShowError);
-    } catch (error) {
-      return ResponseModel(statusCode: -1, data: error.toString());
-    }
-  }
+  //   try {
+  //     final response = await dioClient.put(ApiConstant.baseUrl + url, data: data, options: getAuth(isAuth));
+  //     gLogger("Status Code: ${response.statusCode}");
+  //     gLogger("Response: ${response.data}");
+  //     if (response.statusCode == 200 || response.statusCode == 201 || response.statusCode == 204) {
+  //       return ResponseModel(data: response.data, statusCode: 200);
+  //     } else if (response.statusCode == 400) {
+  //       showCustomDialog();
+  //     } else if (response.statusCode == 400) {
+  //       showCustomDialog();
+  //       return ResponseModel(data: response.data, statusCode: 400);
+  //     } else if (response.statusCode == 501) {
+  //       return ResponseModel(data: response.data, statusCode: 501);
+  //     } else {
+  //       return ResponseModel(data: response.data, statusCode: -1);
+  //     }
+  //     return response.data;
+  //   } on DioException catch (error) {
+  //     gLogger("Error: ${error.response?.data}");
+  //     return handleErrorResponses(context, error, isShowError: isShowError);
+  //   } catch (error) {
+  //     return ResponseModel(statusCode: -1, data: error.toString());
+  //   }
+  // }
 
-  ///
-  ///Url : pass end point without base url
-  ///bodyParams : pass body params
-  ///isAuth : pass false if you want to call post API without auth token true is set as defualt
-  ///
-  static Future<ResponseModel> POSTAPICall(
-    BuildContext context, {
-    required String url,
-    required dynamic data,
-    bool isAuth = true,
-    bool isShowError = true,
-    bool isFSAPI = false,
-  }) async {
-    gLogger("API URL: ${ApiConstant.baseUrl + url}");
+  // ///
+  // ///Url : pass end point without base url
+  // ///bodyParams : pass body params
+  // ///isAuth : pass false if you want to call post API without auth token true is set as defualt
+  // ///
+  // static Future<ResponseModel> POSTAPICall(
+  //   BuildContext context, {
+  //   required String url,
+  //   required dynamic data,
+  //   bool isAuth = true,
+  //   bool isShowError = true,
+  //   bool isFSAPI = false,
+  // }) async {
+  //   gLogger("API URL: ${ApiConstant.baseUrl + url}");
 
-    try {
-      try {
-        gLogger(jsonEncode(data));
-      } catch (e) {
-        gLogger(data);
-      }
-      if (isAuth) {
-        gLogger('Bearer $authToken');
-      }
-      final response = await dioClient.post(
-        ApiConstant.baseUrl + url,
-        data: data,
-        options: getAuth(isAuth, isFSAPI: isFSAPI),
-      );
-      gLogger("Status Code: ${response.statusCode}");
-      gLogger("Response: ${response.data}");
-      if (response.statusCode == 200 || response.statusCode == 201 || response.statusCode == 204) {
-        return ResponseModel(data: response.data, statusCode: 200);
-      } else if (response.statusCode == 400) {
-        showCustomDialog();
-        return ResponseModel(data: response.data, statusCode: 400);
-      } else if (response.statusCode == 403) {
-        return ResponseModel(data: response.data, statusCode: 403);
-      } else if (response.statusCode == 409) {
-        return ResponseModel(data: response.data, statusCode: 409);
-      } else {
-        return ResponseModel(data: response.data, statusCode: -1);
-      }
-    } on DioException catch (error) {
-      if (error.error is TlsException) {
-        // Recieved certificate is different from trusted certificates
-        gLogger("Error: ${error.error}");
-      }
-      gLogger("Error: ${error.response?.data}");
-      return handleErrorResponses(context, error, isShowError: isShowError);
-    } catch (error) {
-      return ResponseModel(statusCode: -1, data: error.toString());
-    }
-  }
+  //   try {
+  //     try {
+  //       gLogger(jsonEncode(data));
+  //     } catch (e) {
+  //       gLogger(data);
+  //     }
+  //     if (isAuth) {
+  //       gLogger('Bearer $authToken');
+  //     }
+  //     final response = await dioClient.post(
+  //       ApiConstant.baseUrl + url,
+  //       data: data,
+  //       options: getAuth(isAuth, isFSAPI: isFSAPI),
+  //     );
+  //     gLogger("Status Code: ${response.statusCode}");
+  //     gLogger("Response: ${response.data}");
+  //     if (response.statusCode == 200 || response.statusCode == 201 || response.statusCode == 204) {
+  //       return ResponseModel(data: response.data, statusCode: 200);
+  //     } else if (response.statusCode == 400) {
+  //       showCustomDialog();
+  //       return ResponseModel(data: response.data, statusCode: 400);
+  //     } else if (response.statusCode == 403) {
+  //       return ResponseModel(data: response.data, statusCode: 403);
+  //     } else if (response.statusCode == 409) {
+  //       return ResponseModel(data: response.data, statusCode: 409);
+  //     } else {
+  //       return ResponseModel(data: response.data, statusCode: -1);
+  //     }
+  //   } on DioException catch (error) {
+  //     if (error.error is TlsException) {
+  //       // Recieved certificate is different from trusted certificates
+  //       gLogger("Error: ${error.error}");
+  //     }
+  //     gLogger("Error: ${error.response?.data}");
+  //     return handleErrorResponses(context, error, isShowError: isShowError);
+  //   } catch (error) {
+  //     return ResponseModel(statusCode: -1, data: error.toString());
+  //   }
+  // }
 
-  static addInterceptor({bool isAuth = true}) {
-    dioClient.interceptors.add(
-      InterceptorsWrapper(
-        onRequest: (options, handler) {
-          // Add the access token to the request header
-          if (isAuth) {
-            options.headers['Authorization'] = 'Bearer $authToken';
-          }
-          return handler.next(options);
-        },
-        onError: (DioException e, handler) async {
-          if (e.response?.statusCode == 401) {
-            // If a 401 response is received, refresh the access token
-            String newAccessToken = await refreshToken();
-            //Handle expcetion
-            if (newAccessToken == "") {
-              return handler.reject(e);
-            }
+  // static addInterceptor({bool isAuth = true}) {
+  //   dioClient.interceptors.add(
+  //     InterceptorsWrapper(
+  //       onRequest: (options, handler) {
+  //         // Add the access token to the request header
+  //         if (isAuth) {
+  //           options.headers['Authorization'] = 'Bearer $authToken';
+  //         }
+  //         return handler.next(options);
+  //       },
+  //       onError: (DioException e, handler) async {
+  //         if (e.response?.statusCode == 401) {
+  //           // If a 401 response is received, refresh the access token
+  //           String newAccessToken = await refreshToken();
+  //           //Handle expcetion
+  //           if (newAccessToken == "") {
+  //             return handler.reject(e);
+  //           }
 
-            // Update the request header with the new access token
-            e.requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
+  //           // Update the request header with the new access token
+  //           e.requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
 
-            // Repeat the request with the updated header
-            return handler.resolve(await dioClient.fetch(e.requestOptions));
-          }
-          return handler.next(e);
-        },
-      ),
-    );
-  }
+  //           // Repeat the request with the updated header
+  //           return handler.resolve(await dioClient.fetch(e.requestOptions));
+  //         }
+  //         return handler.next(e);
+  //       },
+  //     ),
+  //   );
+  // }
 
   static Timer? timer;
   static bool isTimerRunning = false;
@@ -347,6 +355,8 @@ ApiConstant.baseUrl = baseUrl;
     bool? fromEditProfile,
     bool isShowError = true,
   }) async {
+    gLogger("Error: ${error.response?.data}");
+    gLogger("Status Code: ${error.response?.statusCode}");
     try {
       GProgressDialog(context).hide();
     } catch (e) {}

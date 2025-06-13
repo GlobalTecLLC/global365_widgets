@@ -15,7 +15,7 @@ dependencies:
   get: ^4.6.5
   flutter_svg:
   intl: ^0.20.2
-  delightful_toast: ^1.1.0
+  flutter_animate: ^4.5.2
   vph_common_widgets: ^0.0.3
   dropdown_button2:
   bootstrap_icons:
@@ -28,6 +28,7 @@ dependencies:
   flutter_spinkit: ^5.0.0
   flutter_inappwebview: ^6.1.5
   webviewx_plus: ^0.5.0
+
 
 
 

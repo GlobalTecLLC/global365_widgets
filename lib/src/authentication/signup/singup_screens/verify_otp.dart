@@ -6,6 +6,7 @@ import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/verify_otp_controller.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
+import 'package:global365_widgets/src/constants/globals.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
   const VerifyOtpScreen({super.key});
@@ -62,7 +63,11 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
       () => Column(
         children: [
           SizedBox(height: 80),
-          SizedBox(width: 282, height: 56, child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill)),
+          SizedBox(
+            width: 282,
+            height: 56,
+            child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill, package: packageName),
+          ),
           SizedBox(height: 40),
           Text(
             "2-Step Verification",

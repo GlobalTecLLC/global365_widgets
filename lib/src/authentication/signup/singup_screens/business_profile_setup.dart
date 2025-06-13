@@ -9,6 +9,7 @@ import 'package:global365_widgets/src/authentication/signup/dropdowns/industry_d
 import 'package:global365_widgets/src/authentication/signup/dropdowns/state_dropdown.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
+import 'package:global365_widgets/src/constants/globals.dart';
 import 'package:global365_widgets/src/textfileds/my_login_text_field.dart';
 import 'package:global365_widgets/src/utils/go_routes.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
@@ -81,7 +82,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
             child: SizedBox(
               width: 282,
               height: 56,
-              child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill),
+              child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill, package: packageName),
             ),
           ),
           GSizeH(16),

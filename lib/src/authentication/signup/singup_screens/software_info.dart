@@ -5,6 +5,7 @@ import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/software_info_controller.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
+import 'package:global365_widgets/src/constants/globals.dart';
 import 'package:global365_widgets/src/utils/go_routes.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 
@@ -55,7 +56,11 @@ class SoftwareInfoScreen extends StatelessWidget {
     return Column(
       children: [
         SizedBox(height: 60),
-        SizedBox(width: 282, height: 56, child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill)),
+        SizedBox(
+          width: 282,
+          height: 56,
+          child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill, package: packageName),
+        ),
         SizedBox(height: 40),
         Container(
           // height: 130,
@@ -115,7 +120,7 @@ class SoftwareInfoScreen extends StatelessWidget {
               controller.setSelectedSoftware(value!);
             },
           ),
-          Image.asset(imagePath, height: 28, width: 50, fit: BoxFit.contain),
+          Image.asset(imagePath, height: 28, width: 50, fit: BoxFit.contain, package: packageName),
         ],
       ),
     );

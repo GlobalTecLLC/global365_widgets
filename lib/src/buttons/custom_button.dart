@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:global365_widgets/src/constants/globals.dart';
 
 import '../../global365_widgets.dart';
 import '../constants/branding.dart';
@@ -121,6 +122,8 @@ class GCustomButton extends StatelessWidget {
                             svgPath ?? "",
                             width: 14,
                             height: 14,
+                            package: packageName,
+                            
                             colorFilter: ColorFilter.mode(
                               iconColor ?? (isOnDark ? whiteColor : bodyTextDark),
                               BlendMode.srcIn,
@@ -144,6 +147,7 @@ class GCustomButton extends StatelessWidget {
                             svgPath ?? "",
                             width: 14,
                             height: 14,
+                            
                             colorFilter: ColorFilter.mode(
                               iconColor ?? (isOnDark ? whiteColor : bodyTextDark),
                               BlendMode.srcIn,
