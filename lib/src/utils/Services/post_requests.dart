@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:global365_widgets/src/constants/globals.dart';
-import 'package:global365_widgets/src/utils/Services/ResponseModel/FileModel/multipart_file_model.dart';
+
 import 'package:global365_widgets/src/utils/print_log.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
 import 'package:global365_widgets/src/utils/services/response_model/resonse_model.dart';
+
+import '../services/response_model/file_model/multipart_file_model.dart';
 
 class APIsCallPost {
   static Future<ResponseModel> submitRequest(String requestUrl, dynamic data) async {
