@@ -7,26 +7,23 @@ import 'package:global365_widgets/src/constants/constants.dart';
 
 import '../Widgets/login_widgets.dart';
 
-class LoginPageUSA extends StatefulWidget {
-  const LoginPageUSA({super.key});
+class LoginPageWidget extends StatefulWidget {
+  const LoginPageWidget({super.key});
 
   @override
-  State<LoginPageUSA> createState() => _LoginPageUSAState();
+  State<LoginPageWidget> createState() => _LoginPageWidgetState();
 }
 
-LoginController loginController = Get.find();
-
-class _LoginPageUSAState extends State<LoginPageUSA> {
+class _LoginPageWidgetState extends State<LoginPageWidget> {
   @override
   void initState() {
-    // if (isLoggingInInvitedUser.isTrue) { //TODO
-    //   // gLogger("within the init of login page and isLoggingInInvitedUser is ${UserInvitationController.to.isLoggingInInvitedUser}");
-    //   loginController.tecEmail.text = UserInvitationController.to.invitedUserEmail.value;
-    // } else {
-    //   loginController.checkIsRememberUser();
-    // }
-    // TODO: implement initState
     super.initState();
+    if (Get.isRegistered<LoginController>()) {
+      Get.find<LoginController>();
+    } else {
+      Get.put(LoginController());
+    }
+    LoginController.to.checkIsRememberUser();
   }
 
   @override
@@ -114,23 +111,7 @@ class _LoginPageUSAState extends State<LoginPageUSA> {
                   ),
                 ),
               ),
-              // Positioned.fill(
-              //   bottom: 66,
-              //   child: Align(
-              //     alignment: Alignment.bottomCenter,
-              //     child: InkWell(
-              //       onTap: () {
-              //         Navigator.push(
-              //           context,
-              //           MaterialPageRoute(builder: (context) => MovablePage()),
-              //         );
-              //       },
-              //       child: SvgPicture.asset(
-              //         AppAssets.poweredByLogoWhiteIcon,
-              //       ),
-              //     ),
-              //   ),
-              // ),
+            
             ],
           ),
         ),
@@ -138,3 +119,5 @@ class _LoginPageUSAState extends State<LoginPageUSA> {
     );
   }
 }
+
+LoginController loginController = Get.find();

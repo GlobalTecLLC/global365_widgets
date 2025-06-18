@@ -8,3 +8,5 @@ export 'src/theme/theme_export.dart';
 export 'src/dropdowns/export_dropdowns.dart';
 export 'src/authentication/authentication_export.dart';
 export 'intializer.dart';
+export 'src/constants/globals.dart';
+export 'src/utils/services/export_services.dart';

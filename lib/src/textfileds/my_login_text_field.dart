@@ -16,6 +16,7 @@ class GLoginEmailField extends StatelessWidget {
   final int? maxLine;
   final Function? onFieldSubmitted;
   final Widget? suffixIcon;
+  final Widget? prefixIcon;
   final bool isPassword;
   final bool isEmail;
   final bool isEnabled;
@@ -44,6 +45,7 @@ class GLoginEmailField extends StatelessWidget {
     this.showheading = true,
     this.labelText,
     this.suffixIcon,
+    this.prefixIcon,
     this.intialValue,
     this.controller,
     this.onFieldSubmitted,
@@ -90,11 +92,12 @@ class GLoginEmailField extends StatelessWidget {
                 ),
             ],
           ),
+    
         if (showheading) GSizeH(5),
         Directionality(
           textDirection: TextDirection.ltr,
           child: SizedBox(
-            height: 40,
+            height: 48,
             child: TextFormField(
               key: key,
               controller: controller,
@@ -102,13 +105,13 @@ class GLoginEmailField extends StatelessWidget {
               maxLines: maxLine,
               enabled: isEnabled,
               cursorColor: Colors.black,
-              style: GAppStyle.style12w600(color: bodyTextDark),
+              style: GAppStyle.style14w400(color: bodyTextDark),
               decoration: InputDecoration(
                 isDense: true,
                 hintText: hintText ?? 'Enter text here',
                 hintStyle: TextStyle(
                   color: placeHolderColor,
-                  fontSize: 12,
+                  fontSize: 14,
                   fontWeight: FontWeight.w400,
                   // fontFamily: "Mon",
                 ),
@@ -117,23 +120,25 @@ class GLoginEmailField extends StatelessWidget {
                 // ),
                 alignLabelWithHint: true,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(Branding.tFborderR),
+                  borderRadius: BorderRadius.circular(5),
                   borderSide: const BorderSide(width: 1, color: borderColor),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(Branding.tFborderR),
+                  borderRadius: BorderRadius.circular(5),
                   borderSide: const BorderSide(width: 1, color: borderColor),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(Branding.tFborderR),
+                  borderRadius: BorderRadius.circular(5),
                   borderSide: const BorderSide(width: 1, color: borderColor),
                 ),
                 filled: true,
                 hoverColor: Colors.transparent,
                 suffixIcon: suffixIcon,
+                prefixIcon: prefixIcon,
+                prefixIconConstraints: BoxConstraints(maxHeight: 16, maxWidth: 26),
                 suffixIconConstraints: BoxConstraints(maxHeight: 16, maxWidth: 26),
                 fillColor: isEnabled ? whiteColor : lightBackgroundColor,
-                contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 10),
               ),
               obscureText: isPassword ? true : false,
               validator: validator as String? Function(String?)?,

@@ -9,4 +9,9 @@ class GRouteConfig {
   static const String paymentInfoRoute = "/paymentInfo";
 
   static const String loginUsaPageRoute = "/Login";
+  static const String completemerchantprocess = "/completemerchantprocess";
+  static const String merchantSuccess = "/merchantSuccess";
+  static const String dashboard = "/dashboard";
+
+
 }

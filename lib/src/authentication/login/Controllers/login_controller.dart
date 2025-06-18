@@ -1,6 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
+import 'package:global365_widgets/src/authentication/authentication_routes.dart';
+import 'package:global365_widgets/src/constants/globals.dart';
+import 'package:global365_widgets/src/utils/services/response_model/resonse_model.dart';
+
+import 'package:global365_widgets/src/utils/go_routes.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 // import 'package:local_auth/local_auth.dart';
 
@@ -26,19 +33,19 @@ class LoginController extends GetxController {
   RxString authorized = "Not authorized".obs;
 
   checkIsRememberUser() {
-    // SharedPreferences.getInstance().then((prefs) {
-    //   if (prefs.getBool('remeberMe') != null) {
-    //     bool flag = prefs.getBool('remeberMe')!;
+   
+    if (prefs.getBool('remeberMe') != null) {
+      bool flag = prefs.getBool('remeberMe')!;
 
-    //     if (flag) {
-    //       checkedValue.value = true;
+      if (flag) {
+        checkedValue.value = true;
 
-    //       controllerpassword.text = prefs.getString('passwordforremeberMe').toString();
+        controllerpassword.text = prefs.getString('passwordforremeberMe').toString();
 
-    //       tecEmail.text = prefs.getString('usernameforRemeberMe').toString();
-    //     }
-    //   }
-    // });
+        tecEmail.text = prefs.getString('usernameforRemeberMe').toString();
+      }
+    }
+    
   }
 
   login(context) async {
@@ -50,36 +57,35 @@ class LoginController extends GetxController {
       GToast.warning("Please enter password", context);
       return;
     }
-    // SharedPreferences.getInstance().then((prefs) {
-    //   if (checkedValue.value) {
-    //     prefs.setBool('remeberMe', true);
-    //     prefs.setString('usernameforRemeberMe', tecEmail.text);
-    //     prefs.setString('passwordforremeberMe', controllerpassword.text);
-    //   } else {
-    //     prefs.setBool('remeberMe', false);
-    //   }
-    // });
-    // loogingIn.value = true;
-    // dynamic data = {"email": tecEmail.text, "password": controllerpassword.text};
-    // ResponseModel response = await APIsCallPost.submitRequestWithOutAuth("Users/NewLogin", data);
-    // loogingIn.value = false;
-    // gLogger(response.data);
-    // gLogger(response.statusCode);
-    // dynamic decodedData = jsonDecode(response.data);
 
-    // if (response.statusCode == 200 || response.statusCode == 201) {
-    //   loginResponsehandler(context, decodedData);
-    // } else {
-    //   loogingIn.value = false;
+    if (checkedValue.value) {
+      prefs.setBool('remeberMe', true);
+      prefs.setString('usernameforRemeberMe', tecEmail.text);
+      prefs.setString('passwordforremeberMe', controllerpassword.text);
+    } else {
+      prefs.setBool('remeberMe', false);
+    }
 
-    //   GToast.error(decodedData["message"].toString(), context);
-    // }
+    loogingIn.value = true;
+    dynamic data = {"email": tecEmail.text, "password": controllerpassword.text};
+    ResponseModel response = await APIsCallPost.submitRequestWithOutAuth("Users/NewLogin", data);
+    loogingIn.value = false;
+    gLogger(response.data);
+    gLogger(response.statusCode);
+    dynamic decodedData = jsonDecode(response.data);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      loginResponsehandler(context, decodedData);
+    } else {
+      loogingIn.value = false;
+
+      GToast.error(decodedData["message"].toString(), context);
+    }
   }
 
   loginResponsehandler(context, dynamic decodedData) async {
-    //     SharedPreferences prefs = await SharedPreferences.getInstance();
-    //     accessToken = (decodedData["payload"] ?? {})["token"];
-    //     gLogger(((decodedData["payload"] ?? {})["userPreferences"]));
+    accessToken = (decodedData["payload"] ?? {})["token"];
+    gLogger(((decodedData["payload"] ?? {})["userPreferences"]));
     //     PreferencesData.myPreferencesGeneral = ((decodedData["payload"] ?? {})["userPreferences"]) == null
     //         ? PreferencesData.myPreferencesGeneral
     //         : jsonDecode((decodedData["payload"] ?? {})["userPreferences"]);
@@ -90,33 +96,35 @@ class LoginController extends GetxController {
     //     isPaymentRedirectionPopupDisable.value = (decodedData["payload"] ?? {})["isPaymentRedirectionPopupDisable"] ?? false;
     //     gLogger(decodedData["payload"]);
     //     gLogger("Default Company Id is ${decodedData["payload"]["defaultCompanyId"]}");
-    //     List listOfConpanies = (decodedData["payload"] ?? {})['loggedCompanies'] ?? [];
+    List listOfConpanies = (decodedData["payload"] ?? {})['loggedCompanies'] ?? [];
     //     bool isPaymentMethodVerified = (decodedData["payload"] ?? {})['isPaymentMethodVerfied'] ?? false;
     //     if (isPaymentMethodVerified == false) {
     //       GNav.pushNav(context, RouteConfig.paymentInfoRoute);
     //       return;
     //     }
-    //     if (listOfConpanies.isEmpty) {
-    //       GNav.pushNav(context, RouteConfig.setUpScreenRoute);
-    //       return;
-    //     }
-    //     dynamic defaultCompany = listOfConpanies.firstWhere((element) => element["companyId"].toString() == (decodedData["payload"] ?? {})['defaultCompanyId'].toString(),
-    //         orElse: () => listOfConpanies.first);
+    if (listOfConpanies.isEmpty) {
+      GNav.pushNav(context, GRouteConfig.setUpScreenRoute);
+      return;
+    }
+    dynamic defaultCompany = listOfConpanies.firstWhere(
+      (element) => element["companyId"].toString() == (decodedData["payload"] ?? {})['defaultCompanyId'].toString(),
+      orElse: () => listOfConpanies.first,
+    );
 
-    //     companyId = defaultCompany["companyId"] ?? 0;
-    //     locationId = (defaultCompany["locationId"] ?? 0).toString();
-    //     companyLogo.value = defaultCompany["companyLogo"] ?? "";
+    companyId = (defaultCompany["companyId"] ?? 0).toString();
+    // locationId = (defaultCompany["locationId"] ?? 0).toString();
+    companyLogo.value = defaultCompany["companyLogo"] ?? "";
     //     gLogger("Company Logo ####   ${companyLogo.value} ");
-    //     companyAddress = defaultCompany["companyAddress"] ?? "";
-    //     companyAddressLine1 = defaultCompany["addressLineOne"] ?? "";
-    //     companyAddressLine2 = defaultCompany["addressLineTwo"] ?? "";
-    //     companyCity = defaultCompany["city"] ?? "";
-    //     companyState = defaultCompany["state"] ?? "";
-    //     companyZip = defaultCompany["zip"] ?? "";
-    //     isAccountant.value = defaultCompany["isAccountant"] ?? false;
-    //     companyPhoneNo = defaultCompany["companyPhoneNumber"] ?? "";
-    //     companyEmail = defaultCompany["companyEmail"] ?? "";
-    //     isMerchant = defaultCompany["isMerchant"] ?? false;
+    companyAddress = defaultCompany["companyAddress"] ?? "";
+    companyAddressLine1 = defaultCompany["addressLineOne"] ?? "";
+    companyAddressLine2 = defaultCompany["addressLineTwo"] ?? "";
+    companyCity = defaultCompany["city"] ?? "";
+    companyState = defaultCompany["state"] ?? "";
+    companyZip = defaultCompany["zip"] ?? "";
+    // isAccountant.value = defaultCompany["isAccountant"] ?? false;
+    companyPhoneNo = defaultCompany["companyPhoneNumber"] ?? "";
+    companyEmail = defaultCompany["companyEmail"] ?? "";
+    // isMerchant = defaultCompany["isMerchant"] ?? false;
     //     // isMerchant = false;
     //     globals.permissions = Permissions.fromJson(defaultCompany["companywisePermissions"]);
     //     MainDashBoardController.to.listOfWidgets.value =
@@ -136,26 +144,26 @@ class LoginController extends GetxController {
 
     //     final jsonString = defaultCompany["companywisePermissions"];
     //     prefs.setString("permissions", jsonEncode(jsonString));
-    //     companyNameForGlobals.value = defaultCompany["companyName"] ?? "Globals";
-    //     userNameForGlobals.value = (decodedData["payload"] ?? {})["firstName"] ?? "Mr.";
+    companyNameForGlobals.value = defaultCompany["companyName"] ?? "Globals";
+    userNameForGlobals.value = (decodedData["payload"] ?? {})["firstName"] ?? "Mr.";
     //     gLogger("Company name and id is $companyId and $companyNameForGlobals");
-    //     prefs.setString("accessToken", accessToken);
-    //     prefs.setString('usernameforInvitationCompare', tecEmail.text);
-    //     prefs.setString("companyId", companyId.toString());
-    //     prefs.setString("companyLogo", companyLogo.value);
-    //     gLogger("Company Logo after save ####   ${companyLogo.value} ");
-    //     prefs.setString("companyAddress", companyAddress);
-    //     prefs.setString("addressLine1", companyAddressLine1);
-    //     prefs.setString("addressLine2", companyAddressLine2);
-    //     prefs.setString("companyCity", companyCity);
-    //     prefs.setString("companyState", companyState);
-    //     prefs.setString("companyZip", companyZip);
-    //     prefs.setString("companyPhoneNo", companyPhoneNo);
-    //     prefs.setString("companyEmail", companyEmail);
-    //     prefs.setString("companyName", companyNameForGlobals.value);
-    //     prefs.setString("userFirstName", userNameForGlobals.value);
-    //     prefs.setBool("isMerchant", isMerchant);
-    //     prefs.setBool("isAppOpen", true);
+    prefs.setString("accessToken", accessToken);
+    prefs.setString('usernameforInvitationCompare', tecEmail.text);
+    prefs.setString("companyId", companyId.toString());
+    prefs.setString("companyLogo", companyLogo.value);
+    gLogger("Company Logo after save ####   ${companyLogo.value} ");
+    prefs.setString("companyAddress", companyAddress);
+    prefs.setString("addressLine1", companyAddressLine1);
+    prefs.setString("addressLine2", companyAddressLine2);
+    prefs.setString("companyCity", companyCity);
+    prefs.setString("companyState", companyState);
+    prefs.setString("companyZip", companyZip);
+    prefs.setString("companyPhoneNo", companyPhoneNo);
+    prefs.setString("companyEmail", companyEmail);
+    prefs.setString("companyName", companyNameForGlobals.value);
+    prefs.setString("userFirstName", userNameForGlobals.value);
+    // prefs.setBool("isMerchant", isMerchant);
+    prefs.setBool("isAppOpen", true);
 
     //     if (listOfConpanies != null && listOfConpanies.isNotEmpty) {
     //       globals.loggedCompanyModel = LoggedCompanyModel.fromJson(defaultCompany);
@@ -226,14 +234,14 @@ class LoginController extends GetxController {
     //       GNav.goNav(context, RouteConfig.userInvitationPageRoute);
     //       // AutoRouter.of(context).push(const UserInvitationPageRoute());
     //     } else {
-    //       GNav.goNav(context, RouteConfig.dashboardRoute);
-    //       gLogger("Withing login go route");
+    GNav.goNav(context, GRouteConfig.dashboard);
+    gLogger("Withing login go route");
     //       // context.go('/Dashboard');
     //       // context.go(RouteConfig.dashboardRoute);
     //       // AutoRouter.of(context).replaceAll([const DashboardRoute()]);
     //     }
-    //     tecEmail.text = "";
-    //     controllerpassword.text = "";
+    tecEmail.text = "";
+    controllerpassword.text = "";
   }
 
   Future<void> redirectFromCPA(BuildContext context, String code) async {

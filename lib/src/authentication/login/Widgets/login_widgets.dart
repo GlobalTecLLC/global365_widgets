@@ -15,198 +15,7 @@ import 'package:global365_widgets/src/constants/globals.dart';
 import 'package:global365_widgets/src/textfileds/my_login_text_field.dart';
 import 'package:global365_widgets/src/utils/go_routes.dart';
 
-// Widget biometricButton(BuildContext context) {
-//   return Padding(
-//     padding: EdgeInsets.symmetric(horizontal: 8),
-//     child: Column(
-//       children: [
-//         Row(
-//           mainAxisAlignment: MainAxisAlignment.end,
-//           children: [
-//             Row(
-//               children: [
-//                 // IconButton(
-//                 //   icon: Icon(Icons.fingerprint),
 
-//                 //   iconSize: 40,
-//                 //   color: mainColorPrimary,
-//                 // ),
-//                 InkWell(
-//                   child: const Text("Biometric Login", style: TextStyle(fontWeight: FontWeight.bold)),
-//                   onTap: (() {
-//                     () {
-//                       if (LoginController.to.isSwitched.value) {
-//                         SharedPreferences.getInstance().then((prefs) {
-//                           if (prefs.getStringList('loginDetailsBiometric') != null &&
-//                               prefs.getStringList('loginDetailsBiometric')!.length > 0) {
-//                             List temp = prefs.getStringList('loginDetailsBiometric')!;
-//                             LoginController.to.usernmae = temp[0];
-//                             LoginController.to.password = temp[1];
-//                             LoginController.to.authenticate(context);
-//                           } else {
-//                             // showDialog(
-//                             //     context: context,
-//                             //     builder: (context) {
-//                             //       return CustomDialog(
-//                             //         title: "Genial365",
-//                             //         content: "",
-//                             //         positiveBtnText: "Done",
-//                             //         negativeBtnText: "Cancel",
-//                             //         widget: Text(
-//                             //             "Please login using your username and Password for the first time to enable the biometric login."),
-//                             //         positiveBtnPressed: () {
-//                             //           // Do something here
-//                             //           Navigator.of(context).pop();
-//                             //         },
-//                             //         widgetButton: TextButton(
-//                             //             onPressed: () {
-//                             //               Navigator.pop(context);
-//                             //             },
-//                             //             child: Text("Ok")),
-
-//                             //         // widget: Text("Hello"),
-//                             //       );
-//                             //    });
-//                           }
-//                         });
-//                       }
-
-//                       // SharedPreferences.getInstance().then((prefs) {
-//                       //   if (prefs.getStringList('loginDetails') != null &&
-//                       //       prefs.getStringList('loginDetails')!.length > 0) {
-//                       //     List<String>? temp =
-//                       //         prefs.getStringList('loginDetails');
-//                       //     usernmae = temp![0];
-//                       //     password = temp[1];
-//                       //     loginCustomerBioMetric();
-//                       //   }
-//                       // });
-//                     };
-//                   }),
-//                 ),
-//               ],
-//             ),
-//             Switch(
-//               onChanged: (value) {
-//                 if (value) {
-//                   // showDialog(
-//                   //     context: context,
-//                   //     builder: (context) {
-//                   //       return CustomDialog(
-//                   //         title: "Genial365",
-//                   //         content: "",
-//                   //         positiveBtnText: "Done",
-//                   //         negativeBtnText: "Cancel",
-//                   //         widget: Text(
-//                   //             "Please login using your username and Password for the first time to enable the biometric login."),
-//                   //         positiveBtnPressed: () {
-//                   //           // Do something here
-//                   //           Navigator.of(context).pop();
-//                   //         },
-//                   //         widgetButton: TextButton(
-//                   //             onPressed: () {
-//                   //               Navigator.pop(context);
-//                   //             },
-//                   //             child: Text("Ok")),
-//                   //       );
-//                   //     });
-//                   // setState(() {
-//                   //   isSwitched = value;
-//                   // });
-//                 } else {
-//                   showDialog(
-//                     context: context,
-//                     builder: (context) {
-//                       return AlertDialog(
-//                         title: Text(T("login_County")),
-//                         content: Text(
-//                           T("login_You_would_need_to_enter_your_username"),
-//                           style: GoogleFonts.poppins(fontSize: 13),
-//                         ),
-//                         actions: <Widget>[
-//                           TextButton(
-//                             // color: mainColorPrimary,
-//                             // textColor: Colors.white,
-//                             // disabledColor: Colors.grey,
-//                             // disabledTextColor: Colors.black,
-//                             // padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
-//                             // splashColor: Colors.greenAccent,
-//                             style: TextButton.styleFrom(
-//                               foregroundColor: mainColorPrimary,
-//                               disabledBackgroundColor: Colors.grey,
-//                               padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
-//                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-//                             ),
-//                             child: Text(T("login_No"), style: GoogleFonts.poppins(color: Colors.black)),
-//                             onPressed: () {
-//                               Navigator.of(context).pop();
-//                             },
-//                           ),
-//                           TextButton(
-//                             // color: mainColorPrimary,
-//                             // textColor: Colors.white,
-//                             // disabledColor: Colors.grey,
-//                             // disabledTextColor: Colors.black,
-//                             // padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
-//                             // splashColor: Colors.greenAccent,
-//                             style: TextButton.styleFrom(
-//                               foregroundColor: mainColorPrimary,
-//                               disabledBackgroundColor: Colors.grey,
-//                               padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
-//                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-//                             ),
-//                             child: Text(T("login_Yes"), style: GoogleFonts.poppins(color: Colors.black)),
-//                             onPressed: () {
-//                               Navigator.of(context).pop();
-//                               SharedPreferences.getInstance().then((prefs) {
-//                                 prefs.setBool('biometricEnable', false);
-//                                 prefs.setStringList('loginDetailsBiometric', []);
-//                               });
-//                               // setState(() {
-//                               LoginController.to.isSwitched.value = false;
-//                               // });
-//                             },
-//                           ),
-//                         ],
-//                       );
-//                     },
-//                   );
-//                 }
-//               },
-//               value: LoginController.to.isSwitched.value,
-//               activeColor: mainColorPrimary,
-//               activeTrackColor: mainColorPrimaryYellow,
-//               inactiveThumbColor: Colors.grey,
-//               inactiveTrackColor: mainColorPrimaryYellow,
-//             ),
-//             // Container(
-//             //   // width: MediaQuery.of(context).size.width,
-//             //   padding: EdgeInsets.symmetric(vertical: 15),
-//             //   alignment: Alignment.center,
-//             //   decoration: BoxDecoration(
-//             //       borderRadius: BorderRadius.all(Radius.circular(5)),
-//             //       boxShadow: <BoxShadow>[
-//             //         BoxShadow(
-//             //             color: Colors.grey.shade200,
-//             //             offset: Offset(2, 4),
-//             //             blurRadius: 5,
-//             //             spreadRadius: 2)
-//             //       ],
-//             //       gradient: LinearGradient(
-//             //           begin: Alignment.centerLeft,
-//             //           end: Alignment.centerRight,
-//             //           colors: [Color(0xfffadd13), mainColorPrimary])),
-//             //   child: Text(
-//             //     'Login',
-//             //     style: AppStyle.style20w600(color: Colors.white),
-//             //   ),
-//             // ),
-//           ],
-//         ),
-//       ],
-//     ),
-//   );
-// }
 
 Widget title(BuildContext context) {
   return Column(
@@ -215,7 +24,7 @@ Widget title(BuildContext context) {
       SizedBox(
         width: 282,
         height: 56,
-        child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill, package: packageName),
+        child: SvgPicture.asset(getModuleLogo(), fit: BoxFit.fill, package: packageName),
       ),
       GSizeH(20),
       Text("Sign In", style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700)),
@@ -428,7 +237,7 @@ Widget _submitButton(BuildContext context) {
         color: mainColorPrimary,
       ),
       child: Text(
-        "Sign Up",
+        "Login",
         style: TextStyle(fontWeight: FontWeight.w700, color: whiteColor, fontSize: 18),
       ),
     ),
@@ -469,7 +278,7 @@ Widget createAccountLabel(BuildContext context) {
 
             isFirstpurchase = true;
             // AutoRouter.of(context).push(const PaymentPlanRoute());
-            GNav.pushNav(context, GRouteConfig.paymentPlanRoute);
+            GNav.pushNav(context, GRouteConfig.signUpScreenRoute);
 
             // Modular.to.pushNamed("/Pricing");
             // Modular.to.pushNamed("/SubscriptionPlans");

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
-import 'package:global365_widgets/src/utils/Services/ResponseModel/resonse_model.dart';
-import 'package:global365_widgets/src/utils/Services/get_request.dart';
+import 'package:global365_widgets/src/utils/services/response_model/resonse_model.dart';
+
 import 'package:global365_widgets/src/utils/api_client/api_client.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 

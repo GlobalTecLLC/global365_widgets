@@ -18,6 +18,8 @@ class SetUpController extends GetxController {
 
   TextEditingController businessName = TextEditingController();
   TextEditingController businessLocation = TextEditingController();
+  TextEditingController phoneNumber = TextEditingController();
+  String phoneNumberWithoutFormate="";
   String locationDropdownId = "233";
   String statusId = "4842";
   DropdownEditingController<dynamic> locationDropdown = DropdownEditingController();

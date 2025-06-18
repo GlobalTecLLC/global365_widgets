@@ -5,6 +5,7 @@ import 'package:global365_widgets/intializer.dart';
 import 'package:global365_widgets/src/constants/branding.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const String packageName = "global365_widgets";
 RxBool isLoggingInInvitedUser = false.obs;
@@ -16,9 +17,30 @@ String apiLink = "https://api.global365.com/api/v1/";
 String apiLink2 = "https://admindev.globalgroup.co/api/v2/";
 
 
+
+
+
 G365Module g365Module = G365Module.accounting;
 
 String companyId = "";
+late SharedPreferences prefs;
+
+String companyname = "Technupur";
+int fiscalYearId = 1;
+String companyAddress = "";
+String companyEmail = "";
+String companyAddressLine1 = "";
+String companyAddressLine2 = "";
+String companyCity = "";
+String companyState = "";
+String companyZip = "";
+String companyPhoneNo = "";
+RxString userNameForGlobals = "John".obs;
+RxString companyNameForGlobals = "johndoe@gmail.com".obs;
+RxString profileImage = "".obs;
+// RxString companyId = "67".obs;
+RxString companyLogo = "".obs;
+bool isUserAlreadyLogedin = false;
 
 extension TextEditingControllerExt on TextEditingController {
   void selectAll() {
@@ -60,4 +82,10 @@ Widget globalSpinkitForLoaderswithBorder({bool isLessHeightLoader = false, doubl
     ),
     child: globalSpinkitForLoaders(),
   );
+}
+
+
+
+String getModuleLogo() {
+  return g365Module == G365Module.merchant ? "assets/svg/logomerchant.svg" : 'assets/svg/countylogo.svg';
 }

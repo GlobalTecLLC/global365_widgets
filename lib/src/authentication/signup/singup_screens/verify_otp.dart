@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -66,23 +67,21 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
           SizedBox(
             width: 282,
             height: 56,
-            child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill, package: packageName),
+            child: SvgPicture.asset(getModuleLogo(), fit: BoxFit.fill, package: packageName),
           ),
           SizedBox(height: 40),
           Text(
-            "2-Step Verification",
+            "Verify Your Identity",
             style: TextStyle(
               fontFamily: 'Montserrat',
-              fontWeight: FontWeight.w700,
-              fontSize: 26,
-              color: const Color(0xff2d2c2c),
+              fontWeight: FontWeight.w600, fontSize: 24, color: titleColor,
             ),
           ),
           SizedBox(height: 10),
           const GTextHeading5(
             "We have sent a verification code to your email address.\nPlease enter it here",
             textAlign: TextAlign.center,
-            color: Color(0xff89999F),
+            color: bodyTextColor,
           ),
           SizedBox(height: 40),
           Row(
@@ -115,6 +114,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                     textAlign: TextAlign.center,
                     keyboardType: TextInputType.number,
                     maxLength: 1,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     style: TextStyle(fontSize: 30, fontFamily: 'Montserrat', fontWeight: FontWeight.w600),
                     decoration: const InputDecoration(
                       counterText: '',
@@ -126,20 +126,25 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
               );
             }),
           ),
-          SizedBox(height: 25),
-          InkWell(
-            onTap: () {
-              otpController.resendOTP(context);
-            },
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GTextHeading5("Didn't get a code?", color: Color(0xff89999F)),
-                GTextHeading5(' Click to resend', color: secondaryColorOrange),
+          SizedBox(height: 24),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Didn't get a code?", style: GAppStyle.style15w400(color: bodyText)),
+              InkWell(
+                onTap: () {
+                  otpController.resendOTP(context);
+                },
+                child: Text(
+                  ' Click to resend',
+                  style: GAppStyle.style15w600(color: secondaryColorOrange, isUnderLine: true),
+                ),
+              ),
               ],
             ),
-          ),
-          GSizeH(20),
+          
+          GSizeH(44),
           Obx(
             () => otpController.isLoading.value
                 ? _submitButtonProcess(context)
@@ -152,13 +157,13 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                     child: Opacity(
                       opacity: otpController.isButtonEnabled.value ? 1 : 0.5,
                       child: Container(
-                        width: 540,
+                        width: 400,
                         height: 48,
                         decoration: BoxDecoration(color: mainColorPrimary, borderRadius: BorderRadius.circular(6)),
                         child: Center(
                           child: Text(
                             'Submit',
-                            style: TextStyle(color: const Color(0xffeaeaea), fontWeight: FontWeight.w700, fontSize: 15),
+                            style: TextStyle(color: whiteColor, fontWeight: FontWeight.w700, fontSize: 15),
                           ),
                         ),
                       ),
@@ -174,7 +179,8 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   Widget _submitButtonProcess(BuildContext context) {
     return Container(
       height: 48,
-      width: double.maxFinite,
+      
+      width: 400,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),

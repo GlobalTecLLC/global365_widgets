@@ -14,3 +14,4 @@ export 'signup/controllers/signup_controller/software_info_controller.dart';
 //Login 
 
 export 'login/Pages/login_page_USA.dart';
+export 'signup/webview_talus/talus_webview_signup.dart';

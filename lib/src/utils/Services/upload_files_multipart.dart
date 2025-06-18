@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get_utils/src/platform/platform.dart';
 import 'package:global365_widgets/src/constants/globals.dart';
-import 'package:global365_widgets/src/utils/Services/ResponseModel/resonse_model.dart';
+import 'package:global365_widgets/src/utils/services/response_model/resonse_model.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 import 'package:http/http.dart' as http;
 

@@ -69,37 +69,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   BoxShadow(color: Color.fromARGB(15, 5, 0, 0), blurRadius: 10, spreadRadius: 5, offset: Offset(2, 2)),
                 ],
               ),
-              child: SingleChildScrollView(child: Column(children: [createAccountWidget(context)])),
-            ),
-          ),
-          Positioned(
-            bottom: 70,
-            left: MediaQuery.of(context).size.width / 2.6,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const GTextHeading4("Already have a Global365 account?", color: bodyTextColor),
-                InkWell(
-                  onTap: () {
-                    // AutoRouter.of(context).push(const LoginPageUSARoute());
-                    GNav.pushNav(context, GRouteConfig.loginUsaPageRoute);
-                  },
-                  child: Text(
-                    " Sign In",
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      color: primaryColor,
-                      decoration: TextDecoration.underline,
-                      decorationColor: primaryColor,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    createAccountWidget(context),
+                    SizedBox(height: 10),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Already have a Global365 account?", style: GAppStyle.style14w400()),
+                        InkWell(
+                          onTap: () {
+                            // AutoRouter.of(context).push(const LoginPageUSARoute());
+                            GNav.pushNav(context, GRouteConfig.loginUsaPageRoute);
+                          },
+                          child: Text(
+                            " Sign In",
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              color: secondryCOlorText,
+                              decoration: TextDecoration.underline,
+                              decorationColor: secondryCOlorText,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
+                    SizedBox(height: 50),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
+        
         ],
       ),
     );
@@ -111,11 +116,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         key: SignUpController.to.formKey,
         child: Column(
           children: [
-            SizedBox(height: 80),
+            SizedBox(height: 50),
             SizedBox(
               width: 282,
               height: 56,
-              child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill, package: packageName),
+              child: SvgPicture.asset(getModuleLogo(), fit: BoxFit.fill, package: packageName),
             ),
             SizedBox(height: 40),
             const GTextHeading2("Create Your Account Today"),
@@ -314,12 +319,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 23),
+            SizedBox(height: 20),
             // wrap this condition in obx
             Obx(() => SignUpController.to.isLoading.value ? _submitButtonProcess(context) : _submitButton(context)),
-            SizedBox(height: 80),
+      
           ],
-        ).marginSymmetric(horizontal: 80),
+        ).marginSymmetric(horizontal: 50),
       ),
     );
   }

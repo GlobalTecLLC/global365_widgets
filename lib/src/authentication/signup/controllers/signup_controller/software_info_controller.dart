@@ -1,15 +1,14 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/business_profile_controller.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/setup_screen_controller.dart';
 import 'package:global365_widgets/src/constants/globals.dart';
-import 'package:global365_widgets/src/utils/Services/ResponseModel/resonse_model.dart';
-import 'package:global365_widgets/src/utils/Services/get_request.dart';
-import 'package:global365_widgets/src/utils/Services/post_requests.dart';
-import 'package:global365_widgets/src/utils/api_client/api_client.dart';
+import 'package:global365_widgets/src/utils/services/response_model/resonse_model.dart';
+
 import 'package:global365_widgets/src/utils/go_routes.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 import 'package:global365_widgets/src/utils/progressDialog.dart';
@@ -75,23 +74,21 @@ class SoftwareInfoController extends GetxController {
     gLogger("Selected Software: ${selectedSoftware.value}");
     gLogger("company name: ${SetUpController.to.businessName.text.trim()}");
     gLogger("address: ${BusinessProfileController.to.tecaddressLine1.text.trim()}");
-    // gLogger("location name and id: ${SetUpController.to.locationDropdown.value['id']}");
-    // gLogger("industry name and id: ${BusinessProfileController.to.industryDropdown.value['name']} ${BusinessProfileController.to.industryDropdown.value['id']}");
-    // gLogger("state name and id: ${BusinessProfileController.to.stateDropdown.value['name']} ${BusinessProfileController.to.stateDropdown.value['id']}");
-    // gLogger("language name and id: ${BusinessProfileController.to.languageDropdown.value['name']} ${BusinessProfileController.to.languageDropdown.value['id']}");
-    // gLogger("timezone name and id: ${BusinessProfileController.to.timezoneDropdown.value['name']} ${BusinessProfileController.to.timezoneDropdown.value['id']}");
-    // gLogger("currency name and id: ${BusinessProfileController.to.currencyDropdown.value['name']} ${BusinessProfileController.to.currencyDropdown.value['id']}");
+
     gLogger("This is Data");
     dynamic data = {
-      // "addressLineOne": BusinessProfileController.to.address.text.trim(),
-      // "addressLineTwo": "",
-      // "city": "",
-      // "zip": "",
-      // "countryId": SetUpController.to.locationDropdown.value['id'],
       "companyName": SetUpController.to.businessName.text.trim(),
-      "locationId": SetUpController.to.locationDropdown.value.toString() == "null" ? 0 : SetUpController.to.locationDropdown.value['id'],
+      "locationId": g365Module == G365Module.merchant
+          ? 233
+          : SetUpController.to.locationDropdown.value.toString() == "null"
+          ? 0
+          : SetUpController.to.locationDropdown.value['id'],
       "industryId": BusinessProfileController.to.industryDropdown.value.toString() == "null" ? 0 : BusinessProfileController.to.industryDropdown.value['id'],
-      "stateId": BusinessProfileController.to.stateDropdown.value.toString() == "null" ? 0 : BusinessProfileController.to.stateDropdown.value['id'],
+      "stateId": g365Module == G365Module.merchant
+          ? 4872
+          : BusinessProfileController.to.stateDropdown.value.toString() == "null"
+          ? 0
+          : BusinessProfileController.to.stateDropdown.value['id'],
       "address": "",
       "currencyId": 1,
       // BusinessProfileController.to.currencyDropdown.value['id'],
@@ -99,13 +96,13 @@ class SoftwareInfoController extends GetxController {
       // BusinessProfileController.to.languageDropdown.value['id'],
       "timeZoneId": 1,
       // BusinessProfileController.to.timezoneDropdown.value['id'],
-      "previouslyUsedSolutionId": selectedSoftwareId.value,
-      "packageId": -1,
+      "previouslyUsedSolutionId": g365Module == G365Module.merchant ? 1 : selectedSoftwareId.value,
+      "packageId": 23,
       "addressLineOne": BusinessProfileController.to.tecaddressLine1.text.trim(),
       "addressLineTwo": BusinessProfileController.to.tecaddressLine2.text.trim(),
       "city": BusinessProfileController.to.tecCity.text.trim(),
       "zip": BusinessProfileController.to.tecZip.text.trim(),
-      "phoneNo": BusinessProfileController.to.phoneNumber.text.trim(),
+      "phoneNo": SetUpController.to.phoneNumberWithoutFormate,
     };
     // try {
     //   GProgressDialog(context).show();
@@ -114,12 +111,14 @@ class SoftwareInfoController extends GetxController {
 
     //   // TODO
     // }
-    gLogger("Before Calling API");
+    gLogger("Before Calling API$data");
     try {
       GProgressDialog(context).show();
       ResponseModel response = await APIsCallPost.submitRequest('Companies/RegisterCompany', data);
       GProgressDialog(context).hide();
       dynamic responseData = jsonDecode(response.data);
+      gLogger("Company Res");
+      gLogger(responseData);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         // AutoRouter.of(context).push(const FinalizeSignupRoute());
@@ -136,7 +135,8 @@ class SoftwareInfoController extends GetxController {
             GToast.error("Company ID not found in response", context);
             return;
           }
-          setupMerchantAccount(context);
+          GNav.pushNav(context, GRouteConfig.dashboard);
+       
         } else {
           GToast.succss(responseData['message'] ?? "", context);
 
@@ -157,7 +157,7 @@ class SoftwareInfoController extends GetxController {
     if (companyId == null || companyId.isEmpty) {
       companyId = companyIdTemp.toString();
     }
-    gLogger("INSIDE THE setupMerchantAccount");
+    gLogger("INSIDE THE setupMerchantAccount Users/GetProfileLink?CompanyId=${companyId}");
     GProgressDialog(context).show();
 
     ResponseModel response = await APIsCallGet.getData("Users/GetProfileLink?CompanyId=${companyId}");
@@ -167,11 +167,14 @@ class SoftwareInfoController extends GetxController {
       gLogger("API Response: ${templist}");
       if (templist["payload"] != null) {
         String url = templist["payload"]["url"];
-
-        if (!await launchUrl(Uri.parse(url), mode: LaunchMode.inAppBrowserView, webOnlyWindowName: "_self")) {
-          GProgressDialog(context).hide();
-          throw Exception('Could not launch $url');
-        }
+        // if (kIsWeb) {
+        //   if (!await launchUrl(Uri.parse(url), mode: LaunchMode.inAppBrowserView, webOnlyWindowName: "_self")) {
+        //     GProgressDialog(context).hide();
+        //     throw Exception('Could not launch $url');
+        //   }
+        // } else {
+        GNav.pushNavWithExtra(context, GRouteConfig.completemerchantprocess, {"url": url});
+        // }
       } else {
         GToast.error("No payload found", context);
       }

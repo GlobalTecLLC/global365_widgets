@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:global365_widgets/src/authentication/authentication_routes.dart';
-import 'package:global365_widgets/src/utils/Services/ResponseModel/resonse_model.dart';
+import 'package:global365_widgets/src/utils/services/response_model/resonse_model.dart';
 import 'package:global365_widgets/src/utils/Services/post_requests.dart';
 import 'package:global365_widgets/src/utils/api_client/api_client.dart';
 import 'package:global365_widgets/src/utils/go_routes.dart';

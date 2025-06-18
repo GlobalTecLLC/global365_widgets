@@ -7,7 +7,7 @@ import 'package:global365_widgets/src/utils/print_log.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
-import 'ResponseModel/resonse_model.dart';
+import 'package:global365_widgets/src/utils/services/response_model/resonse_model.dart';
 
 class APIsCallPut {
   static Future<ResponseModel> updateRequestWithIdwithoutbody(String requestUrl) async {

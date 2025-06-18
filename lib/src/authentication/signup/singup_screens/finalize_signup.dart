@@ -30,7 +30,7 @@ class FinalizeSignup extends StatelessWidget {
           SizedBox(
             width: 282,
             height: 56,
-            child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill, package: packageName),
+            child: SvgPicture.asset(getModuleLogo(), fit: BoxFit.fill, package: packageName),
           ),
           SizedBox(height: 55),
           Text(

@@ -199,6 +199,20 @@ class GAppStyle {
   static TextStyle style15w500({Color color = titleColor}) {
     return TextStyle(color: color, fontSize: 15, fontFamily: 'Montserrat', fontWeight: FontWeight.w500);
   }
+  static TextStyle style15w400({Color color = titleColor}) {
+    return TextStyle(color: color, fontSize: 15, fontFamily: 'Montserrat', fontWeight: FontWeight.w400);
+  }
+
+  static TextStyle style15w600({Color color = titleColor, bool isUnderLine = false}) {
+    return TextStyle(
+      color: color,
+      fontSize: 15,
+      fontFamily: 'Montserrat',
+      fontWeight: FontWeight.w600,
+      decoration: isUnderLine ? TextDecoration.underline : TextDecoration.none,
+      decorationColor: color,
+    );
+  }
 
   // static TextStyle style16w600({Color color = titleColor}) {
   //   return TextStyle(

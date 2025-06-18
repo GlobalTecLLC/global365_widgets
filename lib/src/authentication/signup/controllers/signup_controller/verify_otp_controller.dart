@@ -8,9 +8,8 @@ import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/sign_up_controller.dart';
 import 'package:global365_widgets/src/constants/globals.dart';
-import 'package:global365_widgets/src/utils/Services/ResponseModel/resonse_model.dart';
-import 'package:global365_widgets/src/utils/Services/post_requests.dart';
-import 'package:global365_widgets/src/utils/Services/put_requests.dart';
+import 'package:global365_widgets/src/utils/services/response_model/resonse_model.dart';
+
 import 'package:global365_widgets/src/utils/api_client/api_client.dart';
 import 'package:global365_widgets/src/utils/go_routes.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
@@ -35,18 +34,20 @@ class VerifyOtpController extends GetxController {
     gLogger("INSIDE VERIFY OTP API CALL");
     String otpString = otp.join();
     isLoading.value = true;
-   ResponseModel response =
-        await APIsCallPut.updateRequestWithIdwithoutbody("Users/ConfirmVerificationCode?Email=${SignUpController.to.tecEmail.text.trim()}&VerificationCode=$otpString");
+    ResponseModel response = await APIsCallPut.updateRequestWithIdwithoutbody(
+      "Users/ConfirmVerificationCode?Email=${SignUpController.to.tecEmail.text.trim()}&VerificationCode=$otpString",
+    );
     isLoading.value = false;
     if (response.statusCode == 200 || response.statusCode == 201) {
       dynamic decodedData = jsonDecode(response.data);
       String accessToken1 = decodedData["payload"]["token"];
-      accessToken= accessToken1;
+      accessToken = accessToken1;
       gLogger("accessToken: $accessToken");
-      // AutoRouter.of(context).push(const SetUpScreenRoute());
-      // AutoRouter.of(context).push(const PaymentInfoRoute());
-      GNav.pushNav(context, GRouteConfig.paymentInfoRoute); 
-      // AutoRouter.of(context).push(const PaymentInfoRoute());
+      if (g365Module == G365Module.merchant) {
+        GNav.pushNav(context, GRouteConfig.setUpScreenRoute);
+      } else {
+        GNav.pushNav(context, GRouteConfig.paymentInfoRoute);
+      }
 
       gLogger("API Response: ${response.data}");
     } else {
@@ -58,7 +59,9 @@ class VerifyOtpController extends GetxController {
   resendOTP(context) async {
     gLogger("INSIDE RESEND OTP API CALL");
     GProgressDialog(context).show();
-   ResponseModel response = await APIsCallPost.submitRequestWithOutBody("Users/ResendVerificationCode?Email=${SignUpController.to.tecEmail.text.trim()}");
+    ResponseModel response = await APIsCallPost.submitRequestWithOutBody(
+      "Users/ResendVerificationCode?Email=${SignUpController.to.tecEmail.text.trim()}",
+    );
     GProgressDialog(context).hide();
     if (response.statusCode == 200 || response.statusCode == 201) {
       gLogger("API Response: ${response.data}");

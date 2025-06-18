@@ -69,7 +69,7 @@ class _PaymentInfoState extends State<PaymentInfo> {
           SizedBox(
             width: 282,
             height: 56,
-            child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill, package: packageName),
+            child: SvgPicture.asset(getModuleLogo(), fit: BoxFit.fill, package: packageName),
           ),
           SizedBox(height: 40),
           GTextHeading2("Enter Payment Information"),

@@ -11,6 +11,7 @@ import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/constants/globals.dart';
 import 'package:global365_widgets/src/textfileds/my_login_text_field.dart';
+import 'package:global365_widgets/src/textfileds/usphonenumer_filed.dart';
 import 'package:global365_widgets/src/utils/go_routes.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 
@@ -79,33 +80,7 @@ class _SetUpScreenState extends State<SetUpScreen> {
               child: SingleChildScrollView(child: Column(children: [createAccountWidget(context, controller)])),
             ),
           ),
-          // Positioned(
-          //   top: height / 1.28,
-          //   left: width / 2.3,
-          //   child: Row(
-          //     children: [
-          //       Text(
-          //         "Already have an account?",
-          //         style: TextStyle(fontFamily: 'Montserrat', fontWeight: FontWeight.w600, fontSize: 16, color: whiteColor),
-          //       ),
-          //       InkWell(
-          //         onTap: () {
-          //           AutoRouter.of(context).push(const LoginPageUSARoute());
-          //         },
-          //         child: Text(
-          //           " Login here",
-          //           style: TextStyle(
-          //               fontFamily: 'Montserrat',
-          //               fontWeight: FontWeight.w600,
-          //               fontSize: 16,
-          //               color: secondaryColorOrange,
-          //               decoration: TextDecoration.underline,
-          //               decorationColor: secondaryColorOrange),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
+       
         ],
       ),
     );
@@ -120,7 +95,7 @@ class _SetUpScreenState extends State<SetUpScreen> {
           SizedBox(
             width: 282,
             height: 56,
-            child: SvgPicture.asset('assets/svg/countylogo.svg', fit: BoxFit.fill, package: packageName),
+            child: SvgPicture.asset(getModuleLogo(), fit: BoxFit.fill, package: packageName),
           ),
           SizedBox(height: 40),
           GTextHeading2(
@@ -136,6 +111,19 @@ class _SetUpScreenState extends State<SetUpScreen> {
             hintText: "Enter Name",
           ),
           GSizeH(20),
+          if (g365Module == G365Module.merchant)
+            USPhoneNumberField(
+              controller: SetUpController.to.phoneNumber,
+              hintText: 'Enter your phone number',
+              labelText: "Phone Number",
+              isRequired: true,
+              borderRadius: 5,
+              onChanged: (fullNumber) {},
+              onSubmitted: (value) {
+                // Handle form submission
+              },
+            ),
+          if (g365Module != G365Module.merchant)
           Obx(
             () => SizedBox(
               width: 540,
@@ -160,6 +148,7 @@ class _SetUpScreenState extends State<SetUpScreen> {
                     ),
             ),
           ),
+         
           SizedBox(height: 30),
           _submitButton(context),
           GSizeH(80),
@@ -174,19 +163,22 @@ class _SetUpScreenState extends State<SetUpScreen> {
         gLogger("Let's get your setup called and ${SetUpController.to.locationDropdown.value}");
         if (SetUpController.to.businessName.text.isEmpty) {
           GToast.error("Enter Business Name", context);
-        } else if (SetUpController.to.locationDropdown.value == null) {
+        } else if (SetUpController.to.locationDropdown.value == null && g365Module != G365Module.merchant) {
           GToast.error("Select Bussiness Location", context);
+        } else if (SetUpController.to.phoneNumber.text.length < 14 && g365Module == G365Module.merchant) {
+          GToast.error("Enter a valid 10 digit phone number", context);
         } else {
-          // AutoRouter.of(context).push(const BusinessProfileSetupRoute());
-          GNav.pushNav(context, GRouteConfig.businessProfileSetupRoute); 
+          if (g365Module == G365Module.merchant) {
+            Get.put(SoftwareInfoController());
+            final text = SetUpController.to.phoneNumber.text;
+            final digitsOnly = text.replaceAll(RegExp(r'[^\d]'), '');
+            SetUpController.to.phoneNumberWithoutFormate = "1$digitsOnly";
+            SoftwareInfoController.to.signUp(context);
+          } else {
+            GNav.pushNav(context, GRouteConfig.businessProfileSetupRoute); 
         }
-        // _showMyDialogLoader("");
-        // if (SetUpController.to.formKey.currentState!.validate()) {
-        //   AutoRouter.of(context).push(const BusinessProfileSetupRoute());
-        // }
-
-        // Navigator.push(
-        //     context, MaterialPageRoute(builder: (context) => DashBoard()));
+        }
+       
       },
       child: Container(
         height: 48,
