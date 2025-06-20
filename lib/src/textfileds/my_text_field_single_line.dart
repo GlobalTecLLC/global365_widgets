@@ -123,7 +123,7 @@ class GTextFieldForSingleLine extends StatelessWidget {
           decoration: BoxDecoration(
             color: containerColor,
             borderRadius: BorderRadius.circular(isFieldForTable ? 0 : Branding.tFborderR),
-            border: Border.all(width: isFieldForTable ? 0.5 : 1, color: isRequired ? Colors.transparent : borderColor),
+            border: Border.all(width: isFieldForTable ? 0.5 : 1, color: borderColor),
           ),
           width: containerWidth,
           height: isCustomHeight ? containerHeight : Branding.tFHeight,
