@@ -34,6 +34,7 @@ class GTextFieldForSingleLine extends StatelessWidget {
   final bool isFilled;
   final bool isCustomHeight;
   final double? paddingBelowHeading;
+  final bool isInValid;
 
   final double? containerHeight;
   final double? containerWidth;
@@ -82,6 +83,7 @@ class GTextFieldForSingleLine extends StatelessWidget {
     this.fontSizeForLabel,
     this.isFieldForTable = false,
     this.paddingBelowHeading,
+    this.isInValid = false,
   });
 
   @override
@@ -123,7 +125,7 @@ class GTextFieldForSingleLine extends StatelessWidget {
           decoration: BoxDecoration(
             color: containerColor,
             borderRadius: BorderRadius.circular(isFieldForTable ? 0 : Branding.tFborderR),
-            border: Border.all(width: isFieldForTable ? 0.5 : 1, color: borderColor),
+            border: Border.all(width: isFieldForTable ? 0.5 : 1, color: isInValid ? Colors.red : borderColor),
           ),
           width: containerWidth,
           height: isCustomHeight ? containerHeight : Branding.tFHeight,
