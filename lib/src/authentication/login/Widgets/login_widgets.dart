@@ -204,7 +204,9 @@ Widget emailPasswordWidget(BuildContext context) {
                   ),
                 ),
                 GSizeH(30),
-                (!LoginController.to.loogingIn.value) ? _submitButton(context) : _submitButtonProcess(context),
+                (!LoginController.to.loogingIn.value)
+                    ? _submitButton(context)
+                    : _submitButtonProcess(context),
               ],
             ),
           ),

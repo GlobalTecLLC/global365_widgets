@@ -7,14 +7,16 @@ import 'package:global365_widgets/src/constants/constants.dart';
 
 import '../Widgets/login_widgets.dart';
 
-class LoginPageWidget extends StatefulWidget {
-  const LoginPageWidget({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+
 
   @override
-  State<LoginPageWidget> createState() => _LoginPageWidgetState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageWidgetState extends State<LoginPageWidget> {
+class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
@@ -111,7 +113,6 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                   ),
                 ),
               ),
-            
             ],
           ),
         ),

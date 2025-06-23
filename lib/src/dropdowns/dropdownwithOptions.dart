@@ -120,7 +120,7 @@ class GCustomDropdownButton extends StatelessWidget {
                   ),
                 )
               : GCustomIcon(
-                  svgPath: 'assets/icons/usa/row_setting.svg',
+                  svgPath: 'assets/icons/row_setting.svg',
                   size: size ?? 25,
                   padding: const EdgeInsets.all(5),
                   isOnDark: isonDark,

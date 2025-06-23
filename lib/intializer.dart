@@ -5,10 +5,12 @@ import 'package:global365_widgets/src/utils/api_constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Global365Widgets {
-  static init(String baseUrl, G365Module module, SharedPreferences prefsTemp) {
+  static late Function(dynamic) loginCallBack;
+  static init(String baseUrl, G365Module module, SharedPreferences prefsTemp, Function(dynamic) loginCallBackFunction) {
     if (!Get.isRegistered<LoginController>()) {
       Get.put(LoginController());
     }
+    loginCallBack = loginCallBackFunction;
     prefs = prefsTemp;
     ApiConstant.baseUrl = baseUrl;
     apiLink = baseUrl;

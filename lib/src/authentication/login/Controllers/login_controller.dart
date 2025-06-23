@@ -76,6 +76,7 @@ class LoginController extends GetxController {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       loginResponsehandler(context, decodedData);
+    
     } else {
       loogingIn.value = false;
 
@@ -85,6 +86,7 @@ class LoginController extends GetxController {
 
   loginResponsehandler(context, dynamic decodedData) async {
     accessToken = (decodedData["payload"] ?? {})["token"];
+    Global365Widgets.loginCallBack((decodedData["payload"] ?? {}));
     gLogger(((decodedData["payload"] ?? {})["userPreferences"]));
     //     PreferencesData.myPreferencesGeneral = ((decodedData["payload"] ?? {})["userPreferences"]) == null
     //         ? PreferencesData.myPreferencesGeneral
