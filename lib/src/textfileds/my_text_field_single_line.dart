@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:global365_widgets/src/constants/branding.dart';
 
 import '../constants/constants.dart';
@@ -40,6 +41,7 @@ class GTextFieldForSingleLine extends StatelessWidget {
   final double? containerWidth;
   final double? fontSizeForAll;
   final double? fontSizeForLabel;
+  final List<TextInputFormatter>? inputFormatters;
 
   final TextStyle? textStyleOfAll;
   final bool isFieldForTable;
@@ -84,6 +86,7 @@ class GTextFieldForSingleLine extends StatelessWidget {
     this.isFieldForTable = false,
     this.paddingBelowHeading,
     this.isInValid = false,
+    this.inputFormatters,
   });
 
   @override
@@ -138,6 +141,7 @@ class GTextFieldForSingleLine extends StatelessWidget {
               cursorColor: Colors.black,
               enabled: isEnabled,
               style: GTextFiledTheme.textStyle(fontSizeForAll),
+              inputFormatters: inputFormatters,
               maxLines: maxLine,
               decoration: GTextFiledTheme.inputDecoration(
                 fontSizeForAll: fontSizeForAll,
