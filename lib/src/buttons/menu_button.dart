@@ -248,6 +248,36 @@ class GCustomMenuButton extends StatelessWidget {
   }
 
   IconData getIcon(e) {
+    if (e.toString().toLowerCase().contains("view")) {
+      return BootstrapIcons.eye;
+    }
+    if (e.toString().toLowerCase().contains("edit")) {
+      return BootstrapIcons.pencil;
+    }
+    if (e.toString().toLowerCase().contains("delete")) {
+      return BootstrapIcons.trash;
+    }
+    if (e.toString().toLowerCase().contains("add")) {
+      return BootstrapIcons.plus;
+    }
+    if (e.toString().toLowerCase().contains("email")) {
+      return BootstrapIcons.envelope;
+    }
+    if (e.toString().toLowerCase().contains("print")) {
+      return BootstrapIcons.printer;
+    }
+    if (e.toString().toLowerCase().contains("export")) {
+      return BootstrapIcons.download;
+    }
+    if (e.toString().toLowerCase().contains("download")) {
+      return BootstrapIcons.download;
+    }
+    if (e.toString().toLowerCase().contains("clone")) {
+      return BootstrapIcons.copy;
+    }
+    if (e.toString().toLowerCase().contains("copy")) {
+      return BootstrapIcons.copy;
+    }
     switch (e) {
       case "All":
         return BootstrapIcons.list_check;
