@@ -26,43 +26,44 @@ class GCustomIcon extends StatelessWidget {
   final Color? iconColor;
   final EdgeInsetsGeometry? padding;
 
+  myWidget(BuildContext context) {
+    return Container(
+      height: size,
+      width: size,
+      padding: iconOnly
+          ? EdgeInsets.zero
+          : (padding ?? ((svgPath == null) ? EdgeInsets.zero : EdgeInsets.all((size / 4.66666666667)))),
+      decoration: iconOnly
+          ? null
+          : BoxDecoration(
+              color: isFilled ? (isOnDark ? borderColor : primaryColor) : Colors.transparent,
+              borderRadius: BorderRadius.circular(4),
+              border: Border.all(
+                color: isOnDark ? Colors.white.withValues(alpha: 0.25) : primaryColor,
+                width: size / 28,
+              ),
+            ),
+      child: svgPath != null
+          ? SvgPicture.asset(
+              svgPath ?? "assets/icons/edit.svg",
+              colorFilter: ColorFilter.mode(
+                iconColor ??
+                    (isFilled ? (isOnDark ? borderColor : whiteColor) : (isOnDark ? borderColor : primaryColor)),
+                BlendMode.srcIn,
+              ),
+            )
+          : Icon(
+              icon,
+              color:
+                  iconColor ??
+                  (isFilled ? (isOnDark ? borderColor : whiteColor) : (isOnDark ? borderColor : primaryColor)),
+              size: iconOnly ? size : (size - ((size / 4.66666666667) * 2)),
+            ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        height: size,
-        width: size,
-        padding: iconOnly
-            ? EdgeInsets.zero
-            : (padding ?? ((svgPath == null) ? EdgeInsets.zero : EdgeInsets.all((size / 4.66666666667)))),
-        decoration: iconOnly
-            ? null
-            : BoxDecoration(
-                color: isFilled ? (isOnDark ? borderColor : primaryColor) : Colors.transparent,
-                borderRadius: BorderRadius.circular(4),
-                border: Border.all(
-                  color: isOnDark ? Colors.white.withValues(alpha: 0.25) : primaryColor,
-                  width: size / 28,
-                ),
-              ),
-        child: svgPath != null
-            ? SvgPicture.asset(
-                svgPath ?? "assets/icons/edit.svg",
-                colorFilter: ColorFilter.mode(
-                  iconColor ??
-                      (isFilled ? (isOnDark ? borderColor : whiteColor) : (isOnDark ? borderColor : primaryColor)),
-                  BlendMode.srcIn,
-                ),
-              )
-            : Icon(
-                icon,
-                color:
-                    iconColor ??
-                    (isFilled ? (isOnDark ? borderColor : whiteColor) : (isOnDark ? borderColor : primaryColor)),
-                size: iconOnly ? size : (size - ((size / 4.66666666667) * 2)),
-              ),
-      ),
-    );
+    return (onTap == null) ? myWidget(context) : InkWell(onTap: onTap, child: myWidget(context));
   }
 }

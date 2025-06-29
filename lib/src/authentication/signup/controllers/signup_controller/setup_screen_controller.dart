@@ -23,4 +23,7 @@ class SetUpController extends GetxController {
   String locationDropdownId = "233";
   String statusId = "4842";
   DropdownEditingController<dynamic> locationDropdown = DropdownEditingController();
+
+  bool isExistingCompany=false;
+  String existingCompany = "0";
 }

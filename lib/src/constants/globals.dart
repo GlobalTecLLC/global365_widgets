@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/intializer.dart';
 import 'package:global365_widgets/src/constants/branding.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
+import 'package:global365_widgets/src/theme/text_widgets/text_variants/text_heading1.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String packageName = "global365_widgets";
@@ -89,3 +91,94 @@ Widget globalSpinkitForLoaderswithBorder({bool isLessHeightLoader = false, doubl
 String getModuleLogo() {
   return g365Module == G365Module.merchant ? "assets/svg/logomerchant.svg" : 'assets/svg/countylogo.svg';
 }
+Widget g365NetworkImage(
+  String url,
+  double height,
+  double width, {
+  BoxFit? fit = BoxFit.cover,
+  Function? onTap,
+  String placeHolderName = "",
+}) {
+  return FadeInImage(
+    height: height,
+    width: width,
+    fit: fit,
+    imageErrorBuilder: (context, e, stackTrace) => widgetTextPlaceHolder(placeHolderName: placeHolderName),
+    image: NetworkImage(url),
+    placeholder: const AssetImage('assets/imgs/logo2.png'),
+  );
+}
+
+Widget widgetTextPlaceHolder({String placeHolderName = ""}) {
+  String placeHolder = "";
+  if (placeHolderName != "") {
+    try {
+      if (placeHolderName.isNotEmpty) {
+        List companynameList = placeHolderName.split(" ");
+        if (companynameList.length > 1) {
+          String a = companynameList[0];
+          String b = companynameList[1];
+          if (a.isNotEmpty) {
+            placeHolder += a.substring(0, 1);
+          }
+          if (b.isNotEmpty) {
+            placeHolder += b.substring(0, 1);
+          }
+        } else {
+          if (companynameList.length == 1) {
+            placeHolder += companynameList[0].toString().substring(0, 1);
+          }
+        }
+      } else {
+        placeHolder = "T";
+      }
+    } catch (e) {
+      placeHolder = "T";
+    }
+    return SizedBox(
+      // color: mainColorPrimaryYellow.withOpacity(0.2),
+      height: 30,
+      width: 30,
+      child: CircleAvatar(
+        radius: 15,
+        backgroundColor: Colors.transparent,
+        child: Center(child: Opacity(opacity: 1, child: GTextHeading3(placeHolder))),
+      ),
+    );
+  } else {
+    try {
+      if (companyname.isNotEmpty) {
+        List companynameList = companyname.split(" ");
+        if (companynameList.length > 1) {
+          String a = companynameList[0];
+          String b = companynameList[1];
+          if (a.isNotEmpty) {
+            placeHolder += a.substring(0, 1);
+          }
+          if (b.isNotEmpty) {
+            placeHolder += b.substring(0, 1);
+          }
+        } else {
+          if (companynameList.length == 1) {
+            placeHolder += companynameList[0].toString().substring(0, 1);
+          }
+        }
+      } else {
+        placeHolder = "T";
+      }
+    } catch (e) {
+      placeHolder = "T";
+    }
+    return SizedBox(
+      // color: mainColorPrimaryYellow.withOpacity(0.2),
+      height: 30,
+      width: 30,
+      child: CircleAvatar(
+        radius: 15,
+        backgroundColor: mainColorPrimaryYellow.withOpacity(0.2),
+        child: Center(child: Opacity(opacity: 0.5, child: GTextHeading3(placeHolder))),
+      ),
+    );
+  }
+}
+

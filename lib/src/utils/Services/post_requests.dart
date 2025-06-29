@@ -22,11 +22,7 @@ class APIsCallPost {
 
       final response = await http.post(
         Uri.parse(apiLink + requestUrl),
-        headers: <String, String>{
-          'Accept': 'application/json',
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': "$tokenType $accessToken",
-        },
+        headers: <String, String>{'Accept': 'application/json', 'Content-Type': 'application/json; charset=UTF-8', 'Authorization': "$tokenType $accessToken"},
         body: jsonEncode(data),
       );
       // print(response.body);
@@ -49,11 +45,7 @@ class APIsCallPost {
     }
   }
 
-  static Future<ResponseModel> submitRequestWithFile(
-    String requestUrl,
-    Map<String, String>? data,
-    List<MultiPartFileModel> list,
-  ) async {
+  static Future<ResponseModel> submitRequestWithFile(String requestUrl, Map<String, String>? data, List<MultiPartFileModel> list) async {
     try {
       // print(tokenType + " " + accessToken);
       gLogger("Data of the image is:${list.length}");
@@ -68,12 +60,7 @@ class APIsCallPost {
         final fileBytes = list[i].fileBytes;
         final fileName = list[i].fileName;
         // final mimeType = list[i].mimeType;
-        final multipartFile = http.MultipartFile.fromBytes(
-          'file',
-          fileBytes,
-          filename: fileName,
-          contentType: MediaType.parse("image/png"),
-        );
+        final multipartFile = http.MultipartFile.fromBytes('file', fileBytes, filename: fileName, contentType: MediaType.parse("image/png"));
         request.files.add(multipartFile);
       }
 
@@ -145,14 +132,7 @@ class APIsCallPost {
       }
 
       // Add the PDF file
-      request.files.add(
-        http.MultipartFile.fromBytes(
-          'attachment',
-          pdfData,
-          filename: reportType,
-          contentType: MediaType('application', 'pdf'),
-        ),
-      );
+      request.files.add(http.MultipartFile.fromBytes('attachment', pdfData, filename: reportType, contentType: MediaType('application', 'pdf')));
 
       request.headers.addAll(headers);
 
@@ -225,11 +205,7 @@ class APIsCallPost {
 
       final response = await http.post(
         Uri.parse(apiLink + requestUrl),
-        headers: <String, String>{
-          'Accept': 'application/json',
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': "$tokenType $accessToken",
-        },
+        headers: <String, String>{'Accept': 'application/json', 'Content-Type': 'application/json; charset=UTF-8', 'Authorization': "$tokenType $accessToken"},
         // body: jsonEncode(data),
       );
 

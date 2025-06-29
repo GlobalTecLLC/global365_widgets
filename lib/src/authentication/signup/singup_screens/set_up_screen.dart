@@ -23,7 +23,7 @@ class SetUpScreen extends StatefulWidget {
 }
 
 class _SetUpScreenState extends State<SetUpScreen> {
-  final SetUpController controller = Get.put(SetUpController());
+  late final SetUpController controller;
 
   final BusinessProfileController businessController = Get.put(BusinessProfileController());
 
@@ -35,9 +35,17 @@ class _SetUpScreenState extends State<SetUpScreen> {
     } else {
       Get.put(SignUpController());
     }
+    if (Get.isRegistered<SetUpController>()) {
+      controller = Get.find<SetUpController>();
+    } else {
+      controller = Get.put(SetUpController());
+    }
     BusinessProfileController.to.getLocationsDropDown(context);
-    SetUpController.to.businessName.text = '';
-    SetUpController.to.locationDropdown.value = null;
+    if (!controller.isExistingCompany) {
+      controller.businessName.text = '';
+    }
+
+    controller.locationDropdown.value = null;
     BusinessProfileController.to.getDropDownsData(context);
     BusinessProfileController.to.industryDropdown.value = null;
     BusinessProfileController.to.languageDropdown.value = null;
@@ -107,13 +115,13 @@ class _SetUpScreenState extends State<SetUpScreen> {
             showheading: true,
             labelText: "Organization/Business Display Name",
             isRequired: true,
-            controller: SetUpController.to.businessName,
+            controller: controller.businessName,
             hintText: "Enter Name",
           ),
           GSizeH(20),
           if (g365Module == G365Module.merchant)
             USPhoneNumberField(
-              controller: SetUpController.to.phoneNumber,
+              controller: controller.phoneNumber,
               hintText: 'Enter your phone number',
               labelText: "Phone Number",
               isRequired: true,
@@ -127,22 +135,22 @@ class _SetUpScreenState extends State<SetUpScreen> {
           Obx(
             () => SizedBox(
               width: 540,
-              child: SetUpController.to.isUpdatingCOntroller.isTrue
+                child: controller.isUpdatingCOntroller.isTrue
                   ? Container(height: 78)
                   : BusinessLocationDropdown(
                       containerHeight: 56,
                       offset: const Offset(0, 40),
-                      controller: SetUpController.to.locationDropdown,
-                      partyId: SetUpController.to.locationDropdownId,
+                        controller: controller.locationDropdown,
+                        partyId: controller.locationDropdownId,
                       label: 'Organization/Business Location',
                       isNotHistory: true,
                       isUpdate: true,
                       onChanged: (item) {
                         BusinessProfileController.to.statesList.clear();
                         BusinessProfileController.to.selectedLocationId.value =
-                            SetUpController.to.locationDropdown.value["id"];
+                              controller.locationDropdown.value["id"];
                         BusinessProfileController.to.getStatesData(context);
-                        SetUpController.to.updationControllerFunctin();
+                          controller.updationControllerFunctin();
                         gLogger("LocationId: ${BusinessProfileController.to.selectedLocationId.value}");
                       },
                     ),
@@ -160,19 +168,19 @@ class _SetUpScreenState extends State<SetUpScreen> {
   Widget _submitButton(BuildContext context) {
     return InkWell(
       onTap: () {
-        gLogger("Let's get your setup called and ${SetUpController.to.locationDropdown.value}");
-        if (SetUpController.to.businessName.text.isEmpty) {
+        gLogger("Let's get your setup called and ${controller.locationDropdown.value}");
+        if (controller.businessName.text.isEmpty) {
           GToast.error("Enter Business Name", context);
-        } else if (SetUpController.to.locationDropdown.value == null && g365Module != G365Module.merchant) {
+        } else if (controller.locationDropdown.value == null && g365Module != G365Module.merchant) {
           GToast.error("Select Bussiness Location", context);
-        } else if (SetUpController.to.phoneNumber.text.length < 14 && g365Module == G365Module.merchant) {
+        } else if (controller.phoneNumber.text.length < 14 && g365Module == G365Module.merchant) {
           GToast.error("Enter a valid 10 digit phone number", context);
         } else {
           if (g365Module == G365Module.merchant) {
             Get.put(SoftwareInfoController());
-            final text = SetUpController.to.phoneNumber.text;
+            final text = controller.phoneNumber.text;
             final digitsOnly = text.replaceAll(RegExp(r'[^\d]'), '');
-            SetUpController.to.phoneNumberWithoutFormate = "1$digitsOnly";
+            controller.phoneNumberWithoutFormate = "1$digitsOnly";
             SoftwareInfoController.to.signUp(context);
           } else {
             GNav.pushNav(context, GRouteConfig.businessProfileSetupRoute); 

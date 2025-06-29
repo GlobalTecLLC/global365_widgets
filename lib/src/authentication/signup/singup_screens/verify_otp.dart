@@ -148,7 +148,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
           Obx(
             () => otpController.isLoading.value
                 ? _submitButtonProcess(context)
-                : GestureDetector(
+                : InkWell(
                     onTap: otpController.isButtonEnabled.value
                         ? () {
                             otpController.verifyOTP(context);

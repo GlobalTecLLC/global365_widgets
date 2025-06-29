@@ -1,3 +1,4 @@
+import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -189,9 +190,10 @@ class _GDateTextFiledState extends State<GDateTextFiled> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 6),
-                  child: SvgPicture.asset(
-                    AppAssets.calendarIcon,
-                    colorFilter: ColorFilter.mode(primaryColor, BlendMode.srcIn),
+                  child: Icon(
+                    BootstrapIcons.calendar2,
+                    color: widget.isDateChangeAble ? titleColor : placeHolderColor,
+                    size: 16,
                   ),
                 ),
               ),

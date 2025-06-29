@@ -84,7 +84,8 @@ class ToastCard extends StatelessWidget {
                       ? Padding(
                           padding: EdgeInsets.symmetric(vertical: 16),
                           child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+
                             children: [
                               GTextHeading4(title),
                                GSizeW(8),
