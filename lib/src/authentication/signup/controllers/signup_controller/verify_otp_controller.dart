@@ -8,7 +8,7 @@ import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/sign_up_controller.dart';
 import 'package:global365_widgets/src/constants/globals.dart';
-import 'package:global365_widgets/src/utils/services/response_model/resonse_model.dart';
+import 'package:global365_widgets/src/utils/api_services/response_model/resonse_model.dart';
 
 import 'package:global365_widgets/src/utils/api_client/api_client.dart';
 import 'package:global365_widgets/src/utils/go_routes.dart';

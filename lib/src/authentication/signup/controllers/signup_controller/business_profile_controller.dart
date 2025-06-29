@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/constants/globals.dart';
 import 'package:global365_widgets/src/dropdowns/searchabledropdowncustom/dropdown_plus.dart';
-import 'package:global365_widgets/src/utils/services/response_model/resonse_model.dart';
+import 'package:global365_widgets/src/utils/api_services/response_model/resonse_model.dart';
 
 
 import 'package:global365_widgets/src/utils/print_log.dart';

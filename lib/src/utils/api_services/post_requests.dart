@@ -7,9 +7,9 @@ import 'package:global365_widgets/src/utils/print_log.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
-import 'package:global365_widgets/src/utils/services/response_model/resonse_model.dart';
+import 'package:global365_widgets/src/utils/api_services/response_model/resonse_model.dart';
 
-import '../services/response_model/file_model/multipart_file_model.dart';
+import '../api_services/response_model/file_model/multipart_file_model.dart';
 
 class APIsCallPost {
   static Future<ResponseModel> submitRequest(String requestUrl, dynamic data) async {

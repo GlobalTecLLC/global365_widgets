@@ -7,7 +7,7 @@ import 'package:global365_widgets/src/theme/dropdown_theme.dart';
 
 import 'package:global365_widgets/src/utils/api_client/api_client.dart';
 import 'package:global365_widgets/src/constants/globals.dart';
-import 'package:global365_widgets/src/utils/services/get_request.dart';
+import 'package:global365_widgets/src/utils/api_services/get_request.dart';
 
 class BusinessLocationDropdown extends StatefulWidget {
   final bool isNotHistory;

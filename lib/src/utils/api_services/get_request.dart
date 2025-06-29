@@ -1,6 +1,6 @@
 import 'package:global365_widgets/src/constants/globals.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
-import 'package:global365_widgets/src/utils/services/response_model/resonse_model.dart';
+import 'package:global365_widgets/src/utils/api_services/response_model/resonse_model.dart';
 
 import 'package:http/http.dart' as http;
 
