@@ -7,6 +7,8 @@ import 'package:global365_widgets/src/constants/branding.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/theme/text_widgets/text_variants/text_heading1.dart';
+import 'package:global365_widgets/src/utils/print_log.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String packageName = "global365_widgets";
@@ -179,6 +181,42 @@ Widget widgetTextPlaceHolder({String placeHolderName = ""}) {
         child: Center(child: Opacity(opacity: 0.5, child: GTextHeading3(placeHolder))),
       ),
     );
+  }
+  
+}
+
+bool isValidEmail(String email) {
+  String pattern = r'^[a-zA-Z0-9.a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9]+\.[a-zA-Z]+';
+  RegExp regex = RegExp(pattern);
+  return regex.hasMatch(email);
+}
+
+bool isValidUrl(String url) {
+  final Uri? uri = Uri.tryParse(url);
+  gLogger("in the isValidUrl is $uri");
+  return uri != null && (uri.scheme == 'http' || uri.scheme == 'https');
+}
+
+bool isValidPhoneNumber(String phonenumber) {
+  String pattern = r'^[+]?[0-9]{1,4}[ -]?[0-9]{3}[ -]?[0-9]{3}[ -]?[0-9]{3}$';
+  RegExp regexph = RegExp(pattern);
+  return regexph.hasMatch(phonenumber);
+}
+
+String formateDateToSendToApi(String inputDate) {
+  // printLog("formate date function is called data $inputDate");
+  try {
+    // Parse the date string using the expected input format
+    DateFormat inputFormat = DateFormat('MM/dd/yyyy');
+    DateTime dateTime = inputFormat.parse(inputDate);
+
+    // Format the parsed DateTime object to the desired output format
+    DateFormat outputFormat = DateFormat('yyyy-MM-dd');
+    return outputFormat.format(dateTime);
+  } catch (e) {
+    // Handle the exception and return an appropriate message or rethrow
+    print('Error parsing date: $e');
+    return '';
   }
 }
 

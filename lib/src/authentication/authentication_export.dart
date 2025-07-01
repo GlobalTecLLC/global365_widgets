@@ -12,7 +12,7 @@ export 'signup/singup_screens/join_existing_company.dart';
 export 'signup/payment_plan/payment_plan.dart';
 export 'signup/controllers/signup_controller/sign_up_controller.dart';
 export 'signup/controllers/signup_controller/software_info_controller.dart';
-
+export 'my_profile/profile_screen_widget.dart';
 
 //Login 
 
