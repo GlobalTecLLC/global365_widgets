@@ -1,19 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/authentication/login/Controllers/login_controller.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
-import 'package:global365_widgets/src/constants/globals.dart';
-import 'package:global365_widgets/src/textfileds/my_login_text_field.dart';
-import 'package:global365_widgets/src/utils/go_routes.dart';
 
 
 

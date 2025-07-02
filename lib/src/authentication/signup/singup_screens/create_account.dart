@@ -5,12 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/authentication_routes.dart';
-import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/sign_up_controller.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
-import 'package:global365_widgets/src/constants/globals.dart';
-import 'package:global365_widgets/src/textfileds/my_login_text_field.dart';
-import 'package:global365_widgets/src/utils/go_routes.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -104,7 +100,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
           ),
-        
         ],
       ),
     );
@@ -211,8 +206,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SignUpController.to.validatePassword(value);
               },
             ),
-            if (SignUpController.to.isShowValidation.value && SignUpController.to.controllerpassword.text.isNotEmpty)
-              GSizeH(8),
+            if (SignUpController.to.isShowValidation.value && SignUpController.to.controllerpassword.text.isNotEmpty) GSizeH(8),
 
             if (SignUpController.to.isShowValidation.value && SignUpController.to.controllerpassword.text.isNotEmpty)
               Row(
@@ -258,6 +252,62 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Checkbox(
                     checkColor: Colors.white,
                     activeColor: secondaryColorOrange,
+                    value: SignUpController.to.betaTestingAgreement.value,
+                    splashRadius: 0,
+                    side: BorderSide(color: lightBackgroundColor, width: 2),
+                    onChanged: (value) {
+                      // setState(() {
+                      SignUpController.to.betaTestingAgreement.value = !SignUpController.to.betaTestingAgreement.value;
+                      // });
+                    },
+                  ),
+                ),
+                GSizeW(9),
+                Expanded(
+                  child: SizedBox(
+                    // width: 350,
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "I accept ",
+                            style: GAppStyle.style14w600(),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                SignUpController.to.betaTestingAgreement.value = !SignUpController.to.betaTestingAgreement.value;
+                              },
+                          ),
+                          TextSpan(
+                            text: "Beta Testing Agreement",
+                            style: TextStyle(
+                              fontFamily: "Montserrat",
+                              color: secondaryColorOrange,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              decoration: TextDecoration.underline,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                SignUpController.to.launchURL('https://global365.com/beta-agreement');
+                              },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            GSizeH(12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 18,
+                  width: 18,
+                  child: Checkbox(
+                    checkColor: Colors.white,
+                    activeColor: secondaryColorOrange,
                     value: SignUpController.to.checkedValue.value,
                     splashRadius: 0,
                     side: BorderSide(color: lightBackgroundColor, width: 2),
@@ -294,7 +344,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                SignUpController.to.launchURL('https://technupur.com/');
+                                SignUpController.to.launchURL('https://global365.com/services');
                               },
                           ),
                           TextSpan(text: " and ", style: GAppStyle.style14w600()),
@@ -309,7 +359,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                SignUpController.to.launchURL('https://technupur.com/blog');
+                                SignUpController.to.launchURL('https://global365.com/privacyPolicy');
                               },
                           ),
                         ],
@@ -322,7 +372,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SizedBox(height: 20),
             // wrap this condition in obx
             Obx(() => SignUpController.to.isLoading.value ? _submitButtonProcess(context) : _submitButton(context)),
-      
           ],
         ).marginSymmetric(horizontal: 50),
       ),
@@ -337,7 +386,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SignUpController.to.lastName.text.isEmpty ||
             SignUpController.to.tecEmail.text.isEmpty ||
             SignUpController.to.controllerpassword.text.isEmpty ||
-            SignUpController.to.checkedValue.value == false) {
+            SignUpController.to.checkedValue.value == false ||
+            SignUpController.to.betaTestingAgreement.value == false) {
           GToast.error("Please fill all required fields", context);
         } else if (!SignUpController.to.isEmailValid.value) {
           GToast.error("Please enter a valid email", context);
@@ -354,7 +404,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SignUpController.to.tecEmail.text.isNotEmpty &&
                 SignUpController.to.controllerpassword.text.isNotEmpty &&
                 SignUpController.to.checkedValue.value &&
-                SignUpController.to.isEmailValid.value)
+                SignUpController.to.isEmailValid.value &&
+                SignUpController.to.betaTestingAgreement.value)
             ? 1.0
             : 0.5,
         child: Container(
@@ -363,9 +414,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            boxShadow: <BoxShadow>[
-              BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 2),
-            ],
+            boxShadow: <BoxShadow>[BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 2)],
             color: mainColorPrimary,
           ),
           child: GTextHeading4("Create Account", color: whiteColor),
@@ -381,9 +430,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        boxShadow: <BoxShadow>[
-          BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 2),
-        ],
+        boxShadow: <BoxShadow>[BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 2)],
         color: mainColorPrimary,
       ),
       child: SpinKitThreeBounce(color: mainColorSecondry, size: 20),
