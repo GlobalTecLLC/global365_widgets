@@ -36,7 +36,7 @@ class SignUpController extends GetxController {
   }
 
   RxBool checkedValue = false.obs;
-  RxBool betaTestingAgreement
+  RxBool betaTestingAgreement = false.obs;
   RxBool isEmailValid = false.obs;
 
   RxBool isLoading = false.obs;
