@@ -104,6 +104,7 @@ class SoftwareInfoController extends GetxController {
       "city": BusinessProfileController.to.tecCity.text.trim(),
       "zip": BusinessProfileController.to.tecZip.text.trim(),
       "phoneNo": SetUpController.to.phoneNumberWithoutFormate,
+      "planTypeId": 1
     };
     // try {
     //   GProgressDialog(context).show();
