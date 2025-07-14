@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:g365_widgets_user/g365_widgets_user.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/software_info_controller.dart';
@@ -24,29 +25,24 @@ class SoftwareInfoScreen extends StatelessWidget {
     return Container(
       height: height,
       width: width,
-      decoration: const BoxDecoration(color: lightBackgroundColor),
+     
       child: Stack(
         children: [
-          Container(height: height, width: width, color: lightBackgroundColor),
+          const SigninBackground(),
           Center(
-            child: Container(
-              height: 529,
-              width: GResponsive.isMobile(context) ? width - 40 : 1114,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: const [
-                  BoxShadow(
-                    color: const Color.fromARGB(15, 5, 0, 0),
-                    blurRadius: 10,
-                    spreadRadius: 5,
-                    offset: Offset(2, 2),
-                  ),
-                ],
-              ),
-              child: SingleChildScrollView(child: Column(children: [createAccountWidget(context, controller)])),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const AppLogo(height: 50),
+                SizedBox(height: 32),
+
+                ContainerWithShadow(
+                  width: 700,
+                  child: SingleChildScrollView(child: Column(children: [createAccountWidget(context, controller)])),
+                ),
+              ],
             ),
-          ),
+          )
         ],
       ),
     );
@@ -55,42 +51,31 @@ class SoftwareInfoScreen extends StatelessWidget {
   Widget createAccountWidget(BuildContext context, SoftwareInfoController controller) {
     return Column(
       children: [
-        SizedBox(height: 60),
-        SizedBox(
-          width: 282,
-          height: 56,
-          child: SvgPicture.asset(getModuleLogo(), fit: BoxFit.fill, package: packageName),
+  
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const GTextHeading5("Do you use any of the following accounting software?"),
+            GSizeH(16),
+
+            Wrap(
+              spacing: 5.0,
+              runSpacing: 10.0,
+              children: [
+                _buildRadioOption('QuickBooks', 'assets/svg/quick_book.png', controller),
+                _buildRadioOption('Xero', 'assets/svg/xero.png', controller),
+                _buildRadioOption('Sage', 'assets/svg/sage.png', controller),
+                _buildRadioOption('Zoho', 'assets/svg/zoho.png', controller),
+                _buildRadioOption('Quicken', 'assets/svg/quciken.png', controller),
+                _buildRadioOption('NetSuite', 'assets/svg/oracle.png', controller),
+                _buildRadioOption('Excel', 'assets/svg/excel.png', controller),
+                _buildRadioOption('None', 'assets/svg/none.png', controller),
+              ],
+            ),
+            GSizeH(20),
+          ],
         ),
-        SizedBox(height: 40),
-        Container(
-          // height: 130,
-          width: 1050,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: lightBackgroundColor),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const GTextHeading5(
-                "Do you use any of the following accounting software?",
-              ).marginSymmetric(vertical: 20, horizontal: 20),
-              Wrap(
-                spacing: 5.0,
-                runSpacing: 10.0,
-                children: [
-                  _buildRadioOption('QuickBooks', 'assets/svg/quick_book.png', controller),
-                  _buildRadioOption('Xero', 'assets/svg/xero.png', controller),
-                  _buildRadioOption('Sage', 'assets/svg/sage.png', controller),
-                  _buildRadioOption('Zoho', 'assets/svg/zoho.png', controller),
-                  _buildRadioOption('Quicken', 'assets/svg/quciken.png', controller),
-                  _buildRadioOption('NetSuite', 'assets/svg/oracle.png', controller),
-                  _buildRadioOption('Excel', 'assets/svg/excel.png', controller),
-                  _buildRadioOption('None', 'assets/svg/none.png', controller),
-                ],
-              ),
-              GSizeH(20),
-            ],
-          ),
-        ),
-        SizedBox(height: 50),
+        SizedBox(height: 32),
         Row(
           children: [
             Expanded(child: _goBack(context)),
@@ -98,12 +83,9 @@ class SoftwareInfoScreen extends StatelessWidget {
             Expanded(child: _submitButton(context)),
           ],
         ),
-        SizedBox(height: 20),
-        // Center(
-        //   child: TextHeading5("Privacy Policy", color: secondaryColorOrange),
-        // ),
+      
       ],
-    ).marginSymmetric(horizontal: 80);
+    );
   }
 
   Widget _buildRadioOption(String label, String imagePath, SoftwareInfoController controller) {

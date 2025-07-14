@@ -93,7 +93,7 @@ class GLoginEmailField extends StatelessWidget {
             ],
           ),
     
-        if (showheading) GSizeH(5),
+        if (showheading) GSizeH(4),
         Directionality(
           textDirection: TextDirection.ltr,
           child: SizedBox(
@@ -105,7 +105,7 @@ class GLoginEmailField extends StatelessWidget {
               maxLines: maxLine,
               enabled: isEnabled,
               cursorColor: Colors.black,
-              style: GAppStyle.style14w400(color: bodyTextDark),
+              style: GAppStyle.style14w500(color: bodyTextDark),
               decoration: InputDecoration(
                 isDense: true,
                 hintText: hintText ?? 'Enter text here',
@@ -120,15 +120,15 @@ class GLoginEmailField extends StatelessWidget {
                 // ),
                 alignLabelWithHint: true,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(4),
                   borderSide: const BorderSide(width: 1, color: borderColor),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(4),
                   borderSide: const BorderSide(width: 1, color: borderColor),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(4),
                   borderSide: const BorderSide(width: 1, color: borderColor),
                 ),
                 filled: true,
@@ -138,7 +138,7 @@ class GLoginEmailField extends StatelessWidget {
                 prefixIconConstraints: BoxConstraints(maxHeight: 16, maxWidth: 26),
                 suffixIconConstraints: BoxConstraints(maxHeight: 16, maxWidth: 26),
                 fillColor: isEnabled ? whiteColor : lightBackgroundColor,
-                contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 10),
+                contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
               ),
               obscureText: isPassword ? true : false,
               validator: validator as String? Function(String?)?,

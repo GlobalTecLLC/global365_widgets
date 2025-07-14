@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:g365_widgets_user/g365_widgets_user.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/verify_otp_controller.dart';
@@ -36,22 +37,22 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     return Container(
       height: height,
       width: width,
-      decoration: const BoxDecoration(color: lightBackgroundColor),
+    
       child: Stack(
         children: [
-          Container(height: height, width: width, color: lightBackgroundColor),
+          const SigninBackground(),
           Center(
-            child: Container(
-              // height: 572,
-              width: GResponsive.isMobile(context) ? width - 40 : 700,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: const [
-                  BoxShadow(color: Color.fromARGB(15, 5, 0, 0), blurRadius: 10, spreadRadius: 5, offset: Offset(2, 2)),
-                ],
-              ),
-              child: SingleChildScrollView(child: Column(children: [createAccountWidget(context, controller)])),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AppLogo(height: 50),
+                SizedBox(height: 32),
+                ContainerWithShadow(
+                  // height: 572.h,
+                  width: 500,
+                  child: SingleChildScrollView(child: Column(children: [createAccountWidget(context, controller)])),
+                ),
+              ],
             ),
           ),
         ],
@@ -63,27 +64,18 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     return Obx(
       () => Column(
         children: [
-          SizedBox(height: 80),
-          SizedBox(
-            width: 282,
-            height: 56,
-            child: SvgPicture.asset(getModuleLogo(), fit: BoxFit.fill, package: packageName),
-          ),
-          SizedBox(height: 40),
-          Text(
+        
+          GTextHeading2(
             "Verify Your Identity",
-            style: TextStyle(
-              fontFamily: 'Montserrat',
-              fontWeight: FontWeight.w600, fontSize: 24, color: titleColor,
-            ),
+           
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 8),
           const GTextHeading5(
             "We have sent a verification code to your email address.\nPlease enter it here",
             textAlign: TextAlign.center,
             color: bodyTextColor,
           ),
-          SizedBox(height: 40),
+          SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(6, (index) {
@@ -126,7 +118,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
               );
             }),
           ),
-          SizedBox(height: 24),
+          SizedBox(height: 16),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -144,7 +136,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
               ],
             ),
           
-          GSizeH(44),
+          GSizeH(32),
           Obx(
             () => otpController.isLoading.value
                 ? _submitButtonProcess(context)
@@ -157,7 +149,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                     child: Opacity(
                       opacity: otpController.isButtonEnabled.value ? 1 : 0.5,
                       child: Container(
-                        width: 400,
+                    
                         height: 48,
                         decoration: BoxDecoration(color: mainColorPrimary, borderRadius: BorderRadius.circular(6)),
                         child: Center(
@@ -170,17 +162,15 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                     ),
                   ),
           ),
-          GSizeH(80),
+      
         ],
-      ).marginSymmetric(horizontal: GResponsive.isMobile(context) ? 20 : 80),
+      ),
     );
   }
 
   Widget _submitButtonProcess(BuildContext context) {
     return Container(
       height: 48,
-      
-      width: 400,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),

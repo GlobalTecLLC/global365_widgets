@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:g365_widgets_user/g365_widgets_user.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/authentication_routes.dart';
@@ -50,330 +51,293 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Container(
       height: height,
       width: width,
-      decoration: const BoxDecoration(color: lightBackgroundColor),
+    
       child: Stack(
         children: [
-          Container(height: height, width: width, color: lightBackgroundColor),
+          const SigninBackground(),
           Center(
-            child: Container(
-              // height: 800,
-              width: GResponsive.isMobile(context) ? width - 40 : 700,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: const [
-                  BoxShadow(color: Color.fromARGB(15, 5, 0, 0), blurRadius: 10, spreadRadius: 5, offset: Offset(2, 2)),
-                ],
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    createAccountWidget(context),
-                    SizedBox(height: 10),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Already have a Global365 account?", style: GAppStyle.style14w400()),
-                        InkWell(
-                          onTap: () {
-                            // AutoRouter.of(context).push(const LoginPageUSARoute());
-                            GNav.pushNav(context, GRouteConfig.loginUsaPageRoute);
-                          },
-                          child: Text(
-                            " Sign In",
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                              color: secondryCOlorText,
-                              decoration: TextDecoration.underline,
-                              decorationColor: secondryCOlorText,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 50),
-                  ],
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const AppLogo(height: 50),
+                SizedBox(height: 32),
+                ContainerWithShadow(
+                  width: 500,
+
+                  // height: 800.h,
+                  child: SingleChildScrollView(child: Column(children: [createAccountWidget(context)])),
                 ),
-              ),
+              ],
             ),
           ),
+        
         ],
       ),
     );
   }
-
   Widget createAccountWidget(BuildContext context) {
     return Obx(
-      () => Form(
-        key: SignUpController.to.formKey,
-        child: Column(
-          children: [
-            SizedBox(height: 50),
-            SizedBox(
-              width: 282,
-              height: 56,
-              child: SvgPicture.asset(getModuleLogo(), fit: BoxFit.fill, package: packageName),
+      () => Column(
+        children: [
+        
+          const GTextHeading2("Create Your Account Today"),
+          SizedBox(height: 32),
+          Row(
+            children: [
+              Expanded(
+                child: GLoginEmailField(
+                  showheading: true,
+                  labelText: "First Name",
+                  isRequired: true,
+                  controller: SignUpController.to.firstName,
+                  hintText: "First Name",
+                  // validator: (value) {
+                  //   if (value.isEmpty) {
+                  //     return 'Please enter an first name';
+                  //   }
+
+                  //   return null;
+                  // },
+                ),
+              ),
+              GSizeW(8),
+              Expanded(
+                child: GLoginEmailField(
+                  isRequired: true,
+                  showheading: true,
+                  labelText: "Last Name",
+                  controller: SignUpController.to.lastName,
+                  hintText: "Last Name",
+                  // validator: (value) {
+                  //   if (value.isEmpty) {
+                  //     return 'Please enter an last name';
+                  //   }
+
+                  //   return null;
+                  // },
+                ),
+              ),
+            ],
+          ),
+          GSizeH(16),
+          GLoginEmailField(
+            isRequired: true,
+            showheading: true,
+            labelText: "Email",
+            controller: SignUpController.to.tecEmail,
+            hintText: "Enter Email",
+            onChange: (value) {
+              final RegExp emailRegExp = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+              SignUpController.to.isEmailValid.value = emailRegExp.hasMatch(value);
+            },
+            // validator: (value) {
+            //   if (value.isEmpty) {
+            //     return 'Please enter an email address';
+            //   }
+            //   final RegExp emailRegExp = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+            //   if (!emailRegExp.hasMatch(value)) {
+            //     return 'Please enter a valid email address';
+            //   }
+            //   return null;
+            // },
+          ),
+          GSizeH(16),
+
+          GLoginEmailField(
+            isRequired: true,
+            showheading: true,
+            labelText: "Password",
+            controller: SignUpController.to.controllerpassword,
+            hintText: "Password",
+            suffixIcon: IconButton(
+              icon: Icon(
+                SignUpController.to.passwordVisible.value ? Icons.visibility : Icons.visibility_off,
+                color: Colors.green,
+              ),
+              alignment: Alignment.centerLeft,
+              iconSize: 16,
+              padding: EdgeInsets.zero,
+              onPressed: () {
+                SignUpController.to.passwordVisible.value = !(SignUpController.to.passwordVisible.value);
+              },
             ),
-            SizedBox(height: 40),
-            const GTextHeading2("Create Your Account Today"),
-            SizedBox(height: 40),
+            isPassword: SignUpController.to.passwordVisible.value,
+            onChange: (value) {
+              // SignUpController.to.controllerpassword.text = value;
+              SignUpController.to.isShowValidation.value = value.isNotEmpty;
+              SignUpController.to.validatePassword(value);
+            },
+          ),
+          if (SignUpController.to.isShowValidation.value && SignUpController.to.controllerpassword.text.isNotEmpty)
+            GSizeH(8),
+
+          if (SignUpController.to.isShowValidation.value && SignUpController.to.controllerpassword.text.isNotEmpty)
             Row(
               children: [
-                Expanded(
-                  child: GLoginEmailField(
-                    showheading: true,
-                    labelText: "First Name",
-                    isRequired: true,
-                    controller: SignUpController.to.firstName,
-                    hintText: "First Name",
-                    // validator: (value) {
-                    //   if (value.isEmpty) {
-                    //     return 'Please enter an first name';
-                    //   }
-
-                    //   return null;
-                    // },
+                for (int i = 0; i < 3; i++)
+                  Container(
+                    margin: EdgeInsets.only(right: 4),
+                    width: 25,
+                    height: 3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5.0),
+                      color: i < SignUpController.to.passwordStrength.value
+                          ? (SignUpController.to.passwordStrength.value == 1
+                                ? Colors.red
+                                : SignUpController.to.passwordStrength.value == 2
+                                ? Colors.orange
+                                : Colors.green)
+                          : Colors.grey,
+                    ),
                   ),
-                ),
                 GSizeW(8),
-                Expanded(
-                  child: GLoginEmailField(
-                    isRequired: true,
-                    showheading: true,
-                    labelText: "Last Name",
-                    controller: SignUpController.to.lastName,
-                    hintText: "Last Name",
-                    // validator: (value) {
-                    //   if (value.isEmpty) {
-                    //     return 'Please enter an last name';
-                    //   }
 
-                    //   return null;
-                    // },
+                Text(
+                  SignUpController.to.passwordStrengthText.value,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: SignUpController.to.passwordStrength.value == 1
+                        ? Colors.red
+                        : SignUpController.to.passwordStrength.value == 2
+                        ? Colors.orange
+                        : Colors.green,
                   ),
                 ),
               ],
             ),
-            GSizeH(24),
-            GLoginEmailField(
-              isRequired: true,
-              showheading: true,
-              labelText: "Email",
-              controller: SignUpController.to.tecEmail,
-              hintText: "Enter Email",
-              onChange: (value) {
-                final RegExp emailRegExp = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
-                SignUpController.to.isEmailValid.value = emailRegExp.hasMatch(value);
-              },
-              // validator: (value) {
-              //   if (value.isEmpty) {
-              //     return 'Please enter an email address';
-              //   }
-              //   final RegExp emailRegExp = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
-              //   if (!emailRegExp.hasMatch(value)) {
-              //     return 'Please enter a valid email address';
-              //   }
-              //   return null;
-              // },
-            ),
-            GSizeH(24),
-
-            GLoginEmailField(
-              isRequired: true,
-              showheading: true,
-              labelText: "Password",
-              controller: SignUpController.to.controllerpassword,
-              hintText: "Password",
-              suffixIcon: IconButton(
-                icon: Icon(
-                  SignUpController.to.passwordVisible.value ? Icons.visibility : Icons.visibility_off,
-                  color: Colors.green,
+          GSizeH(16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 18,
+                width: 18,
+                child: Checkbox(
+                  checkColor: Colors.white,
+                  activeColor: secondaryColorOrange,
+                  value: SignUpController.to.betaTestingAgreement.value,
+                  splashRadius: 0,
+                  side: BorderSide(color: lightBackgroundColor, width: 2),
+                  onChanged: (value) {
+                    // setState(() {
+                    SignUpController.to.betaTestingAgreement.value = !SignUpController.to.betaTestingAgreement.value;
+                    // });
+                  },
                 ),
-                alignment: Alignment.centerLeft,
-                iconSize: 16,
-                padding: EdgeInsets.zero,
-                onPressed: () {
-                  SignUpController.to.passwordVisible.value = !(SignUpController.to.passwordVisible.value);
-                },
               ),
-              isPassword: SignUpController.to.passwordVisible.value,
-              onChange: (value) {
-                // SignUpController.to.controllerpassword.text = value;
-                SignUpController.to.isShowValidation.value = value.isNotEmpty;
-                SignUpController.to.validatePassword(value);
-              },
-            ),
-            if (SignUpController.to.isShowValidation.value && SignUpController.to.controllerpassword.text.isNotEmpty) GSizeH(8),
-
-            if (SignUpController.to.isShowValidation.value && SignUpController.to.controllerpassword.text.isNotEmpty)
-              Row(
-                children: [
-                  for (int i = 0; i < 3; i++)
-                    Container(
-                      margin: EdgeInsets.only(right: 4),
-                      width: 25,
-                      height: 3,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5.0),
-                        color: i < SignUpController.to.passwordStrength.value
-                            ? (SignUpController.to.passwordStrength.value == 1
-                                  ? Colors.red
-                                  : SignUpController.to.passwordStrength.value == 2
-                                  ? Colors.orange
-                                  : Colors.green)
-                            : Colors.grey,
-                      ),
-                    ),
-                  GSizeW(8),
-
-                  Text(
-                    SignUpController.to.passwordStrengthText.value,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: SignUpController.to.passwordStrength.value == 1
-                          ? Colors.red
-                          : SignUpController.to.passwordStrength.value == 2
-                          ? Colors.orange
-                          : Colors.green,
+              GSizeW(9),
+              Expanded(
+                child: SizedBox(
+                  // width: 350,
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "I accept ",
+                          style: GAppStyle.style14w600(),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              SignUpController.to.betaTestingAgreement.value =
+                                  !SignUpController.to.betaTestingAgreement.value;
+                            },
+                        ),
+                        TextSpan(
+                          text: "Beta Testing Agreement",
+                          style: TextStyle(
+                            fontFamily: "Montserrat",
+                            color: secondaryColorOrange,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            decoration: TextDecoration.underline,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              SignUpController.to.launchURL('https://global365.com/beta-agreement');
+                            },
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                ),
               ),
-            GSizeH(24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 18,
-                  width: 18,
-                  child: Checkbox(
-                    checkColor: Colors.white,
-                    activeColor: secondaryColorOrange,
-                    value: SignUpController.to.betaTestingAgreement.value,
-                    splashRadius: 0,
-                    side: BorderSide(color: lightBackgroundColor, width: 2),
-                    onChanged: (value) {
-                      // setState(() {
-                      SignUpController.to.betaTestingAgreement.value = !SignUpController.to.betaTestingAgreement.value;
-                      // });
-                    },
-                  ),
+            ],
+          ),
+          GSizeH(16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 18,
+                width: 18,
+                child: Checkbox(
+                  checkColor: Colors.white,
+                  activeColor: secondaryColorOrange,
+                  value: SignUpController.to.checkedValue.value,
+                  splashRadius: 0,
+                  side: BorderSide(color: lightBackgroundColor, width: 2),
+                  onChanged: (value) {
+                    // setState(() {
+                    SignUpController.to.checkedValue.value = !SignUpController.to.checkedValue.value;
+                    // });
+                  },
                 ),
-                GSizeW(9),
-                Expanded(
-                  child: SizedBox(
-                    // width: 350,
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: "I accept ",
-                            style: GAppStyle.style14w600(),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                SignUpController.to.betaTestingAgreement.value = !SignUpController.to.betaTestingAgreement.value;
-                              },
+              ),
+              GSizeW(9),
+              Expanded(
+                child: SizedBox(
+                  // width: 350,
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "I agree to the ",
+                          style: GAppStyle.style14w600(),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              SignUpController.to.checkedValue.value = !SignUpController.to.checkedValue.value;
+                            },
+                        ),
+                        TextSpan(
+                          text: "Terms of Service",
+                          style: TextStyle(
+                            fontFamily: "Montserrat",
+                            color: secondaryColorOrange,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            decoration: TextDecoration.underline,
                           ),
-                          TextSpan(
-                            text: "Beta Testing Agreement",
-                            style: TextStyle(
-                              fontFamily: "Montserrat",
-                              color: secondaryColorOrange,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              decoration: TextDecoration.underline,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                SignUpController.to.launchURL('https://global365.com/beta-agreement');
-                              },
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              SignUpController.to.launchURL('https://global365.com/services');
+                            },
+                        ),
+                        TextSpan(text: " and ", style: GAppStyle.style14w600()),
+                        TextSpan(
+                          text: "Privacy Policy.",
+                          style: TextStyle(
+                            fontFamily: "Montserrat",
+                            color: secondaryColorOrange,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            decoration: TextDecoration.underline,
                           ),
-                        ],
-                      ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              SignUpController.to.launchURL('https://global365.com/privacyPolicy');
+                            },
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
-            GSizeH(12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 18,
-                  width: 18,
-                  child: Checkbox(
-                    checkColor: Colors.white,
-                    activeColor: secondaryColorOrange,
-                    value: SignUpController.to.checkedValue.value,
-                    splashRadius: 0,
-                    side: BorderSide(color: lightBackgroundColor, width: 2),
-                    onChanged: (value) {
-                      // setState(() {
-                      SignUpController.to.checkedValue.value = !SignUpController.to.checkedValue.value;
-                      // });
-                    },
-                  ),
-                ),
-                GSizeW(9),
-                Expanded(
-                  child: SizedBox(
-                    // width: 350,
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: "I agree to the ",
-                            style: GAppStyle.style14w600(),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                SignUpController.to.checkedValue.value = !SignUpController.to.checkedValue.value;
-                              },
-                          ),
-                          TextSpan(
-                            text: "Terms of Service",
-                            style: TextStyle(
-                              fontFamily: "Montserrat",
-                              color: secondaryColorOrange,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              decoration: TextDecoration.underline,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                SignUpController.to.launchURL('https://global365.com/services');
-                              },
-                          ),
-                          TextSpan(text: " and ", style: GAppStyle.style14w600()),
-                          TextSpan(
-                            text: "Privacy Policy.",
-                            style: TextStyle(
-                              fontFamily: "Montserrat",
-                              color: secondaryColorOrange,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              decoration: TextDecoration.underline,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                SignUpController.to.launchURL('https://global365.com/privacyPolicy');
-                              },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            // wrap this condition in obx
-            Obx(() => SignUpController.to.isLoading.value ? _submitButtonProcess(context) : _submitButton(context)),
-          ],
-        ).marginSymmetric(horizontal: 50),
+              ),
+            ],
+          ),
+          SizedBox(height: 16),
+          // wrap this condition in obx
+          Obx(() => SignUpController.to.isLoading.value ? _submitButtonProcess(context) : _submitButton(context)),
+        ],
       ),
     );
   }

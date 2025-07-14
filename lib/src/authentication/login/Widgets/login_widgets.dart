@@ -1,3 +1,4 @@
+import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -14,15 +15,8 @@ import 'package:global365_widgets/src/constants/constants.dart';
 Widget title(BuildContext context) {
   return Column(
     children: [
-      GSizeH(10),
-      SizedBox(
-        width: 282,
-        height: 56,
-        child: SvgPicture.asset(getModuleLogo(), fit: BoxFit.fill, package: packageName),
-      ),
-      GSizeH(20),
-      Text("Sign In", style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700)),
-      GSizeH(20),
+   
+      GTextHeading2("Sign In to Your Account"), GSizeH(16),
     ],
   );
 }
@@ -60,7 +54,7 @@ Widget emailPasswordWidget(BuildContext context) {
                           // },
                         ),
                       ),
-                      GSizeH(24),
+                      GSizeH(16),
                     ],
                   ),
                 Column(
@@ -76,40 +70,7 @@ Widget emailPasswordWidget(BuildContext context) {
                             style: TextStyle(fontWeight: FontWeight.w700, color: titleColor, fontSize: 14),
                           ),
                           const GSizeH(6),
-                          // IntlPhoneField( //TODO
-                          //   controller: LoginController.to.controllerusernmae,
-                          //   showDropdownIcon: false,
-                          //   // countries: ["Pakistan"],
-                          //   // textAlign: TextAlign.left,
-                          //   // dropdownIconPosition: IconPosition.trailing,
-                          //   //  inputFormatters: [maskFormatter],
-                          //   flagsButtonPadding: const EdgeInsets.only(left: 5, right: 5),
-                          //   decoration: const InputDecoration(
-                          //     //  labelText: 'Phone Number',
-
-                          //     // contentPadding: EdgeInsets.fromLTRB(5, 0, 0, 0),
-                          //     hintText: '3311234567',
-                          //     border: OutlineInputBorder(borderSide: BorderSide()),
-                          //   ),
-
-                          //   // validator: (value) {
-                          //   //   if (value!.number.length != 11) {
-                          //   //     return T("login_Please_enter_10_digit_phone_no");
-                          //   //   }
-                          //   //   return null;
-                          //   // },
-                          //   initialCountryCode: 'PK',
-                          //   onChanged: (phone) {
-                          //     gLogger(phone.completeNumber);
-                          //     // setState(() {
-                          //     LoginController.to.phoneNumber.value = phone.completeNumber;
-                          //     // });
-                          //   },
-                          //   onCountryChanged: (country) {
-                          //     gLogger('Country changed to: ' + country.name);
-                          //   },
-                          //   onSaved: (value) {},
-                          // ),
+                        
                         ],
                       ),
                     GLoginEmailField(
@@ -120,7 +81,7 @@ Widget emailPasswordWidget(BuildContext context) {
                       isEnabled: !LoginController.to.loogingIn.value,
                       suffixIcon: IconButton(
                         icon: Icon(
-                          LoginController.to.passwordVisible.value ? Icons.visibility : Icons.visibility_off,
+                          LoginController.to.passwordVisible.value ? BootstrapIcons.eye : BootstrapIcons.eye_slash,
                           color: Colors.green,
                         ),
                         alignment: Alignment.centerLeft,
@@ -148,7 +109,7 @@ Widget emailPasswordWidget(BuildContext context) {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 30),
+                  padding: EdgeInsets.only(top: 16),
                   child: Row(
                     children: [
                       Row(
@@ -197,7 +158,7 @@ Widget emailPasswordWidget(BuildContext context) {
                     ],
                   ),
                 ),
-                GSizeH(30),
+                GSizeH(16),
                 (!LoginController.to.loogingIn.value)
                     ? _submitButton(context)
                     : _submitButtonProcess(context),
@@ -258,14 +219,14 @@ Widget _submitButtonProcess(BuildContext context) {
 
 Widget createAccountLabel(BuildContext context) {
   return Container(
-    margin: EdgeInsets.only(top: 30),
+    margin: EdgeInsets.only(top: 16),
     alignment: Alignment.bottomCenter,
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
           "Don't have a Global365 Account?",
-          style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black, fontSize: 14),
+          style: GAppStyle.style14w500(color: titleColor),
         ),
         GSizeW(4),
         InkWell(
@@ -281,7 +242,7 @@ Widget createAccountLabel(BuildContext context) {
           },
           child: Text(
             "Sign Up Now",
-            style: TextStyle(fontWeight: FontWeight.w500, color: secondaryColorOrange, fontSize: 14),
+            style: GAppStyle.style14w500(color: secondaryColorOrange) ,
           ),
         ),
       ],

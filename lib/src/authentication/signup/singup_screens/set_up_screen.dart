@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:g365_widgets_user/g365_widgets_user.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/authentication_routes.dart';
@@ -63,6 +64,7 @@ class _SetUpScreenState extends State<SetUpScreen> {
     return Scaffold(body: bodyData(context));
   }
 
+ 
   Widget bodyData(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
@@ -70,98 +72,82 @@ class _SetUpScreenState extends State<SetUpScreen> {
     return Container(
       height: height,
       width: width,
-      decoration: const BoxDecoration(color: lightBackgroundColor),
+   
       child: Stack(
         children: [
-          Container(height: height, width: width, color: lightBackgroundColor),
+          const SigninBackground(),
           Center(
-            child: Container(
-              // height: 572,
-              width: GResponsive.isMobile(context) ? width - 40 : 700,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: const [
-                  BoxShadow(color: Color.fromARGB(15, 5, 0, 0), blurRadius: 10, spreadRadius: 5, offset: Offset(2, 2)),
-                ],
-              ),
-              child: SingleChildScrollView(child: Column(children: [createAccountWidget(context, controller)])),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const AppLogo(height: 50),
+                SizedBox(height: 32),
+
+                ContainerWithShadow(
+                  width: 500,
+                  child: SingleChildScrollView(child: Column(children: [createAccountWidget(context, controller)])),
+                ),
+              ],
             ),
           ),
-       
+         
         ],
       ),
     );
   }
 
   Widget createAccountWidget(BuildContext context, SetUpController otpController) {
-    return Form(
-      // key: otpController.formKey,
-      child: Column(
-        children: [
-          GSizeH(80),
-          SizedBox(
-            width: 282,
-            height: 56,
-            child: SvgPicture.asset(getModuleLogo(), fit: BoxFit.fill, package: packageName),
-          ),
-          SizedBox(height: 40),
-          GTextHeading2(
-            "Welcome ${SignUpController.to.firstName.text} ${SignUpController.to.lastName.text}",
-            color: primaryColor,
-          ),
-          SizedBox(height: 40),
-          GLoginEmailField(
-            showheading: true,
-            labelText: "Organization/Business Display Name",
+    return Column(
+      children: [
+     
+        GTextHeading2("Welcome ${SignUpController.to.firstName.text} ${SignUpController.to.lastName.text}"),
+        SizedBox(height: 32),
+        GLoginEmailField(
+          showheading: true,
+          labelText: "Organization/Business Display Name",
+          isRequired: true,
+          controller: controller.businessName,
+          hintText: "Enter Name",
+        ),
+        GSizeH(16),
+        if (g365Module == G365Module.merchant)
+          USPhoneNumberField(
+            controller: controller.phoneNumber,
+            hintText: 'Enter your phone number',
+            labelText: "Phone Number",
             isRequired: true,
-            controller: controller.businessName,
-            hintText: "Enter Name",
+            borderRadius: 5,
+            onChanged: (fullNumber) {},
+            onSubmitted: (value) {
+              // Handle form submission
+            },
           ),
-          GSizeH(20),
-          if (g365Module == G365Module.merchant)
-            USPhoneNumberField(
-              controller: controller.phoneNumber,
-              hintText: 'Enter your phone number',
-              labelText: "Phone Number",
-              isRequired: true,
-              borderRadius: 5,
-              onChanged: (fullNumber) {},
-              onSubmitted: (value) {
-                // Handle form submission
-              },
-            ),
-          if (g365Module != G365Module.merchant)
+        if (g365Module != G365Module.merchant)
           Obx(
-            () => SizedBox(
-              width: 540,
-                child: controller.isUpdatingCOntroller.isTrue
-                  ? Container(height: 78)
-                  : BusinessLocationDropdown(
-                      containerHeight: 56,
-                      offset: const Offset(0, 40),
-                        controller: controller.locationDropdown,
-                        partyId: controller.locationDropdownId,
-                      label: 'Organization/Business Location',
-                      isNotHistory: true,
-                      isUpdate: true,
-                      onChanged: (item) {
-                        BusinessProfileController.to.statesList.clear();
-                        BusinessProfileController.to.selectedLocationId.value =
-                              controller.locationDropdown.value["id"];
-                        BusinessProfileController.to.getStatesData(context);
-                          controller.updationControllerFunctin();
-                        gLogger("LocationId: ${BusinessProfileController.to.selectedLocationId.value}");
-                      },
-                    ),
-            ),
+            () => controller.isUpdatingCOntroller.isTrue
+                ? Container(height: 56)
+                : BusinessLocationDropdown(
+                    containerHeight: 56,
+                    offset: const Offset(0, 40),
+                    controller: controller.locationDropdown,
+                    partyId: controller.locationDropdownId,
+                    label: 'Organization/Business Location',
+                    isNotHistory: true,
+                    isUpdate: true,
+                    onChanged: (item) {
+                      BusinessProfileController.to.statesList.clear();
+                      BusinessProfileController.to.selectedLocationId.value = controller.locationDropdown.value["id"];
+                      BusinessProfileController.to.getStatesData(context);
+                      controller.updationControllerFunctin();
+                      gLogger("LocationId: ${BusinessProfileController.to.selectedLocationId.value}");
+                    },
+                  ),
           ),
-         
-          SizedBox(height: 30),
-          _submitButton(context),
-          GSizeH(80),
-        ],
-      ).marginSymmetric(horizontal: 80),
+
+        SizedBox(height: 32),
+        _submitButton(context),
+      
+      ],
     );
   }
 
