@@ -235,7 +235,8 @@ Widget createAccountLabel(BuildContext context) {
 
             isFirstpurchase = true;
             // AutoRouter.of(context).push(const PaymentPlanRoute());
-            GNav.pushNav(context, GRouteConfig.signUpScreenRoute);
+            // GNav.pushNav(context, GRouteConfig.signUpScreenRoute);
+            GNav.pushNav(context, GRouteConfig.paymentPlanRoute);
 
             // Modular.to.pushNamed("/Pricing");
             // Modular.to.pushNamed("/SubscriptionPlans");

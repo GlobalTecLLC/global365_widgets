@@ -20,6 +20,9 @@ class GAppStyle {
   static TextStyle style32w600({Color? color = titleColor}) {
     return TextStyle(color: color, fontSize: 32, fontFamily: 'Montserrat', fontWeight: FontWeight.w600);
   }
+  static TextStyle style50w600({Color? color = titleColor}) {
+    return TextStyle(color: color, fontSize: 50, fontFamily: 'Montserrat', fontWeight: FontWeight.w600);
+  }
 
   static TextStyle style24w600({Color? color = titleColor}) {
     return TextStyle(color: color, fontSize: 24, fontFamily: 'Montserrat', fontWeight: FontWeight.w600);
