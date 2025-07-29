@@ -31,16 +31,11 @@ dependencies:
   shared_preferences: ^2.0.6
   file_picker: ^10.1.9
   shimmer:
-  
+
   g365_widgets_user:
     git:
       url: https://github.com/TechnuPur-Dev/g365_widgets_user.git
-      ref: 'bd30ed7'
-
-
-
-
-
+      ref: "b88c497"
 
 dev_dependencies:
   lints: ^5.0.0
@@ -51,9 +46,6 @@ flutter:
   assets:
     - assets/imgs/
     - assets/svg/
-
-
-
 # hussain_widgets:
 # git:
 # url: git@github.com:hussainhabib2/hussain_widgets.git
