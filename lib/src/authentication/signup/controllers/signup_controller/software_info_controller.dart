@@ -138,7 +138,7 @@ class SoftwareInfoController extends GetxController {
             return;
           }
           LoginController.to.loginResponsehandler(context, responseData);
-          GNav.pushNav(context, GRouteConfig.dashboard);
+          GNav.pushNavWithExtra(context, GRouteConfig.dashboard, {"isFromSignup": true});
        
         } else {
           GToast.succss(responseData['message'] ?? "", context);

@@ -70,14 +70,19 @@ class GAppStyle {
     );
   }
 
-  static TextStyle style12w600({Color? color = titleColor, bool isUnderLine = false}) {
+  static TextStyle style12w600({
+    Color? color = titleColor,
+    bool isUnderLine = false,
+    String? fontFamily = "Montserrat",
+  }) {
     return TextStyle(
       color: color,
       fontSize: 12,
-      fontFamily: 'Montserrat',
+      fontFamily: fontFamily,
       fontWeight: FontWeight.w600,
-      height: 14.63 / 12,
       decoration: isUnderLine ? TextDecoration.underline : TextDecoration.none,
+      decorationColor: color,
+      decorationThickness: 1.5,
     );
   }
 
@@ -138,8 +143,8 @@ class GAppStyle {
   //   );
   // }
 
-  static TextStyle style10w600({Color color = titleColor}) {
-    return TextStyle(color: color, fontSize: 10, fontFamily: 'Montserrat', fontWeight: FontWeight.w600);
+  static TextStyle style10w600({Color? color = titleColor, String? fontFamily = "Montserrat"}) {
+    return TextStyle(color: color, fontSize: 10, fontFamily: fontFamily, fontWeight: FontWeight.w600);
   }
 
   static TextStyle style10w700({Color color = titleColor}) {

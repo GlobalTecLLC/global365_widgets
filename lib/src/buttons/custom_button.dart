@@ -8,7 +8,6 @@ import '../constants/branding.dart';
 import '../constants/colors.dart';
 import '../constants/constants.dart';
 
-// ignore: must_be_immutable
 class GCustomButton extends StatelessWidget {
   GCustomButton({
     super.key,
@@ -32,6 +31,9 @@ class GCustomButton extends StatelessWidget {
     this.isUnderLine = false,
     this.isButtonInHeader = false,
     this.customPadding,
+    this.textStyle,
+    this.borderRadius,
+    this.key1,
   });
   final Function()? onTap;
   final String btnText;
@@ -53,6 +55,9 @@ class GCustomButton extends StatelessWidget {
   final bool isUnderLine;
   final bool isButtonInHeader;
   final EdgeInsets? customPadding;
+  TextStyle? textStyle;
+  final Key? key1;
+  final double? borderRadius;
 
   RxBool isHovered = false.obs;
   @override
@@ -64,13 +69,9 @@ class GCustomButton extends StatelessWidget {
       iconColor = colorPalete.iconColor;
       bColor = colorPalete.borderColor;
     }
-    return InkWell(
-      onTap: onTap,
-      onHover: (isHovered) {
-        this.isHovered.value = isHovered;
-      },
-      // mouseCursor: SystemMouseCursors.grab,
-      child: Obx(() {
+
+Widget _widget() {
+      return Obx(() {
         if (isHovered.value && hoveredVariant != null) {
           ButtonColorPalete colorPalete = ButtonThemeCustom.getTheme(hoveredVariant);
           backgroundColor = colorPalete.backgroundColor;
@@ -94,8 +95,8 @@ class GCustomButton extends StatelessWidget {
               ? BoxDecoration(
                   color: backgroundColor ?? (isOnDark ? Colors.transparent : lightBackgroundColor),
                   border: isButtonInHeader
-                      ? Border.all(color: Colors.white.withValues(alpha: 0.25))
-                      : Border(right: BorderSide(color: Colors.white.withValues(alpha: 0.25))),
+                      ? Border.all(color: Colors.white.withOpacity(0.25))
+                      : Border(right: BorderSide(color: Colors.white.withOpacity(0.25))),
                   // border: Border.all(color: Colors.white.withOpacity(0.5)),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(Branding.tFborderR),
@@ -105,8 +106,8 @@ class GCustomButton extends StatelessWidget {
               : ShapeDecoration(
                   color: backgroundColor ?? (isOnDark ? Colors.transparent : lightBackgroundColor),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(Branding.tFborderR),
-                    side: BorderSide(color: bColor ?? (isOnDark ? whiteColor.withValues(alpha: 0.25) : borderColor)),
+                    borderRadius: BorderRadius.circular(borderRadius ?? Branding.tFborderR),
+                    side: BorderSide(color: bColor ?? (isOnDark ? whiteColor.withOpacity(0.25) : borderColor)),
                   ),
                 ),
           child: Center(
@@ -117,16 +118,25 @@ class GCustomButton extends StatelessWidget {
                 if (isIconLeft)
                   if (icon != null || svgPath != null)
                     (icon != null)
-                        ? Icon(icon, color: iconColor ?? (isOnDark ? whiteColor : bodyTextDark), size: 16)
-                        : SvgPicture.asset(
-                            svgPath ?? "",
-                            width: 14,
-                            height: 14,
-                            package: packageName,
-                            
-                            colorFilter: ColorFilter.mode(
-                              iconColor ?? (isOnDark ? whiteColor : bodyTextDark),
-                              BlendMode.srcIn,
+                        ? Tooltip(
+                            decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(6)),
+                            // borderColor: Colors.transparent,
+                            message: onlyIcon ? btnText : "",
+                            // backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                            textStyle: textStyle ?? const TextStyle(color: Colors.white),
+                            // position: TooltipPosition.bottom,
+                            child: Icon(icon, color: iconColor ?? (isOnDark ? whiteColor : bodyTextDark), size: 16),
+                          )
+                        : Tooltip(
+                            message: btnText != "" ? btnText : "",
+                            decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(6)),
+                            textStyle: textStyle ?? const TextStyle(color: Colors.white),
+                            // position: TooltipPosition.bottom,
+                            child: SvgPicture.asset(
+                              svgPath ?? "",
+                              width: 14,
+                              height: 14,
+                              color: iconColor ?? (isOnDark ? whiteColor : bodyTextDark),
                             ),
                           ),
                 if (icon != null || svgPath != null)
@@ -135,6 +145,7 @@ class GCustomButton extends StatelessWidget {
                   GLabelSemiBold(
                     isUnderLine: isUnderLine,
                     btnText,
+                    style: textStyle,
                     color: textColor ?? (isOnDark ? whiteColor : bodyTextDark),
                   ),
                 if (icon != null || svgPath != null)
@@ -147,17 +158,28 @@ class GCustomButton extends StatelessWidget {
                             svgPath ?? "",
                             width: 14,
                             height: 14,
-                            
-                            colorFilter: ColorFilter.mode(
-                              iconColor ?? (isOnDark ? whiteColor : bodyTextDark),
-                              BlendMode.srcIn,
-                            ),
+                            color: iconColor ?? (isOnDark ? whiteColor : bodyTextDark),
                           ),
               ],
             ),
           ),
         );
-      }),
+      });
+    }
+
+    return Material(
+      color: Colors.transparent,
+      child: onTap == null
+          ? _widget()
+          : InkWell(
+              key: key1,
+              onTap: onTap,
+              onHover: (isHovered) {
+                this.isHovered.value = isHovered;
+              },
+              // mouseCursor: SystemMouseCursors.grab,
+              child: _widget(),
+            ),
     );
   }
 }
