@@ -87,6 +87,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
           animationCurve: Curves.bounceIn,
           autofocus: true,
           controller: controller.tecOtpController,
+          closeKeyboardWhenCompleted: false,
           focusedPinTheme: defaultPinTheme.copyDecorationWith(
             border: Border.all(color: primaryColor),
             borderRadius: BorderRadius.circular(6),
