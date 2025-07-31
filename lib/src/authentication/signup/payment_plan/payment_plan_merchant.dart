@@ -23,7 +23,7 @@ class PaymentPlanMerchant extends StatelessWidget {
         GSizeH(10),
 
         SizedBox(
-          height: 700,
+          height: 710,
           width: 1500,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,7 +35,7 @@ class PaymentPlanMerchant extends StatelessWidget {
                 children: [
                   //Essentials
                   Container(
-                    height: 700,
+                    height: 710,
                     width: 352,
                     padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(
@@ -203,7 +203,7 @@ class PaymentPlanMerchant extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    height: 700,
+                    height: 710,
                     width: 352,
 
                     decoration: BoxDecoration(
@@ -389,7 +389,7 @@ class PaymentPlanMerchant extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    height: 700,
+                    height: 710,
                     width: 352,
                     padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(
