@@ -84,7 +84,9 @@ class SoftwareInfoController extends GetxController {
           : SetUpController.to.locationDropdown.value.toString() == "null"
           ? 0
           : SetUpController.to.locationDropdown.value['id'],
-      "industryId": BusinessProfileController.to.industryDropdown.value.toString() == "null" ? 0 : BusinessProfileController.to.industryDropdown.value['id'],
+      "industryId": BusinessProfileController.to.industryDropdown.value.toString() == "null"
+          ? 0
+          : BusinessProfileController.to.industryDropdown.value['id'],
       "stateId": g365Module == G365Module.merchant
           ? 4872
           : BusinessProfileController.to.stateDropdown.value.toString() == "null"
@@ -104,7 +106,7 @@ class SoftwareInfoController extends GetxController {
       "city": BusinessProfileController.to.tecCity.text.trim(),
       "zip": BusinessProfileController.to.tecZip.text.trim(),
       "phoneNo": SetUpController.to.phoneNumberWithoutFormate,
-      "planTypeId": 1
+      "planTypeId": 1,
     };
     // try {
     //   GProgressDialog(context).show();
@@ -116,7 +118,10 @@ class SoftwareInfoController extends GetxController {
     gLogger("Before Calling API$data");
     try {
       GProgressDialog(context).show();
-      ResponseModel response = await APIsCallPost.submitRequest('Companies/RegisterCompany', data);
+      ResponseModel response = await APIsCallPost.submitRequest(
+        (g365Module == G365Module.payroll) ? 'Companies/RegisterCompanyV2' : 'Companies/RegisterCompany',
+        data,
+      );
       GProgressDialog(context).hide();
       dynamic responseData = jsonDecode(response.data);
       gLogger("Company Res");
@@ -139,7 +144,6 @@ class SoftwareInfoController extends GetxController {
           }
           LoginController.to.loginResponsehandler(context, responseData);
           GNav.pushNavWithExtra(context, GRouteConfig.dashboard, {"isFromSignup": true});
-       
         } else {
           GToast.succss(responseData['message'] ?? "", context);
 
