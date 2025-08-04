@@ -83,7 +83,7 @@ class PaymentPlanMerchant extends StatelessWidget {
                         //Select Plan
                         InkWell(
                           onTap: () {
-                            // controller.selectedPlan.value = "professional";
+                            controller.selectedPlanId = 1;
                             // AutoRouter.of(context).push(const SignUpScreenRoute());
                             GNav.pushNav(context, GRouteConfig.signUpScreenRoute);
                           },
@@ -255,6 +255,8 @@ class PaymentPlanMerchant extends StatelessWidget {
                               //Select Plan
                               InkWell(
                                 onTap: () {
+                                  controller.selectedPlanId = 2;
+
                                   // controller.selectedPlan.value = "professional";
                                   // AutoRouter.of(context).push(const SignUpScreenRoute());
                                   GNav.pushNav(context, GRouteConfig.signUpScreenRoute);

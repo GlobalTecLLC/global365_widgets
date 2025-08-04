@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/authentication/login/Controllers/login_controller.dart';
+import 'package:global365_widgets/src/authentication/signup/controllers/payment_plan_controller.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/business_profile_controller.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/setup_screen_controller.dart';
 import 'package:global365_widgets/src/constants/globals.dart';
@@ -107,6 +108,7 @@ class SoftwareInfoController extends GetxController {
       "zip": BusinessProfileController.to.tecZip.text.trim(),
       "phoneNo": SetUpController.to.phoneNumberWithoutFormate,
       "planTypeId": 1,
+      "planId": PaymentPlanController.to.selectedPlanId, // This should be set based on the selected plan
     };
     // try {
     //   GProgressDialog(context).show();

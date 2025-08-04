@@ -10,6 +10,7 @@ import 'package:global365_widgets/src/utils/api_client/api_client.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 
 class PaymentPlanController extends GetxController {
+  static PaymentPlanController get to => Get.find();
   var items = <Item>[].obs;
   //essential radios
   var addAdditionalEntities = true.obs;
