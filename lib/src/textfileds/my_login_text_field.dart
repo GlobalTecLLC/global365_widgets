@@ -28,6 +28,8 @@ class GLoginEmailField extends StatelessWidget {
   final Color textFieldColor;
   final bool isWidthForHeader;
   final Key? key;
+
+  final List<String>? autofillHints;
   // final bool isHeightForChecksOnPopUp;
 
   GLoginEmailField({
@@ -53,6 +55,7 @@ class GLoginEmailField extends StatelessWidget {
     this.textFieldColor = Colors.white,
     this.isWidthForHeader = false,
     this.key,
+    this.autofillHints,
   });
 
   @override
@@ -79,10 +82,7 @@ class GLoginEmailField extends StatelessWidget {
                             onTap: () {
                               Navigator.pop(context);
                             },
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                              child: Text("Ok"),
-                            ),
+                            child: Padding(padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15), child: Text("Ok")),
                           ),
                         ],
                       ),
@@ -92,7 +92,7 @@ class GLoginEmailField extends StatelessWidget {
                 ),
             ],
           ),
-    
+
         if (showheading) GSizeH(4),
         Directionality(
           textDirection: TextDirection.ltr,
@@ -100,6 +100,7 @@ class GLoginEmailField extends StatelessWidget {
             height: 48,
             child: TextFormField(
               key: key,
+              autofillHints: autofillHints,
               controller: controller,
               initialValue: intialValue,
               maxLines: maxLine,
