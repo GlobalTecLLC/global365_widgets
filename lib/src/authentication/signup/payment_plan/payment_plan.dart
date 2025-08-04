@@ -1472,6 +1472,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                             ],
                           ),
                     // GSizeH(16),
+                    SizedBox(width: width)
                     // SizedBox(
                     //   height: 160,
                     //   width: width,
