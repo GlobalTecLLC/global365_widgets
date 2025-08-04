@@ -61,7 +61,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                         // width: 152,
                         padding: EdgeInsets.symmetric(vertical: 0),
                         child: SvgPicture.asset(
-                          "assets/svg/global365white.svg",
+                          "assets/svg/logo_merchant_light.svg",
                           package: packageName,
                           fit: BoxFit.contain,
                           alignment: Alignment.centerLeft,
@@ -1471,16 +1471,16 @@ class _PaymentPlanState extends State<PaymentPlan> {
                               ),
                             ],
                           ),
-                    GSizeH(16),
-                    SizedBox(
-                      height: 160,
-                      width: width,
-                      child: SvgPicture.asset(
-                        'assets/svg/payment_plan_header.svg',
-                        fit: BoxFit.fill,
-                        package: packageName,
-                      ),
-                    ),
+                    // GSizeH(16),
+                    // SizedBox(
+                    //   height: 160,
+                    //   width: width,
+                    //   child: SvgPicture.asset(
+                    //     'assets/svg/payment_plan_header.svg',
+                    //     fit: BoxFit.fill,
+                    //     package: packageName,
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
