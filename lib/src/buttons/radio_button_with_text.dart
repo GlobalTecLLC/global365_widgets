@@ -22,9 +22,9 @@ class RadioButtonWithText extends StatelessWidget {
       children: [
         SizedBox(
           height: 10,
-          child: Radio(activeColor: secondaryColorOrange, value: value, groupValue: groupValue, onChanged: onChanged),
+          child: Radio(activeColor: primaryColor, value: value, groupValue: groupValue, onChanged: onChanged),
         ),
-        GParagraphNormal(text, color: Colors.white),
+        GParagraphNormal(text, color: groupValue == value ? primaryColor : bodyText),
       ],
     );
   }
