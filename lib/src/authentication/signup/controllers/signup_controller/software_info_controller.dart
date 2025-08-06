@@ -182,6 +182,7 @@ class SoftwareInfoController extends GetxController {
         //     throw Exception('Could not launch $url');
         //   }
         // } else {
+         prefs.setString("onBoardingUrl", url);
         GNav.pushNavWithExtra(context, GRouteConfig.completemerchantprocess, {"url": url});
         // }
       } else {
