@@ -19,4 +19,4 @@ export 'my_profile/profile_screen_widget.dart';
 export 'login/Pages/login_page_USA.dart';
 export 'signup/webview_talus/talus_webview_signup.dart';
 
-export 'login/Pages/books_redirect_to_merchant.dart';
+export 'login/Pages/redirect_login.dart';

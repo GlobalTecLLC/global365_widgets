@@ -8,13 +8,13 @@ import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 
-class BooksToMerchantRedirectLogin extends StatelessWidget {
-  const BooksToMerchantRedirectLogin({required this.redirectcode, super.key});
+class RedirectLogin extends StatelessWidget {
+  const RedirectLogin({required this.redirectcode, super.key});
   final String redirectcode;
   @override
   Widget build(BuildContext context) {
-    gLogger("CPA Redirect Login $redirectcode");
-    LoginController.to.redirectFromBooksToMerchant(context, redirectcode);
+    gLogger("Redirect Login $redirectcode");
+    LoginController.to.redirectLogin(context, redirectcode);
 
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;

@@ -255,14 +255,15 @@ class LoginController extends GetxController {
     // }
   }
 
-  Future<void> redirectFromBooksToMerchant(BuildContext context, String code) async {
+  Future<void> redirectLogin(BuildContext context, String code) async {
     ResponseModel response = await APIsCallPost.submitRequest("Users/NewLoginByUniqueCode?UniqueCode=$code", {});
-    dynamic decodedData = jsonDecode(response.data);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
+      dynamic decodedData = jsonDecode(response.data);
+
       loginResponsehandler(context, decodedData);
     } else {
-      GToast.error(decodedData["message"].toString(), context);
+      GToast.error(response.data.toString(), context);
       GNav.goNav(context, GRouteConfig.loginUsaPageRoute);
     }
   }

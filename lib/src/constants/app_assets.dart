@@ -8,7 +8,7 @@ class AppAssets {
 
   //Image
   static const String bgLoginImg = "${imgPath}bg-login.png";
-  static const String globalGroupLogoLoginImg = "${imgPath}globalgrouplogologin.png";
+  static const String globalGroupLogoLoginImg = "${iconPath}globalgrouplogologin.png";
   static const String dummyPdfImg = "${imgPath}dummy_pdf.png";
 
   //Svg
@@ -40,7 +40,7 @@ class AppAssets {
 
   static const String crossIcon = "${iconUsaPath}crossicon.svg";
   static const String pangaIcon = "${iconPath}panga_logo.svg";
-  static const String poweredByLogoWhiteIcon = "${iconUsaPath}powerby.svg";
+  static const String poweredByLogoWhiteIcon = "${iconUsaPath}powered_by_global.svg";
 
   static const String arrowLeftIcon = "${iconPathNew}arrow-left.svg";
   static const String deleteIcon = "${iconUsaPath}deleteicon.svg";
