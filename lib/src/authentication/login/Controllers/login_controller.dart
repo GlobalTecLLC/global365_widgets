@@ -33,7 +33,6 @@ class LoginController extends GetxController {
   RxString authorized = "Not authorized".obs;
 
   checkIsRememberUser() {
-   
     if (prefs.getBool('remeberMe') != null) {
       bool flag = prefs.getBool('remeberMe')!;
 
@@ -45,7 +44,6 @@ class LoginController extends GetxController {
         tecEmail.text = prefs.getString('usernameforRemeberMe').toString();
       }
     }
-    
   }
 
   login(context) async {
@@ -76,7 +74,6 @@ class LoginController extends GetxController {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       loginResponsehandler(context, decodedData);
-    
     } else {
       loogingIn.value = false;
 
@@ -256,6 +253,18 @@ class LoginController extends GetxController {
     //   GToast.error(decodedData["message"].toString(), context);
     //   GNav.goNav(context, RouteConfig.loginUsaPageRoute);
     // }
+  }
+
+  Future<void> redirectFromBooksToMerchant(BuildContext context, String code) async {
+    ResponseModel response = await APIsCallPost.submitRequest("Users/NewLoginByUniqueCode?UniqueCode=$code", {});
+    dynamic decodedData = jsonDecode(response.data);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      loginResponsehandler(context, decodedData);
+    } else {
+      GToast.error(decodedData["message"].toString(), context);
+      GNav.goNav(context, GRouteConfig.loginUsaPageRoute);
+    }
   }
 
   RxBool loogingIn = false.obs;

@@ -14,7 +14,9 @@ export 'signup/controllers/signup_controller/sign_up_controller.dart';
 export 'signup/controllers/signup_controller/software_info_controller.dart';
 export 'my_profile/profile_screen_widget.dart';
 
-//Login 
+//Login
 
 export 'login/Pages/login_page_USA.dart';
 export 'signup/webview_talus/talus_webview_signup.dart';
+
+export 'login/Pages/books_redirect_to_merchant.dart';
