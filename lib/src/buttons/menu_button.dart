@@ -305,6 +305,8 @@ class GCustomMenuButton extends StatelessWidget {
         return BootstrapIcons.eye;
       case "Void":
         return BootstrapIcons.exclamation_triangle;
+      case "Make Void":
+        return BootstrapIcons.exclamation_triangle;
       case "Duplicate":
         return BootstrapIcons.files;
       case "Copy":
@@ -359,10 +361,12 @@ class GCustomMenuButton extends StatelessWidget {
         return BootstrapIcons.gear;
       case "Refresh":
         return BootstrapIcons.arrow_clockwise;
+      case "Refund":
+        return BootstrapIcons.arrow_clockwise;
       case "UnLink":
         return BootstrapIcons.link_45deg;
       default:
-        return BootstrapIcons.envelope_check;
+        return BootstrapIcons.question_circle;
     }
   }
 }
