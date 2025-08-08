@@ -81,9 +81,9 @@ class LoginController extends GetxController {
     }
   }
 
-  loginResponsehandler(context, dynamic decodedData) async {
+  loginResponsehandler(BuildContext context, dynamic decodedData) async {
     accessToken = (decodedData["payload"] ?? {})["token"];
-    Global365Widgets.loginCallBack((decodedData["payload"] ?? {}));
+
     gLogger(((decodedData["payload"] ?? {})["userPreferences"]));
     //     PreferencesData.myPreferencesGeneral = ((decodedData["payload"] ?? {})["userPreferences"]) == null
     //         ? PreferencesData.myPreferencesGeneral
@@ -105,6 +105,8 @@ class LoginController extends GetxController {
       GNav.pushNav(context, GRouteConfig.setUpScreenRoute);
       return;
     }
+
+    Global365Widgets.loginCallBack((decodedData["payload"] ?? {}));
     dynamic defaultCompany = listOfConpanies.firstWhere(
       (element) => element["companyId"].toString() == (decodedData["payload"] ?? {})['defaultCompanyId'].toString(),
       orElse: () => listOfConpanies.first,
