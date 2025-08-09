@@ -37,9 +37,7 @@ class RedirectLogin extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         color: whiteColor,
-                        boxShadow: const [
-                          BoxShadow(color: Color.fromARGB(15, 5, 0, 0), blurRadius: 10, spreadRadius: 5, offset: Offset(2, 2)),
-                        ],
+                        boxShadow: const [BoxShadow(color: Color.fromARGB(15, 5, 0, 0), blurRadius: 10, spreadRadius: 5, offset: Offset(2, 2))],
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,9 +46,7 @@ class RedirectLogin extends StatelessWidget {
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                            child: Center(
-                              child: Image(image: const AssetImage(AppAssets.globalGroupLogoLoginImg), width: 100, height: 100),
-                            ),
+                            child: Center(child: Image(image: const AssetImage(AppAssets.globalGroupLogoLoginImg), width: 100, height: 100)),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
