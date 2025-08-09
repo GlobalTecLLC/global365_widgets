@@ -57,6 +57,7 @@ class GTextFieldForSingleLine extends StatelessWidget {
   final void Function()? onTap;
   final void Function()? onTapOfEdit;
   final Key? key1;
+  final List<TextInputFormatter>? customInputFormatters;
 
   const GTextFieldForSingleLine({
     super.key,
@@ -107,6 +108,7 @@ class GTextFieldForSingleLine extends StatelessWidget {
     this.focusNode,
     this.maxLength,
     this.key1,
+    this.customInputFormatters,
   });
 
   @override
@@ -181,7 +183,9 @@ class GTextFieldForSingleLine extends StatelessWidget {
                 autofocus: isAutoFocus,
                 cursorColor: Colors.black,
                 enabled: isEnabled,
-                inputFormatters: (maxLength != null)
+                inputFormatters:
+                    customInputFormatters ??
+                    ((maxLength != null)
                     ? [
                         LengthLimitingTextInputFormatter(maxLength), // Limits the input length to 3
                         FilteringTextInputFormatter.digitsOnly, // Allows only digits
@@ -201,7 +205,7 @@ class GTextFieldForSingleLine extends StatelessWidget {
                         FilteringTextInputFormatter.digitsOnly, // Allow only digits
                         ExpirationDateInputFormatter(),
                       ]
-                    : [],
+                        : []),
                 style: (isDropdownStyle ?? false)
                     ? const TextStyle(
                         fontSize: 14,
