@@ -320,6 +320,22 @@ class ExpirationDateInputFormatter extends TextInputFormatter {
         }
       }
     }
+    if (formattedText.length == 5) {
+      // Ensure the entered month/year is not less than the current month/year
+      int enteredMonth = int.tryParse(formattedText.substring(0, 2)) ?? 0;
+      int enteredYear = int.tryParse(formattedText.substring(3, 5)) ?? 0;
+      final now = DateTime.now();
+      int currentMonth = now.month;
+      int currentYearFull = now.year;
+      int currentYearShort = currentYearFull % 100;
+
+      if (enteredYear < currentYearShort || (enteredYear == currentYearShort && enteredMonth < currentMonth)) {
+        // If expired, set to current month/year
+        String monthStr = currentMonth.toString().padLeft(2, '0');
+        String yearStr = currentYearShort.toString().padLeft(2, '0');
+        formattedText = '$monthStr/$yearStr';
+      }
+    }
 
     // Return the new text value with updated cursor position
     return newValue.copyWith(
