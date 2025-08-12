@@ -114,7 +114,7 @@ class LoginController extends GetxController {
 
     companyId = (defaultCompany["companyId"] ?? 0).toString();
     // locationId = (defaultCompany["locationId"] ?? 0).toString();
-    companyLogo.value = defaultCompany["companyLogo"] ?? "";
+    // companyLogo.value = defaultCompany["companyLogo"] ?? "";
     //     gLogger("Company Logo ####   ${companyLogo.value} ");
     companyAddress = defaultCompany["companyAddress"] ?? "";
     companyAddressLine1 = defaultCompany["addressLineOne"] ?? "";
