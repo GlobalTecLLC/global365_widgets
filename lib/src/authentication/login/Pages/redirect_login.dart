@@ -8,14 +8,26 @@ import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 
-class RedirectLogin extends StatelessWidget {
+class RedirectLogin extends StatefulWidget {
   const RedirectLogin({required this.redirectcode, super.key});
   final String redirectcode;
+
+  @override
+  State<RedirectLogin> createState() => _RedirectLoginState();
+}
+
+class _RedirectLoginState extends State<RedirectLogin> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      gLogger("Redirect Login ${widget.redirectcode}");
+      LoginController.to.redirectLogin(context, widget.redirectcode);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    gLogger("Redirect Login $redirectcode");
-    LoginController.to.redirectLogin(context, redirectcode);
-
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return SafeArea(
@@ -37,7 +49,9 @@ class RedirectLogin extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30),
                         color: whiteColor,
-                        boxShadow: const [BoxShadow(color: Color.fromARGB(15, 5, 0, 0), blurRadius: 10, spreadRadius: 5, offset: Offset(2, 2))],
+                        boxShadow: const [
+                          BoxShadow(color: Color.fromARGB(15, 5, 0, 0), blurRadius: 10, spreadRadius: 5, offset: Offset(2, 2)),
+                        ],
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +60,9 @@ class RedirectLogin extends StatelessWidget {
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                            child: Center(child: Image(image: const AssetImage(AppAssets.globalGroupLogoLoginImg), width: 100, height: 100)),
+                            child: Center(
+                              child: Image(image: const AssetImage(AppAssets.globalGroupLogoLoginImg), width: 100, height: 100),
+                            ),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
