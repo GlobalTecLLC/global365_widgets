@@ -119,6 +119,10 @@ class LoginController extends GetxController {
     companyAddress = defaultCompany["companyAddress"] ?? "";
     companyAddressLine1 = defaultCompany["addressLineOne"] ?? "";
     companyAddressLine2 = defaultCompany["addressLineTwo"] ?? "";
+    if (companyAddress.isEmpty) {
+      companyAddress = "$companyAddressLine1 $companyAddressLine2";
+      companyAddress = companyAddress.trim();
+    }
     companyCity = defaultCompany["city"] ?? "";
     companyState = defaultCompany["state"] ?? "";
     companyZip = defaultCompany["zip"] ?? "";
