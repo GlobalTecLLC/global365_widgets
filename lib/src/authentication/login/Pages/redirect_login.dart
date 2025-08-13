@@ -1,6 +1,8 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:g365_widgets_user/constants.dart';
+import 'package:g365_widgets_user/g365_widgets_user.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/login/Controllers/login_controller.dart';
 import 'package:global365_widgets/src/constants/app_assets.dart';
@@ -61,7 +63,13 @@ class _RedirectLoginState extends State<RedirectLogin> {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
                             child: Center(
-                              child: Image(image: const AssetImage(AppAssets.globalGroupLogoLoginImg), width: 100, height: 100),
+                              child: const AppLogo(height: 50),
+                              //  SvgPicture.asset("assets/svg/logo_merchant_dark.svg", width: 100, height: 100),
+                              // Image(
+                              //   image: AssetImage(AppAssets.globalGroupLogoLoginImg, package: AppContants.packageName),
+                              //   width: 100,
+                              //   height: 100,
+                              // ),
                             ),
                           ),
                           Row(

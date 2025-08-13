@@ -102,7 +102,7 @@ class LoginController extends GetxController {
     //       return;
     //     }
     if (listOfConpanies.isEmpty) {
-      GNav.pushNav(context, GRouteConfig.setUpScreenRoute);
+      GNav.pushNav(context, "${GRouteConfig.setUpScreenRoute}?orgId=${decodedData["payload"]["orgId"]}");
       return;
     }
 

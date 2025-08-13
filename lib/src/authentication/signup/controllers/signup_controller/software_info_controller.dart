@@ -121,7 +121,7 @@ class SoftwareInfoController extends GetxController {
     try {
       GProgressDialog(context).show();
       ResponseModel response = await APIsCallPost.submitRequest(
-        (g365Module == G365Module.payroll) ? 'Companies/RegisterCompanyV2' : 'Companies/RegisterCompany',
+        (g365Module == G365Module.payroll) ? 'Companies/RegisterCompanyV2' : 'Companies/RegisterCompany?OrganizationId=${BusinessProfileController.to.orgIdFromRedirectLogin.value}',
         data,
       );
       GProgressDialog(context).hide();

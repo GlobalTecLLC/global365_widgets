@@ -1,24 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:g365_widgets_user/g365_widgets_user.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/authentication_routes.dart';
+import 'package:global365_widgets/src/authentication/signup/controllers/payment_plan_controller.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/business_profile_controller.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/setup_screen_controller.dart';
-import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/sign_up_controller.dart';
 import 'package:global365_widgets/src/authentication/signup/dropdowns/business_location_dropdown.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
-import 'package:global365_widgets/src/constants/constants.dart';
-import 'package:global365_widgets/src/constants/globals.dart';
-import 'package:global365_widgets/src/textfileds/my_login_text_field.dart';
-import 'package:global365_widgets/src/textfileds/usphonenumer_filed.dart';
-import 'package:global365_widgets/src/utils/go_routes.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 
 class SetUpScreen extends StatefulWidget {
-  const SetUpScreen({super.key});
-
+  SetUpScreen({super.key, this.orgId});
+  String? orgId = '';
   @override
   State<SetUpScreen> createState() => _SetUpScreenState();
 }
@@ -31,6 +25,12 @@ class _SetUpScreenState extends State<SetUpScreen> {
   @override
   void initState() {
     super.initState();
+
+    if (Get.isRegistered<PaymentPlanController>()) {
+      Get.find<PaymentPlanController>();
+    } else {
+      Get.put(PaymentPlanController());
+    }
     if (Get.isRegistered<SignUpController>()) {
       Get.find<SignUpController>();
     } else {
@@ -46,6 +46,7 @@ class _SetUpScreenState extends State<SetUpScreen> {
       controller.businessName.text = '';
     }
 
+    BusinessProfileController.to.orgIdFromRedirectLogin.value = widget.orgId ?? '0';
     controller.locationDropdown.value = null;
     BusinessProfileController.to.getDropDownsData(context);
     BusinessProfileController.to.industryDropdown.value = null;
@@ -64,7 +65,6 @@ class _SetUpScreenState extends State<SetUpScreen> {
     return Scaffold(body: bodyData(context));
   }
 
- 
   Widget bodyData(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
@@ -72,7 +72,7 @@ class _SetUpScreenState extends State<SetUpScreen> {
     return Container(
       height: height,
       width: width,
-   
+
       child: Stack(
         children: [
           const SigninBackground(),
@@ -90,7 +90,6 @@ class _SetUpScreenState extends State<SetUpScreen> {
               ],
             ),
           ),
-         
         ],
       ),
     );
@@ -99,7 +98,6 @@ class _SetUpScreenState extends State<SetUpScreen> {
   Widget createAccountWidget(BuildContext context, SetUpController otpController) {
     return Column(
       children: [
-     
         GTextHeading2("Welcome ${SignUpController.to.firstName.text} ${SignUpController.to.lastName.text}"),
         SizedBox(height: 32),
         GLoginEmailField(
@@ -146,7 +144,6 @@ class _SetUpScreenState extends State<SetUpScreen> {
 
         SizedBox(height: 32),
         _submitButton(context),
-      
       ],
     );
   }
@@ -169,10 +166,9 @@ class _SetUpScreenState extends State<SetUpScreen> {
             controller.phoneNumberWithoutFormate = "1$digitsOnly";
             SoftwareInfoController.to.signUp(context);
           } else {
-            GNav.pushNav(context, GRouteConfig.businessProfileSetupRoute); 
+            GNav.pushNav(context, GRouteConfig.businessProfileSetupRoute);
+          }
         }
-        }
-       
       },
       child: Container(
         height: 48,
@@ -180,9 +176,7 @@ class _SetUpScreenState extends State<SetUpScreen> {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          boxShadow: <BoxShadow>[
-            BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 2),
-          ],
+          boxShadow: <BoxShadow>[BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 2)],
           color: mainColorPrimary,
         ),
         child: GTextHeading4("Let’s get you setup", color: whiteColor),

@@ -8,7 +8,7 @@ class AppAssets {
 
   //Image
   static const String bgLoginImg = "${imgPath}bg-login.png";
-  static const String globalGroupLogoLoginImg = "${iconPath}globalgrouplogologin.png";
+  static const String globalGroupLogoLoginImg = "${imgPath}globalgrouplogologin.png";
   static const String dummyPdfImg = "${imgPath}dummy_pdf.png";
 
   //Svg
