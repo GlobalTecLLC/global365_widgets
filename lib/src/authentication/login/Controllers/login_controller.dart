@@ -4,10 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/authentication_routes.dart';
-import 'package:global365_widgets/src/constants/globals.dart';
-import 'package:global365_widgets/src/utils/api_services/response_model/resonse_model.dart';
-
-import 'package:global365_widgets/src/utils/go_routes.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 // import 'package:local_auth/local_auth.dart';
 
@@ -16,6 +12,8 @@ import 'package:url_launcher/url_launcher.dart';
 class LoginController extends GetxController {
   static LoginController get to => Get.find();
   RxBool isSwitched = false.obs;
+
+  String orgId = "0";
 
   RxBool checkedValueEmailLogin = true.obs;
   // final formKey = GlobalKey<FormState>();
@@ -102,7 +100,7 @@ class LoginController extends GetxController {
     //       return;
     //     }
     if (listOfConpanies.isEmpty) {
-      GNav.pushNav(context, "${GRouteConfig.setUpScreenRoute}?orgId=${decodedData["payload"]["orgId"]}");
+      GNav.pushNav(context, "${GRouteConfig.setUpScreenRoute}?orgId=$orgId");
       return;
     }
 

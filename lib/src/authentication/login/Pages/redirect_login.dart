@@ -11,8 +11,9 @@ import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 
 class RedirectLogin extends StatefulWidget {
-  const RedirectLogin({required this.redirectcode, super.key});
+  const RedirectLogin({required this.redirectcode, this.orgId = "0", super.key});
   final String redirectcode;
+  final String orgId;
 
   @override
   State<RedirectLogin> createState() => _RedirectLoginState();
@@ -24,6 +25,8 @@ class _RedirectLoginState extends State<RedirectLogin> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       gLogger("Redirect Login ${widget.redirectcode}");
+      gLogger("Org Id ${widget.orgId}");
+      LoginController.to.orgId = widget.orgId;
       LoginController.to.redirectLogin(context, widget.redirectcode);
     });
   }
