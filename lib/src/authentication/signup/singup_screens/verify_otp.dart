@@ -24,6 +24,8 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   void initState() {
     super.initState();
     VerifyOtpController.to.isLoading.value = false;
+    VerifyOtpController.to.tecOtpController.text = '';
+    VerifyOtpController.to.isButtonEnabled.value = false;
   }
 
   @override

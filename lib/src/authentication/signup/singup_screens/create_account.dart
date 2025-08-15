@@ -1,11 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:g365_widgets_user/g365_widgets_user.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
-import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -36,6 +34,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       controller.controllerpassword.text = '';
       controller.checkedValue.value = false;
       controller.isLoading.value = false;
+      controller.betaTestingAgreement.value = false;
     });
   }
 
@@ -51,7 +50,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Container(
       height: height,
       width: width,
-    
+
       child: Stack(
         children: [
           const SigninBackground(),
@@ -71,16 +70,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ],
             ),
           ),
-        
         ],
       ),
     );
   }
+
   Widget createAccountWidget(BuildContext context) {
     return Obx(
       () => Column(
         children: [
-        
           const GTextHeading2("Create Your Account Today"),
           SizedBox(height: 32),
           Row(
@@ -169,8 +167,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SignUpController.to.validatePassword(value);
             },
           ),
-          if (SignUpController.to.isShowValidation.value && SignUpController.to.controllerpassword.text.isNotEmpty)
-            GSizeH(8),
+          if (SignUpController.to.isShowValidation.value && SignUpController.to.controllerpassword.text.isNotEmpty) GSizeH(8),
 
           if (SignUpController.to.isShowValidation.value && SignUpController.to.controllerpassword.text.isNotEmpty)
             Row(
@@ -238,8 +235,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           style: GAppStyle.style14w600(),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              SignUpController.to.betaTestingAgreement.value =
-                                  !SignUpController.to.betaTestingAgreement.value;
+                              SignUpController.to.betaTestingAgreement.value = !SignUpController.to.betaTestingAgreement.value;
                             },
                         ),
                         TextSpan(
