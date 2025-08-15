@@ -58,7 +58,7 @@ class _SetUpScreenState extends State<SetUpScreen> {
     BusinessProfileController.to.tecCity.text = '';
     BusinessProfileController.to.tecZip.text = '';
     BusinessProfileController.to.currencyName.text = '';
-    BusinessProfileController.to.phoneNumber.text = '';
+    controller.phoneNumber.text = '';
   }
 
   @override
