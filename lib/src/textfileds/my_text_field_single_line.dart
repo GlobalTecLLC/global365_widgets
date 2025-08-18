@@ -230,7 +230,11 @@ class GTextFieldForSingleLine extends StatelessWidget {
                 onSaved: onSaved as void Function(String?)?,
                 onChanged: onChange as void Function(String?)?,
                 onFieldSubmitted: onFieldSubmitted as void Function(String?)?,
-                keyboardType: isEmail ? TextInputType.emailAddress : TextInputType.text,
+                keyboardType: isEmail
+                    ? TextInputType.emailAddress
+                    : (maxLine != null && (maxLine ?? 0) > 1)
+                    ? TextInputType.multiline
+                    : TextInputType.text,
               ),
             ),
           ),
