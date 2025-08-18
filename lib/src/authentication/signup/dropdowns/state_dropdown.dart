@@ -5,7 +5,6 @@ import 'package:global365_widgets/src/authentication/signup/controllers/signup_c
 import 'package:global365_widgets/src/dropdowns/searchabledropdowncustom/dropdown_plus.dart';
 import 'package:global365_widgets/src/theme/dropdown_theme.dart';
 import 'package:global365_widgets/src/utils/api_services/get_request.dart';
-import 'package:global365_widgets/src/utils/api_client/api_client.dart';
 import 'package:global365_widgets/src/utils/toast/delightful_toast_class.dart';
 import 'package:global365_widgets/src/constants/globals.dart';
 
@@ -20,6 +19,7 @@ class StateDropdown extends StatefulWidget {
   final bool isShowLabelingColumn;
   final double? containerHeight;
   final Offset? offset;
+  final bool isRequired;
 
   final DropdownEditingController<dynamic> controller;
   const StateDropdown({
@@ -28,6 +28,7 @@ class StateDropdown extends StatefulWidget {
     this.isLoading = false,
     this.isUpdate = false,
     this.isEnabled = false,
+    this.isRequired = false,
     this.partyId = "0",
     this.label = "Company",
     this.onChanged,
@@ -150,9 +151,19 @@ class _StateDropdownState extends State<StateDropdown> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Row(
+          children: [
+            if (widget.isShowLabelingColumn) GDropDownTheme.headerTextBold(widget.label),
+            if (widget.isRequired)
+              Text(
+                " *",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Colors.red),
+              ),
+          ],
+        ),
         // Row(
         //   children: [
-        if (widget.isShowLabelingColumn) GDropDownTheme.headerTextBold(widget.label),
+        // if (widget.isShowLabelingColumn) GDropDownTheme.headerTextBold(widget.label),
         //     Text(
         //       " *",
         //       style: GoogleFonts.poppins(
@@ -203,12 +214,11 @@ class _StateDropdownState extends State<StateDropdown> {
                     return false;
                   },
                   filterFn: (dynamic item, str) => item[objectName].toLowerCase().indexOf(str.toLowerCase()) >= 0,
-                  dropdownItemFn: (dynamic item, int position, bool focused, bool selected, Function() onTap) =>
-                      ListTile(
-                        title: Text(item[objectName].toString(), style: GDropDownTheme.dropDownItemStyle()),
-                        tileColor: focused ? const Color.fromARGB(20, 0, 0, 0) : Colors.transparent,
-                        onTap: onTap,
-                      ),
+                  dropdownItemFn: (dynamic item, int position, bool focused, bool selected, Function() onTap) => ListTile(
+                    title: Text(item[objectName].toString(), style: GDropDownTheme.dropDownItemStyle()),
+                    tileColor: focused ? const Color.fromARGB(20, 0, 0, 0) : Colors.transparent,
+                    onTap: onTap,
+                  ),
                 ),
               )
             : globalSpinkitForLoaderswithBorder(),

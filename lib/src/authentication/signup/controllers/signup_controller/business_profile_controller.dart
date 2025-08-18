@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
+import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/dropdowns/searchabledropdowncustom/dropdown_plus.dart';
+import 'package:global365_widgets/src/utils/logger.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 
 class BusinessProfileController extends GetxController {
@@ -73,6 +75,26 @@ class BusinessProfileController extends GetxController {
     } else {
       GToast.error(response.data.toString(), context);
       gLogger("Error: ${response.data.toString()}");
+    }
+  }
+
+  RxString addressValidationMsg = "".obs;
+  Future<void> validateAddress(BuildContext context) async {
+    Logger.log("validateAddress");
+    dynamic data = {
+      "addressLine1": tecaddressLine1.text.trim(),
+      "addressLine2": null,
+      "CountryId": 233,
+      "StateId": stateDropdown.value['id'],
+      "city": tecCity.text.trim(),
+      "zip": tecZip.text.trim(),
+    };
+    ResponseModel response = await APIsCallPost.submitRequest("Companies/ValidateAddress", data);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      GNav.pushNav(context, GRouteConfig.softwareInfoScreenRoute);
+    } else {
+      dynamic decodedData = jsonDecode(response.data);
+      addressValidationMsg.value = decodedData["message"].toString();
     }
   }
 }

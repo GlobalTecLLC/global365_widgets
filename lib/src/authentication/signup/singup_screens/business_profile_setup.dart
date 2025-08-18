@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:g365_widgets_user/g365_widgets_user.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
@@ -11,9 +10,6 @@ import 'package:global365_widgets/src/authentication/signup/dropdowns/industry_d
 import 'package:global365_widgets/src/authentication/signup/dropdowns/state_dropdown.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
-import 'package:global365_widgets/src/constants/globals.dart';
-import 'package:global365_widgets/src/textfileds/my_login_text_field.dart';
-import 'package:global365_widgets/src/utils/go_routes.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 
 class BusinessProfileSetup extends StatefulWidget {
@@ -28,6 +24,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
   @override
   void initState() {
     super.initState();
+    BusinessProfileController.to.addressValidationMsg.value = '';
     BusinessProfileController.to.selectedLocationId.value = 233;
     BusinessProfileController.to.getStatesData(context);
   }
@@ -37,7 +34,6 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
     return Scaffold(body: bodyData(context));
   }
 
-
   Widget bodyData(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
@@ -45,7 +41,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
     return Container(
       height: height,
       width: width,
-    
+
       child: Stack(
         children: [
           const SigninBackground(),
@@ -62,7 +58,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -72,7 +68,6 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-     
         const Center(child: GTextHeading2("Organization/Business Profile Setup", color: Color(0xff2d2c2c))),
         GSizeH(16),
         const Center(child: GTextHeading5("Organizational Details", color: Color(0xff89999b))),
@@ -120,7 +115,8 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                 fontSizeForAll: 12.0,
                 textFieldColor: Colors.black,
                 fontSizeForLabel: 14.0,
-                hintText: "",
+                hintText: "Address Line 1",
+                isRequired: true,
                 // isDropdownStyle: true,
               ),
             ),
@@ -139,7 +135,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                 fontSizeForLabel: 14.0,
                 maxLine: 1,
                 paddingBelowHeading: 5,
-                hintText: "",
+                hintText: "Address Line 2",
                 // isDropdownStyle: true,
               ),
             ),
@@ -164,6 +160,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                     paddingBelowHeading: 5,
                     fontSizeForAll: 14.0,
                     textFieldColor: Colors.black,
+                    isRequired: true,
                     // isDropdownStyle: true,
                   ),
                 ],
@@ -177,6 +174,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                     ? Container()
                     : StateDropdown(
                         isNotHistory: true,
+                        isRequired: true,
                         // containerHeight: 56,
                         offset: const Offset(0, 40),
                         controller: BusinessProfileController.to.stateDropdown,
@@ -192,6 +190,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                 containerHeight: 40,
                 // isExtraHeightField: true,
                 isCustomHeight: true,
+                isRequired: true,
                 controller: BusinessProfileController.to.tecZip,
                 labelText: 'Zip',
                 fontSizeForLabel: 14.0,
@@ -218,12 +217,12 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                         offset: const Offset(0, 40),
                         controller: SetUpController.to.locationDropdown,
                         partyId: SetUpController.to.locationDropdownId,
+                        isRequired: true,
                         label: 'Organization/Business Location',
                         onChanged: (item) {
                           BusinessProfileController.to.statesList.clear();
 
-                          BusinessProfileController.to.selectedLocationId.value =
-                              SetUpController.to.locationDropdown.value["id"];
+                          BusinessProfileController.to.selectedLocationId.value = SetUpController.to.locationDropdown.value["id"];
                           BusinessProfileController.to.getStatesData(context);
 
                           SetUpController.to.updationControllerFunctin();
@@ -242,12 +241,19 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                   hintText: "Enter Company Phone Number",
                 ),
               ),
-            
             ],
           ),
         ),
-    
-        SizedBox(height: 32),
+
+        SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (BusinessProfileController.to.addressValidationMsg.value.isNotEmpty)
+              Text(BusinessProfileController.to.addressValidationMsg.value, style: TextStyle(color: Colors.red)),
+          ],
+        ),
+        SizedBox(height: 16),
         Row(
           children: [
             Expanded(child: _goBack(context)),
@@ -255,8 +261,6 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
             Expanded(child: _submitButton(context)),
           ],
         ),
-
-        
       ],
     );
   }
@@ -285,14 +289,19 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
   Widget _submitButton(BuildContext context) {
     return InkWell(
       onTap: () {
-        if (SetUpController.to.businessName.text.isEmpty || BusinessProfileController.to.phoneNumber.text.isEmpty 
-        // BusinessProfileController.to.industryDropdown.value == null ||
-        // BusinessProfileController.to.languageDropdown.value == null ||
-        // BusinessProfileController.to.stateDropdown.value == null ||
-        // BusinessProfileController.to.timezoneDropdown.value == null ||
-        // BusinessProfileController.to.address.text.isEmpty ||
-        // BusinessProfileController.to.currencyDropdown.value == null
-        ) {
+        if (SetUpController.to.businessName.text.isEmpty ||
+            BusinessProfileController.to.phoneNumber.text.isEmpty
+            // BusinessProfileController.to.industryDropdown.value == null ||
+            // BusinessProfileController.to.languageDropdown.value == null ||
+            // BusinessProfileController.to.stateDropdown.value == null ||
+            // BusinessProfileController.to.timezoneDropdown.value == null ||
+            // BusinessProfileController.to.address.text.isEmpty ||
+            // BusinessProfileController.to.currencyDropdown.value == null
+            ||
+            BusinessProfileController.to.tecaddressLine1.text.isEmpty ||
+            BusinessProfileController.to.tecCity.text.isEmpty ||
+            BusinessProfileController.to.tecZip.text.isEmpty ||
+            BusinessProfileController.to.stateDropdown.value == null) {
           gLogger(BusinessProfileController.to.tecaddressLine1.text);
           gLogger(BusinessProfileController.to.currencyDropdown.value);
           gLogger(BusinessProfileController.to.industryDropdown.value);
@@ -301,8 +310,9 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
           gLogger(BusinessProfileController.to.timezoneDropdown.value);
           GToast.info(context, "Please enter all details");
         } else {
-          // AutoRouter.of(context).push(const SoftwareInfoScreenRoute());
-          GNav.pushNav(context, GRouteConfig.softwareInfoScreenRoute); 
+          BusinessProfileController.to.validateAddress(context);
+         
+          // GNav.pushNav(context, GRouteConfig.softwareInfoScreenRoute);
         }
       },
       child: Container(
@@ -311,9 +321,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          boxShadow: <BoxShadow>[
-            BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 2),
-          ],
+          boxShadow: <BoxShadow>[BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 2)],
           color: mainColorPrimary,
         ),
         child: GTextHeading4("Next", color: whiteColor),

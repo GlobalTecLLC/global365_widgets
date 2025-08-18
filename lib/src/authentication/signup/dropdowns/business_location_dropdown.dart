@@ -5,7 +5,6 @@ import 'package:global365_widgets/src/authentication/signup/controllers/signup_c
 import 'package:global365_widgets/src/dropdowns/searchabledropdowncustom/dropdown_plus.dart';
 import 'package:global365_widgets/src/theme/dropdown_theme.dart';
 
-import 'package:global365_widgets/src/utils/api_client/api_client.dart';
 import 'package:global365_widgets/src/constants/globals.dart';
 import 'package:global365_widgets/src/utils/api_services/get_request.dart';
 
@@ -201,12 +200,11 @@ class _BusinessLocationDropdownState extends State<BusinessLocationDropdown> {
                     return false;
                   },
                   filterFn: (dynamic item, str) => item[objectName].toLowerCase().indexOf(str.toLowerCase()) >= 0,
-                  dropdownItemFn: (dynamic item, int position, bool focused, bool selected, Function() onTap) =>
-                      ListTile(
-                        title: Text(item[objectName].toString(), style: GDropDownTheme.dropDownItemStyle()),
-                        tileColor: focused ? const Color.fromARGB(20, 0, 0, 0) : Colors.transparent,
-                        onTap: onTap,
-                      ),
+                  dropdownItemFn: (dynamic item, int position, bool focused, bool selected, Function() onTap) => ListTile(
+                    title: Text(item[objectName].toString(), style: GDropDownTheme.dropDownItemStyle()),
+                    tileColor: focused ? const Color.fromARGB(20, 0, 0, 0) : Colors.transparent,
+                    onTap: onTap,
+                  ),
                 ),
               )
             : globalSpinkitForLoaderswithBorder(height: widget.containerHeight),
