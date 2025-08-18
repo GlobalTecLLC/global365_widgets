@@ -246,12 +246,14 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
         ),
 
         SizedBox(height: 16),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (BusinessProfileController.to.addressValidationMsg.value.isNotEmpty)
-              Text(BusinessProfileController.to.addressValidationMsg.value, style: TextStyle(color: Colors.red)),
-          ],
+        Obx(
+          () => Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (BusinessProfileController.to.addressValidationMsg.value.isNotEmpty)
+                Text(BusinessProfileController.to.addressValidationMsg.value, style: TextStyle(color: Colors.red)),
+            ],
+          ),
         ),
         SizedBox(height: 16),
         Row(
@@ -311,7 +313,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
           GToast.info(context, "Please enter all details");
         } else {
           BusinessProfileController.to.validateAddress(context);
-         
+
           // GNav.pushNav(context, GRouteConfig.softwareInfoScreenRoute);
         }
       },
