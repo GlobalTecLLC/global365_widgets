@@ -97,6 +97,12 @@ class BusinessProfileController extends GetxController {
       GNav.pushNav(context, GRouteConfig.softwareInfoScreenRoute);
     } else {
       dynamic decodedData = jsonDecode(response.data);
+      String message = decodedData["message"].toString();
+
+      // Remove "API Error: " prefix if it exists
+      if (message.startsWith("API Error: ")) {
+        message = message.replaceFirst("API Error: ", "");
+      }
       addressValidationMsg.value = decodedData["message"].toString();
     }
   }
