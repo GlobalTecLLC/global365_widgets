@@ -32,6 +32,7 @@ late SharedPreferences prefs;
 String companyname = "Technupur";
 int fiscalYearId = 1;
 String companyAddress = "";
+String companyCompleteAddress = "";
 String companyEmail = "";
 String companyAddressLine1 = "";
 String companyAddressLine2 = "";

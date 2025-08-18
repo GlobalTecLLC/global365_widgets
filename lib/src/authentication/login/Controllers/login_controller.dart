@@ -124,6 +124,20 @@ class LoginController extends GetxController {
     companyCity = defaultCompany["city"] ?? "";
     companyState = defaultCompany["state"] ?? "";
     companyZip = defaultCompany["zip"] ?? "";
+    final addressBuffer = StringBuffer();
+    if (companyAddressLine1.isNotEmpty) addressBuffer.writeln(companyAddressLine1);
+    if (companyAddressLine2.isNotEmpty) addressBuffer.writeln(companyAddressLine2);
+    if (companyCity.isNotEmpty || companyState.isNotEmpty || companyZip.isNotEmpty) {
+      addressBuffer.write(companyCity);
+      if (companyCity.isNotEmpty && companyState.isNotEmpty) addressBuffer.write(", ");
+      addressBuffer.write(companyState);
+      if ((companyCity.isNotEmpty || companyState.isNotEmpty) && companyZip.isNotEmpty) addressBuffer.write(" ");
+      addressBuffer.write(companyZip);
+    }
+
+    final formattedAddress = addressBuffer.toString().trim();
+    companyCompleteAddress = formattedAddress.isNotEmpty ? formattedAddress : "No Address Provided";
+    
     // isAccountant.value = defaultCompany["isAccountant"] ?? false;
     companyPhoneNo = defaultCompany["companyPhoneNumber"] ?? "";
     companyEmail = defaultCompany["companyEmail"] ?? "";
