@@ -167,6 +167,9 @@ class _SetUpScreenState extends State<SetUpScreen> {
             controller.phoneNumberWithoutFormate = "1$digitsOnly";
             SoftwareInfoController.to.signUp(context);
           } else {
+            final text = controller.phoneNumber.text;
+            final digitsOnly = text.replaceAll(RegExp(r'[^\d]'), '');
+            controller.phoneNumberWithoutFormate = "1$digitsOnly";
             GNav.pushNav(context, GRouteConfig.businessProfileSetupRoute);
           }
         }
