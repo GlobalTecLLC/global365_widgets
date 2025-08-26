@@ -314,6 +314,9 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
           gLogger(BusinessProfileController.to.timezoneDropdown.value);
           GToast.info(context, "Please enter all details");
         } else {
+          final text = BusinessProfileController.to.phoneNumber.text;
+          final digitsOnly = text.replaceAll(RegExp(r'[^\d]'), '');
+          SetUpController.to.phoneNumberWithoutFormate = "1$digitsOnly";
           BusinessProfileController.to.validateAddress(context);
 
           // GNav.pushNav(context, GRouteConfig.softwareInfoScreenRoute);
