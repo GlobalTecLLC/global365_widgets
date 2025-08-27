@@ -287,10 +287,7 @@ class DropdownFormFieldState<T> extends State<DropdownFormField> with SingleTick
                             setState(() {
                               decoration =
                                   widget.decoration ??
-                                  const InputDecoration(
-                                    border: UnderlineInputBorder(),
-                                    suffixIcon: Icon(Icons.arrow_drop_down),
-                                  );
+                                  const InputDecoration(border: UnderlineInputBorder(), suffixIcon: Icon(Icons.arrow_drop_down));
                             });
                           } else {
                             setState(() {
@@ -428,8 +425,7 @@ class DropdownFormFieldState<T> extends State<DropdownFormField> with SingleTick
                                   child: isCreate
                                       ? Row(
                                           children: [
-                                            if (!isEmpty)
-                                              const Icon(BootstrapIcons.plus_circle, color: primaryColor, size: 14),
+                                            if (!isEmpty) const Icon(BootstrapIcons.plus_circle, color: primaryColor, size: 14),
                                             if (!isEmpty) GSizeW(4),
                                             Expanded(
                                               child: Text(
@@ -523,6 +519,8 @@ class DropdownFormFieldState<T> extends State<DropdownFormField> with SingleTick
       _overlayBackdropEntry!.remove();
       _overlayEntry!.remove();
       _overlayEntry = null;
+      decoration = widget.decoration ?? InputDecoration(border: UnderlineInputBorder(), suffixIcon: Icon(Icons.arrow_drop_down));
+      _searchTextController.value = const TextEditingValue(text: "");
       setState(() {});
     }
   }
@@ -651,9 +649,7 @@ class DropdownFormFieldState<T> extends State<DropdownFormField> with SingleTick
             items.add({widget.objectIDName: -1010, widget.objectName: '   Create "$str"'} as T);
           }
           if (widget.isAllowCreateAndEdit && _searchTextController.text.isNotEmpty) {
-            items.add(
-              {widget.objectIDName: -1011, widget.objectName: '${widget.textonEmptyActionPressed} "$str"'} as T,
-            );
+            items.add({widget.objectIDName: -1011, widget.objectName: '${widget.textonEmptyActionPressed} "$str"'} as T);
           } else if (widget.isAllowCreateAndEdit && _searchTextController.text.isEmpty) {
             items.add({widget.objectIDName: -1011, widget.objectName: '${widget.textonEmptyActionPressed} $str'} as T);
           }

@@ -61,7 +61,11 @@ class _PaymentPlanState extends State<PaymentPlan> {
                         // width: 152,
                         padding: EdgeInsets.symmetric(vertical: 0),
                         child: SvgPicture.asset(
-                          "assets/svg/logo_merchant_light.svg",
+                          g365Module == G365Module.merchant
+                              ? "assets/svg/logo_merchant_light.svg"
+                              : g365Module == G365Module.payroll
+                              ? "assets/svg/payroll_light.svg"
+                              : "assets/svg/logo_merchant_light.svg",
                           package: packageName,
                           fit: BoxFit.contain,
                           alignment: Alignment.centerLeft,
@@ -175,15 +179,10 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                   color: lightBackgroundColor,
                                                                   borderRadius: BorderRadius.circular(6),
                                                                 ),
-                                                                child: const Center(
-                                                                  child: GLabelSemiBold("Essentials"),
-                                                                ),
+                                                                child: const Center(child: GLabelSemiBold("Essentials")),
                                                               ).marginOnly(top: 20),
                                                               GTextHeading1(
-                                                                GAmountFunctions.formateAmount(
-                                                                  "100",
-                                                                  addCurrency: true,
-                                                                ),
+                                                                GAmountFunctions.formateAmount("100", addCurrency: true),
                                                                 color: primaryColor,
                                                               ),
 
@@ -201,17 +200,13 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                     height: 40,
                                                                     width: 312,
                                                                     decoration: BoxDecoration(
-                                                                      color:
-                                                                          controller.selectedPlan.value == "essential"
+                                                                      color: controller.selectedPlan.value == "essential"
                                                                           ? secondaryColorOrange
                                                                           : Colors.black,
                                                                       borderRadius: BorderRadius.circular(6),
                                                                     ),
                                                                     child: Center(
-                                                                      child: GParagraph13(
-                                                                        "Select Plan",
-                                                                        color: Colors.white,
-                                                                      ),
+                                                                      child: GParagraph13("Select Plan", color: Colors.white),
                                                                     ),
                                                                   ).marginOnly(top: 20, bottom: 10),
                                                                 );
@@ -228,9 +223,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                 ),
                                                                 child: Align(
                                                                   alignment: Alignment.centerLeft,
-                                                                  child: GLabelSemiBold(
-                                                                    "Basic Reports",
-                                                                  ).marginOnly(left: 5),
+                                                                  child: GLabelSemiBold("Basic Reports").marginOnly(left: 5),
                                                                 ),
                                                               ).marginOnly(top: 10),
                                                               Container(
@@ -239,9 +232,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                 decoration: BoxDecoration(
                                                                   color: lightBackground3,
                                                                   borderRadius: BorderRadius.circular(1),
-                                                                  border: const Border(
-                                                                    top: BorderSide(color: Color(0xffc4d2d8)),
-                                                                  ),
+                                                                  border: const Border(top: BorderSide(color: Color(0xffc4d2d8))),
                                                                 ),
                                                                 child: Align(
                                                                   alignment: Alignment.centerLeft,
@@ -263,9 +254,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                 ),
                                                                 child: Align(
                                                                   alignment: Alignment.centerLeft,
-                                                                  child: GLabelSemiBold(
-                                                                    "Elite Onboarding",
-                                                                  ).marginOnly(left: 5),
+                                                                  child: GLabelSemiBold("Elite Onboarding").marginOnly(left: 5),
                                                                 ),
                                                               ),
                                                               SizedBox(
@@ -349,17 +338,11 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                       const Spacer(),
                                                                       Obx(
                                                                         () => Padding(
-                                                                          padding: EdgeInsets.only(
-                                                                            right: 4,
-                                                                            top: 3,
-                                                                            bottom: 3,
-                                                                          ),
+                                                                          padding: EdgeInsets.only(right: 4, top: 3, bottom: 3),
                                                                           child: CustomSwitch(
-                                                                            value:
-                                                                                controller.addAdditionalEntities.value,
+                                                                            value: controller.addAdditionalEntities.value,
                                                                             onChanged: (value) {
-                                                                              controller.addAdditionalEntities.value =
-                                                                                  value;
+                                                                              controller.addAdditionalEntities.value = value;
                                                                             },
                                                                           ),
                                                                         ),
@@ -391,17 +374,11 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                           fit: BoxFit.fill,
                                                                         ),
                                                                       ).marginOnly(left: 10, right: 5),
-                                                                      GLabelSemiBold(
-                                                                        "Online Bill Pay",
-                                                                      ).marginOnly(left: 5),
+                                                                      GLabelSemiBold("Online Bill Pay").marginOnly(left: 5),
                                                                       const Spacer(),
                                                                       Obx(
                                                                         () => Padding(
-                                                                          padding: EdgeInsets.only(
-                                                                            right: 4,
-                                                                            top: 3,
-                                                                            bottom: 3,
-                                                                          ),
+                                                                          padding: EdgeInsets.only(right: 4, top: 3, bottom: 3),
                                                                           child: CustomSwitch(
                                                                             value: controller.onlineBillPay.value,
                                                                             onChanged: (value) {
@@ -438,22 +415,15 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                           fit: BoxFit.fill,
                                                                         ),
                                                                       ).marginOnly(left: 10, right: 5),
-                                                                      GLabelSemiBold(
-                                                                        "Contractor Payments",
-                                                                      ).marginOnly(left: 5),
+                                                                      GLabelSemiBold("Contractor Payments").marginOnly(left: 5),
                                                                       const Spacer(),
                                                                       Obx(
                                                                         () => Padding(
-                                                                          padding: EdgeInsets.only(
-                                                                            right: 4,
-                                                                            top: 3,
-                                                                            bottom: 3,
-                                                                          ),
+                                                                          padding: EdgeInsets.only(right: 4, top: 3, bottom: 3),
                                                                           child: CustomSwitch(
                                                                             value: controller.contractorPayments.value,
                                                                             onChanged: (value) {
-                                                                              controller.contractorPayments.value =
-                                                                                  value;
+                                                                              controller.contractorPayments.value = value;
                                                                             },
                                                                           ),
                                                                         ),
@@ -486,17 +456,11 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                           fit: BoxFit.fill,
                                                                         ),
                                                                       ).marginOnly(left: 10, right: 5),
-                                                                      GLabelSemiBold(
-                                                                        "1099 E-Fillings",
-                                                                      ).marginOnly(left: 5),
+                                                                      GLabelSemiBold("1099 E-Fillings").marginOnly(left: 5),
                                                                       const Spacer(),
                                                                       Obx(
                                                                         () => Padding(
-                                                                          padding: EdgeInsets.only(
-                                                                            right: 4,
-                                                                            top: 3,
-                                                                            bottom: 3,
-                                                                          ),
+                                                                          padding: EdgeInsets.only(right: 4, top: 3, bottom: 3),
                                                                           child: CustomSwitch(
                                                                             value: controller.eFilings.value,
                                                                             onChanged: (value) {
@@ -558,9 +522,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                               TextSpan(
                                                                                 text:
                                                                                     "Promotional Discount applied. A first year monthly saving of ",
-                                                                                style: GAppStyle.style12w600(
-                                                                                  color: primaryColor,
-                                                                                ),
+                                                                                style: GAppStyle.style12w600(color: primaryColor),
                                                                               ),
                                                                               TextSpan(
                                                                                 text: "\$250",
@@ -587,10 +549,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                     borderRadius: BorderRadius.circular(6),
                                                                   ),
                                                                   child: Center(
-                                                                    child: GParagraph13(
-                                                                      "Select Plan",
-                                                                      color: Colors.white,
-                                                                    ),
+                                                                    child: GParagraph13("Select Plan", color: Colors.white),
                                                                   ),
                                                                 ).marginOnly(top: 20);
                                                               }),
@@ -624,8 +583,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                               ),
                                                               child: Center(
                                                                 child: GLabelSemiBold(
-                                                                  controller.subscriptionPlansFirstList.value["name"] ??
-                                                                      "",
+                                                                  controller.subscriptionPlansFirstList.value["name"] ?? "",
                                                                 ),
                                                               ),
                                                             ),
@@ -648,10 +606,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                               color: primaryColor,
                                                             ),
                                                             GSizeH(10),
-                                                            GLabelSemiBold(
-                                                              "Estimated Monthly Equivalent",
-                                                              color: Colors.grey,
-                                                            ),
+                                                            GLabelSemiBold("Estimated Monthly Equivalent", color: Colors.grey),
                                                             GSizeH(20),
                                                             //Select Plan
                                                             InkWell(
@@ -685,13 +640,9 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                               () => controller.isPlansListLoading.isTrue
                                                                   ? Container()
                                                                   : Padding(
-                                                                      padding: const EdgeInsets.symmetric(
-                                                                        horizontal: 10.0,
-                                                                      ),
+                                                                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
                                                                       child: buildExpansionPanelDynamicList(
-                                                                        controller
-                                                                                .subscriptionPlansFirstList
-                                                                                .value["features"] ??
+                                                                        controller.subscriptionPlansFirstList.value["features"] ??
                                                                             [],
                                                                       ),
                                                                     ),
@@ -756,10 +707,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                             // ),
                                                             GSizeH(10),
                                                             Container(
-                                                              padding: EdgeInsets.symmetric(
-                                                                vertical: 0,
-                                                                horizontal: 10,
-                                                              ),
+                                                              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                                                               margin: EdgeInsets.symmetric(horizontal: 10),
                                                               decoration: BoxDecoration(
                                                                 color: lightBackground3,
@@ -774,10 +722,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                               ),
                                                             ),
                                                             Padding(
-                                                              padding: EdgeInsets.symmetric(
-                                                                vertical: 0,
-                                                                horizontal: 10,
-                                                              ),
+                                                              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                                                               child: Text(
                                                                 "*${controller.subscriptionPlansFirstList.value["allowedDefaultUsers"] ?? ""}",
                                                                 style: GAppStyle.style12w600(),
@@ -786,10 +731,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                             ),
                                                             GSizeH(10),
                                                             Container(
-                                                              padding: EdgeInsets.symmetric(
-                                                                vertical: 0,
-                                                                horizontal: 10,
-                                                              ),
+                                                              padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                                                               margin: EdgeInsets.symmetric(horizontal: 10),
                                                               decoration: BoxDecoration(
                                                                 color: lightBackground3,
@@ -808,10 +750,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                               () => controller.isPlansListLoading.isTrue
                                                                   ? Container()
                                                                   : Container(
-                                                                      padding: EdgeInsets.symmetric(
-                                                                        vertical: 0,
-                                                                        horizontal: 10,
-                                                                      ),
+                                                                      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                                                                       height: 100,
                                                                       child: ListView.builder(
                                                                         itemCount:
@@ -868,10 +807,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                               child: Column(
                                                                 children: [
                                                                   GSizeH(10),
-                                                                  GLabelSemiBold(
-                                                                    "Updated Cost",
-                                                                    color: const Color(0xff777777),
-                                                                  ),
+                                                                  GLabelSemiBold("Updated Cost", color: const Color(0xff777777)),
                                                                   Row(
                                                                     crossAxisAlignment: CrossAxisAlignment.center,
                                                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -888,9 +824,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                     color: Color(0xffbbbbbb),
                                                                   ).marginSymmetric(horizontal: 15),
                                                                   Padding(
-                                                                    padding: const EdgeInsets.symmetric(
-                                                                      horizontal: 8.0,
-                                                                    ),
+                                                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                                                     child: GParagraphNormal(
                                                                       controller
                                                                               .subscriptionPlansFirstList
@@ -1023,10 +957,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                 child: Center(child: GLabelSemiBold("Enterprise")),
                                                               ).marginOnly(top: 20),
                                                               GTextHeading1(
-                                                                GAmountFunctions.formateAmount(
-                                                                  "650",
-                                                                  addCurrency: true,
-                                                                ),
+                                                                GAmountFunctions.formateAmount("650", addCurrency: true),
                                                                 color: primaryColor,
                                                               ),
 
@@ -1062,18 +993,12 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                     borderRadius: BorderRadius.circular(6),
                                                                   ),
                                                                   child: Center(
-                                                                    child: GParagraph13(
-                                                                      "Select Plan",
-                                                                      color: Colors.white,
-                                                                    ),
+                                                                    child: GParagraph13("Select Plan", color: Colors.white),
                                                                   ),
                                                                 ).marginOnly(top: 20),
                                                               ),
 
-                                                              buildExpansionPanelList(
-                                                                controller,
-                                                                controller.enterprise,
-                                                              ),
+                                                              buildExpansionPanelList(controller, controller.enterprise),
 
                                                               Container(
                                                                 height: 28,
@@ -1084,9 +1009,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                 ),
                                                                 child: Align(
                                                                   alignment: Alignment.centerLeft,
-                                                                  child: GLabelSemiBold(
-                                                                    "Basic Reports",
-                                                                  ).marginOnly(left: 5),
+                                                                  child: GLabelSemiBold("Basic Reports").marginOnly(left: 5),
                                                                 ),
                                                               ).marginOnly(top: 10),
                                                               Container(
@@ -1095,9 +1018,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                 decoration: BoxDecoration(
                                                                   color: lightBackground3,
                                                                   borderRadius: BorderRadius.circular(1),
-                                                                  border: const Border(
-                                                                    top: BorderSide(color: Color(0xffc4d2d8)),
-                                                                  ),
+                                                                  border: const Border(top: BorderSide(color: Color(0xffc4d2d8))),
                                                                 ),
                                                                 child: Align(
                                                                   alignment: Alignment.centerLeft,
@@ -1119,9 +1040,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                 ),
                                                                 child: Align(
                                                                   alignment: Alignment.centerLeft,
-                                                                  child: GLabelSemiBold(
-                                                                    "Elite Onboarding",
-                                                                  ).marginOnly(left: 5),
+                                                                  child: GLabelSemiBold("Elite Onboarding").marginOnly(left: 5),
                                                                 ),
                                                               ),
                                                               SizedBox(
@@ -1205,20 +1124,11 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                       const Spacer(),
                                                                       Obx(
                                                                         () => Padding(
-                                                                          padding: EdgeInsets.only(
-                                                                            right: 4,
-                                                                            top: 3,
-                                                                            bottom: 3,
-                                                                          ),
+                                                                          padding: EdgeInsets.only(right: 4, top: 3, bottom: 3),
                                                                           child: CustomSwitch(
-                                                                            value: controller
-                                                                                .enterAddAdditionalEntities
-                                                                                .value,
+                                                                            value: controller.enterAddAdditionalEntities.value,
                                                                             onChanged: (value) {
-                                                                              controller
-                                                                                      .enterAddAdditionalEntities
-                                                                                      .value =
-                                                                                  value;
+                                                                              controller.enterAddAdditionalEntities.value = value;
                                                                             },
                                                                           ),
                                                                         ),
@@ -1250,22 +1160,15 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                           fit: BoxFit.fill,
                                                                         ),
                                                                       ).marginOnly(left: 10, right: 5),
-                                                                      GLabelSemiBold(
-                                                                        "Online Bill Pay",
-                                                                      ).marginOnly(left: 5),
+                                                                      GLabelSemiBold("Online Bill Pay").marginOnly(left: 5),
                                                                       const Spacer(),
                                                                       Obx(
                                                                         () => Padding(
-                                                                          padding: EdgeInsets.only(
-                                                                            right: 4,
-                                                                            top: 3,
-                                                                            bottom: 3,
-                                                                          ),
+                                                                          padding: EdgeInsets.only(right: 4, top: 3, bottom: 3),
                                                                           child: CustomSwitch(
                                                                             value: controller.enterOnlineBillPay.value,
                                                                             onChanged: (value) {
-                                                                              controller.enterOnlineBillPay.value =
-                                                                                  value;
+                                                                              controller.enterOnlineBillPay.value = value;
                                                                             },
                                                                           ),
                                                                         ),
@@ -1298,24 +1201,15 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                           fit: BoxFit.fill,
                                                                         ),
                                                                       ).marginOnly(left: 10, right: 5),
-                                                                      GLabelSemiBold(
-                                                                        "Contractor Payments",
-                                                                      ).marginOnly(left: 5),
+                                                                      GLabelSemiBold("Contractor Payments").marginOnly(left: 5),
                                                                       const Spacer(),
                                                                       Obx(
                                                                         () => Padding(
-                                                                          padding: EdgeInsets.only(
-                                                                            right: 4,
-                                                                            top: 3,
-                                                                            bottom: 3,
-                                                                          ),
+                                                                          padding: EdgeInsets.only(right: 4, top: 3, bottom: 3),
                                                                           child: CustomSwitch(
-                                                                            value: controller
-                                                                                .enterContractorPayments
-                                                                                .value,
+                                                                            value: controller.enterContractorPayments.value,
                                                                             onChanged: (value) {
-                                                                              controller.enterContractorPayments.value =
-                                                                                  value;
+                                                                              controller.enterContractorPayments.value = value;
                                                                             },
                                                                           ),
                                                                         ),
@@ -1348,17 +1242,11 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                           fit: BoxFit.fill,
                                                                         ),
                                                                       ).marginOnly(left: 10, right: 5),
-                                                                      GLabelSemiBold(
-                                                                        "1099 E-Fillings",
-                                                                      ).marginOnly(left: 5),
+                                                                      GLabelSemiBold("1099 E-Fillings").marginOnly(left: 5),
                                                                       const Spacer(),
                                                                       Obx(
                                                                         () => Padding(
-                                                                          padding: EdgeInsets.only(
-                                                                            right: 4,
-                                                                            top: 3,
-                                                                            bottom: 3,
-                                                                          ),
+                                                                          padding: EdgeInsets.only(right: 4, top: 3, bottom: 3),
                                                                           child: CustomSwitch(
                                                                             value: controller.enterEFilings.value,
                                                                             onChanged: (value) {
@@ -1420,9 +1308,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                               TextSpan(
                                                                                 text:
                                                                                     "Promotional Discount applied. A first year monthly saving of ",
-                                                                                style: GAppStyle.style12w600(
-                                                                                  color: primaryColor,
-                                                                                ),
+                                                                                style: GAppStyle.style12w600(color: primaryColor),
                                                                               ),
                                                                               TextSpan(
                                                                                 text: "\$250",
@@ -1452,10 +1338,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                                                                     borderRadius: BorderRadius.circular(6),
                                                                   ),
                                                                   child: Center(
-                                                                    child: GParagraph13(
-                                                                      "Select Plan",
-                                                                      color: Colors.white,
-                                                                    ),
+                                                                    child: GParagraph13("Select Plan", color: Colors.white),
                                                                   ),
                                                                 ).marginOnly(top: 20),
                                                               ),
@@ -1472,7 +1355,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                             ],
                           ),
                     // GSizeH(16),
-                    SizedBox(width: width)
+                    SizedBox(width: width),
                     // SizedBox(
                     //   height: 160,
                     //   width: width,
@@ -1569,10 +1452,7 @@ class _PaymentPlanState extends State<PaymentPlan> {
                     children: [
                       GLabelSemiBold(section["name"] ?? ""),
                       Spacer(),
-                      Icon(
-                        (section["isExpanded"] ?? false) ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-                        color: Colors.grey,
-                      ),
+                      Icon((section["isExpanded"] ?? false) ? Icons.arrow_drop_up : Icons.arrow_drop_down, color: Colors.grey),
                     ],
                   ),
                 ),

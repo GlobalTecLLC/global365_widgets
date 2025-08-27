@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:g365_widgets_user/g365_widgets_user.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
+import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -333,6 +334,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
           SizedBox(height: 16),
           // wrap this condition in obx
           Obx(() => SignUpController.to.isLoading.value ? _submitButtonProcess(context) : _submitButton(context)),
+          SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Already have a Global365 account?", style: GAppStyle.style14w500()),
+              GSizeW(4),
+              InkWell(
+                onTap: () {
+                  GNav.pushNav(context, GRouteConfig.loginUsaPageRoute);
+                },
+                child: Text(" Sign In", style: GAppStyle.style14w500(color: secondaryColorOrange)),
+              ),
+            ],
+          ),
         ],
       ),
     );
