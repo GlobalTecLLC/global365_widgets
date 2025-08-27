@@ -235,12 +235,14 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
 
               GSizeW(20),
               Expanded(
-                child: GLoginEmailField(
+                child: GNumberTextFormField(
                   showheading: true,
                   isRequired: true,
+                  isNumberOnly: true,
+                  numberFormat: true,
+                  hintText: "(000) 000-0000",
                   labelText: "Company Phone Number",
                   controller: BusinessProfileController.to.phoneNumber,
-                  hintText: "Enter Company Phone Number",
                 ),
               ),
             ],
@@ -316,7 +318,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
         } else {
           final text = BusinessProfileController.to.phoneNumber.text;
           final digitsOnly = text.replaceAll(RegExp(r'[^\d]'), '');
-          SetUpController.to.phoneNumberWithoutFormate = "1$digitsOnly";
+          SetUpController.to.phoneNumberWithoutFormate = digitsOnly;
           BusinessProfileController.to.validateAddress(context);
 
           // GNav.pushNav(context, GRouteConfig.softwareInfoScreenRoute);

@@ -527,6 +527,7 @@ class DropdownFormFieldState<T> extends State<DropdownFormField> with SingleTick
 
   void _toggleOverlay() {
     if (_overlayEntry == null && widget.isDropDownEnabled != false) {
+      _lastSearchString = "";
       _addOverlay();
     } else {
       _removeOverlay();
