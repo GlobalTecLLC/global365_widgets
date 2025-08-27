@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:g365_widgets_user/g365_widgets_user.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
-import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/business_profile_controller.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/setup_screen_controller.dart';
 import 'package:global365_widgets/src/authentication/signup/dropdowns/business_location_dropdown.dart';
@@ -310,17 +309,16 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
   Widget _submitButton(BuildContext context) {
     return InkWell(
       onTap: () {
-        if (SetUpController.to.businessName.text.isEmpty ||
-            BusinessProfileController.to.phoneNumber.text.isEmpty
+        if (SetUpController.to.businessName.text.trim().isEmpty ||
+            BusinessProfileController.to.phoneController.phoneNumber.trim().isEmpty ||
             // BusinessProfileController.to.industryDropdown.value == null ||
             // BusinessProfileController.to.languageDropdown.value == null ||
             // BusinessProfileController.to.stateDropdown.value == null ||
             // BusinessProfileController.to.timezoneDropdown.value == null ||
             // BusinessProfileController.to.address.text.isEmpty ||
             // BusinessProfileController.to.currencyDropdown.value == null
-            ||
-            BusinessProfileController.to.tecaddressLine1.text.isEmpty ||
-            BusinessProfileController.to.tecCity.text.isEmpty ||
+            BusinessProfileController.to.tecaddressLine1.text.trim().isEmpty ||
+            BusinessProfileController.to.tecCity.text.trim().isEmpty ||
             BusinessProfileController.to.tecZip.text.isEmpty ||
             BusinessProfileController.to.stateDropdown.value == null) {
           gLogger(BusinessProfileController.to.tecaddressLine1.text);
@@ -330,10 +328,9 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
           gLogger(BusinessProfileController.to.stateDropdown.value);
           gLogger(BusinessProfileController.to.timezoneDropdown.value);
           GToast.info(context, "Please enter all details");
+        } else if (BusinessProfileController.to.tecZip.text.length != 5) {
+          GToast.info(context, "Please enter valid zip code");
         } else {
-          final text = BusinessProfileController.to.phoneNumber.text;
-          final digitsOnly = text.replaceAll(RegExp(r'[^\d]'), '');
-          SetUpController.to.phoneNumberWithoutFormate = digitsOnly;
           BusinessProfileController.to.validateAddress(context);
 
           // GNav.pushNav(context, GRouteConfig.softwareInfoScreenRoute);
