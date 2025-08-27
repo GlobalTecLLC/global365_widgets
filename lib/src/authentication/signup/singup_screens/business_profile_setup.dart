@@ -10,6 +10,7 @@ import 'package:global365_widgets/src/authentication/signup/dropdowns/industry_d
 import 'package:global365_widgets/src/authentication/signup/dropdowns/state_dropdown.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
+import 'package:global365_widgets/src/textfileds/phone_number_text_field.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 
 class BusinessProfileSetup extends StatefulWidget {
@@ -234,17 +235,31 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
               ),
 
               GSizeW(20),
+
               Expanded(
-                child: GNumberTextFormField(
-                  showheading: true,
-                  isRequired: true,
-                  isNumberOnly: true,
-                  numberFormat: true,
-                  hintText: "(000) 000-0000",
-                  labelText: "Company Phone Number",
-                  controller: BusinessProfileController.to.phoneNumber,
+                child: GCustomPhoneNumberField(
+                  controller: BusinessProfileController.to.phoneController,
+                  onChanged: (phoneNumber, countryCode, isValid) {
+                    print(
+                      'Phone: ${BusinessProfileController.to.phoneController.phoneNumber}, Country: $countryCode, isValid: $isValid',
+                    );
+                  },
                 ),
               ),
+
+              // Expanded(
+              //   child: GNumberTextFormField(
+              //     containerHeight: 42,
+              //     showheading: true,
+              //     isRequired: true,
+              //     isNumberOnly: true,
+              //     numberFormat: true,
+              //     hintText: "(000) 000-0000",
+              //     labelText: "Company Phone Number",
+              //     controller: BusinessProfileController.to.phoneNumber,
+              //     textAlign: TextAlign.left,
+              //   ),
+              // ),
             ],
           ),
         ),

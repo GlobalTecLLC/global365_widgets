@@ -106,7 +106,9 @@ class SoftwareInfoController extends GetxController {
       "addressLineTwo": BusinessProfileController.to.tecaddressLine2.text.trim(),
       "city": BusinessProfileController.to.tecCity.text.trim(),
       "zip": BusinessProfileController.to.tecZip.text.trim(),
-      "phoneNo": SetUpController.to.phoneNumberWithoutFormate,
+      "phoneNo":
+          // BusinessProfileController.to.phoneController.countryCode +
+          BusinessProfileController.to.phoneController.phoneNumber.trim(),
       "planTypeId": 1,
       "planId": PaymentPlanController.to.selectedPlanId, // This should be set based on the selected plan
     };
@@ -121,7 +123,9 @@ class SoftwareInfoController extends GetxController {
     try {
       GProgressDialog(context).show();
       ResponseModel response = await APIsCallPost.submitRequest(
-        (g365Module == G365Module.payroll) ? 'Companies/RegisterCompanyV2' : 'Companies/RegisterCompany?OrganizationId=${BusinessProfileController.to.orgIdFromRedirectLogin.value}',
+        (g365Module == G365Module.payroll)
+            ? 'Companies/RegisterCompanyV2'
+            : 'Companies/RegisterCompany?OrganizationId=${BusinessProfileController.to.orgIdFromRedirectLogin.value}',
         data,
       );
       GProgressDialog(context).hide();
@@ -182,7 +186,7 @@ class SoftwareInfoController extends GetxController {
         //     throw Exception('Could not launch $url');
         //   }
         // } else {
-         prefs.setString("onBoardingUrl", url);
+        prefs.setString("onBoardingUrl", url);
         GNav.pushNavWithExtra(context, GRouteConfig.completemerchantprocess, {"url": url});
         // }
       } else {

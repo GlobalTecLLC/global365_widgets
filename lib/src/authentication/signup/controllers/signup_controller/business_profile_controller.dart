@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/dropdowns/searchabledropdowncustom/dropdown_plus.dart';
+import 'package:global365_widgets/src/textfileds/phone_number_text_field.dart';
 import 'package:global365_widgets/src/utils/logger.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 
@@ -19,6 +20,8 @@ class BusinessProfileController extends GetxController {
   TextEditingController tecCity = TextEditingController();
   TextEditingController tecZip = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
+
+  CustomPhoneNumberController phoneController = CustomPhoneNumberController();
 
   RxString orgIdFromRedirectLogin = "".obs;
   //Dropdowns initialization
