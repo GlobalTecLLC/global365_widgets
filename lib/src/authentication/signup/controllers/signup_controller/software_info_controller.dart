@@ -76,10 +76,9 @@ class SoftwareInfoController extends GetxController {
     gLogger("Selected Software: ${selectedSoftware.value}");
     gLogger("company name: ${SetUpController.to.businessName.text.trim()}");
     gLogger("address: ${BusinessProfileController.to.tecaddressLine1.text.trim()}");
-    final text =
-        BusinessProfileController.to.phoneController.countryCode + BusinessProfileController.to.phoneController.phoneNumber;
+    final text = BusinessProfileController.to.phoneController.phoneNumber;
     final digitsOnly = text.replaceAll(RegExp(r'[^\d]'), '');
-    String formattedPhone = "1$digitsOnly";
+    String formattedPhone = digitsOnly;
     gLogger("This is Data");
     dynamic data = {
       "companyName": SetUpController.to.businessName.text.trim(),
