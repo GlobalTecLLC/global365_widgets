@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:global365_widgets/src/constants/constants.dart';
- 
-class GCustomPhoneNumberField extends StatefulWidget {
+import 'package:global365_widgets/src/constants/constants.dart'; 
+
+class CustomPhoneNumberField extends StatefulWidget {
   final String? label;
   // final String? initialCountryCode;
   final Function(String phoneNumber, String countryCode, bool isValid)? onChanged;
@@ -10,10 +10,12 @@ class GCustomPhoneNumberField extends StatefulWidget {
   final int maxLength;
   final bool isShowHeading;
   final bool isRequired;
+  final bool isPhoneEnabled;
+  final bool isCountryEnabled;
 
   final CustomPhoneNumberController controller;
 
-  const GCustomPhoneNumberField({
+  const CustomPhoneNumberField({
     Key? key,
     this.label,
     this.isShowHeading = true,
@@ -23,13 +25,15 @@ class GCustomPhoneNumberField extends StatefulWidget {
     this.onChanged,
     this.minLength = 10,
     this.maxLength = 11,
+    this.isPhoneEnabled = true,
+    this.isCountryEnabled = true,
   }) : super(key: key);
 
   @override
-  State<GCustomPhoneNumberField> createState() => _GCustomPhoneNumberFieldState();
+  State<CustomPhoneNumberField> createState() => _CustomPhoneNumberFieldState();
 }
 
-class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
+class _CustomPhoneNumberFieldState extends State<CustomPhoneNumberField> {
   final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   final FocusNode _focusNodeSearch = FocusNode();
@@ -155,7 +159,7 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
         child: CompositedTransformFollower(
           link: _layerLink,
           showWhenUnlinked: false,
-          offset: Offset(0, size.height + 5),
+          offset: Offset(0, size.height - 12),
           child: Material(
             borderRadius: BorderRadius.circular(8),
             elevation: 4,
@@ -370,14 +374,16 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   IntrinsicWidth(
-                    child: GestureDetector(
-                      onTap: () {
-                        if (_overlayEntry == null) {
-                          _showOverlay();
-                        } else {
-                          _removeOverlay();
-                        }
-                      },
+                    child: InkWell(
+                      onTap: widget.isCountryEnabled
+                          ? () {
+                              if (_overlayEntry == null) {
+                                _showOverlay();
+                              } else {
+                                _removeOverlay();
+                              }
+                            }
+                          : null,
                       child: Container(
                         height: 30,
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
@@ -396,6 +402,7 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
                     child: TextField(
                       controller: _controller,
                       focusNode: _focusNodePhoneNumber,
+                      enabled: widget.isPhoneEnabled,
                       keyboardType: TextInputType.phone,
                       style: const TextStyle(fontSize: 12, color: bodyTextDark),
                       inputFormatters: [

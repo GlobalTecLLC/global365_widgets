@@ -236,7 +236,10 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
               GSizeW(20),
 
               Expanded(
-                child: GCustomPhoneNumberField(
+                child: CustomPhoneNumberField(
+                  isCountryEnabled: false,
+                  isRequired: true,
+
                   controller: BusinessProfileController.to.phoneController,
                   onChanged: (phoneNumber, countryCode, isValid) {
                     print(

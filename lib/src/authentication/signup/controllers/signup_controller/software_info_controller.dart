@@ -76,7 +76,10 @@ class SoftwareInfoController extends GetxController {
     gLogger("Selected Software: ${selectedSoftware.value}");
     gLogger("company name: ${SetUpController.to.businessName.text.trim()}");
     gLogger("address: ${BusinessProfileController.to.tecaddressLine1.text.trim()}");
-
+    final text =
+        BusinessProfileController.to.phoneController.countryCode + BusinessProfileController.to.phoneController.phoneNumber;
+    final digitsOnly = text.replaceAll(RegExp(r'[^\d]'), '');
+    String formattedPhone = "1$digitsOnly";
     gLogger("This is Data");
     dynamic data = {
       "companyName": SetUpController.to.businessName.text.trim(),
@@ -106,9 +109,9 @@ class SoftwareInfoController extends GetxController {
       "addressLineTwo": BusinessProfileController.to.tecaddressLine2.text.trim(),
       "city": BusinessProfileController.to.tecCity.text.trim(),
       "zip": BusinessProfileController.to.tecZip.text.trim(),
-      "phoneNo":
-          // BusinessProfileController.to.phoneController.countryCode +
-          BusinessProfileController.to.phoneController.phoneNumber.trim(),
+      "phoneNo": formattedPhone,
+      // BusinessProfileController.to.phoneController.countryCode +
+      // BusinessProfileController.to.phoneController.phoneNumber.trim(),
       "planTypeId": 1,
       "planId": PaymentPlanController.to.selectedPlanId, // This should be set based on the selected plan
     };
