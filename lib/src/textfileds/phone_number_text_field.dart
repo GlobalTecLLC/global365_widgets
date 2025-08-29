@@ -308,7 +308,6 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
   @override
   void dispose() {
     _removeOverlay();
-    widget.controller.textController.dispose();
     _focusNode.dispose();
     widget.controller.removeListener(_onControllerChanged);
     super.dispose();
