@@ -34,7 +34,7 @@ class GCustomPhoneNumberField extends StatefulWidget {
 }
 
 class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
-  // final TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   final FocusNode _focusNodeSearch = FocusNode();
   final FocusNode _focusNodePhoneNumber = FocusNode();
@@ -75,16 +75,16 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
       // Extract digits and format according to country
       String digits = widget.controller.phoneNumber.replaceAll(RegExp(r'[^\d]'), '');
       String formatted = _applyFormat(digits, currentCountry["format"], currentCountry["max"]);
-      widget.controller.textController.text = formatted;
+      _controller.text = formatted;
     }
 
     filteredCountries = List.from(CountiresList.countries);
   }
 
   _onControllerChanged() {
-    if (widget.controller.phoneNumber != widget.controller.textController.text) {
+    if (widget.controller.phoneNumber != _controller.text) {
       // Update phone number text
-      widget.controller.textController.text = widget.controller.phoneNumber;
+      _controller.text = widget.controller.phoneNumber;
     }
     if (widget.controller.countryCode != _selectedCountryCode) {
       // Update selected country code
@@ -280,15 +280,15 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
 
   /// --- Format existing number for new country ---
   void _formatNumberForCountry(Map<String, dynamic> country) {
-    if (widget.controller.textController.text.isNotEmpty) {
+    if (_controller.text.isNotEmpty) {
       // Get only digits from current number
-      String digits = widget.controller.textController.text.replaceAll(RegExp(r'[^\d]'), '');
+      String digits = _controller.text.replaceAll(RegExp(r'[^\d]'), '');
 
       // Apply new country format
       String formatted = _applyFormat(digits, country["format"], country["max"]);
 
       setState(() {
-        widget.controller.textController.value = TextEditingValue(
+        _controller.value = TextEditingValue(
           text: formatted,
           selection: TextSelection.collapsed(offset: formatted.length),
         );
@@ -308,6 +308,7 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
   @override
   void dispose() {
     _removeOverlay();
+    _controller.dispose();
     _focusNode.dispose();
     widget.controller.removeListener(_onControllerChanged);
     super.dispose();
@@ -399,7 +400,7 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
                   ),
                   Expanded(
                     child: TextField(
-                      controller: widget.controller.textController, //  _controller,
+                      controller: _controller,
                       focusNode: _focusNodePhoneNumber,
                       enabled: widget.isPhoneEnabled,
                       keyboardType: TextInputType.phone,
@@ -429,8 +430,8 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
                         final formatted = _applyFormat(digits, currentCountry["format"], currentCountry["max"]);
 
                         // Only update if different to avoid cursor jumping
-                        if (widget.controller.textController.text != formatted) {
-                          widget.controller.textController.value = TextEditingValue(
+                        if (_controller.text != formatted) {
+                          _controller.value = TextEditingValue(
                             text: formatted,
                             selection: TextSelection.collapsed(offset: formatted.length),
                           );
@@ -461,72 +462,36 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
 }
 
 class CustomPhoneNumberController extends ChangeNotifier {
-  final TextEditingController textController = TextEditingController();
-
   String _countryCode;
+  String _phoneNumber;
   bool _isValid;
 
   CustomPhoneNumberController({String countryCode = "+1", String phoneNumber = "", bool isValid = false})
     : _countryCode = countryCode,
-      _isValid = isValid {
-    textController.text = phoneNumber;
-  }
+      _phoneNumber = phoneNumber,
+      _isValid = isValid;
 
   String get countryCode => _countryCode;
-  String get phoneNumber => textController.text;
+  String get phoneNumber => _phoneNumber;
   bool get isValid => _isValid;
 
   void update({required String countryCode, required String phoneNumber, bool isValid = false}) {
+    if (countryCode.isEmpty) {
+      countryCode = "+1";
+    }
     _countryCode = countryCode;
-    textController.text = phoneNumber;
+    _phoneNumber = phoneNumber;
+
     _isValid = CountiresList.isValidNumber(phoneNumber, countryCode);
     notifyListeners();
   }
 
   void clear() {
     _countryCode = "+1";
-    textController.clear();
+    _phoneNumber = "";
     _isValid = false;
-    notifyListeners();
-  }
-
-  @override
-  void dispose() {
-    textController.dispose();
-    super.dispose();
   }
 }
-// class CustomPhoneNumberController extends ChangeNotifier {
-//   String _countryCode;
-//   String _phoneNumber;
-//   bool _isValid;
-
-//   CustomPhoneNumberController({String countryCode = "+1", String phoneNumber = "", bool isValid = false})
-//     : _countryCode = countryCode,
-//       _phoneNumber = phoneNumber,
-//       _isValid = isValid;
-
-//   String get countryCode => _countryCode;
-//   String get phoneNumber => _phoneNumber;
-//   bool get isValid => _isValid;
-
-//   void update({required String countryCode, required String phoneNumber, bool isValid = false}) {
-//     if (countryCode.isEmpty) {
-//       countryCode = "+1";
-//     }
-//     _countryCode = countryCode;
-//     _phoneNumber = phoneNumber;
-
-//     _isValid = CountiresList.isValidNumber(phoneNumber, countryCode);
-//     notifyListeners();
-//   }
-
-//   void clear() {
-//     _countryCode = "+1";
-//     _phoneNumber = "";
-//     _isValid = false;
-//   }
-// }
 
 class CountiresList {
   static List<Map<String, dynamic>> get countries => _countries;
