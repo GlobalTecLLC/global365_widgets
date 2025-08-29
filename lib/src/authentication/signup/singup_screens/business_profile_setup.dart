@@ -236,7 +236,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
               GSizeW(20),
 
               Expanded(
-                child: CustomPhoneNumberField(
+                child: GCustomPhoneNumberField(
                   isCountryEnabled: false,
                   isRequired: true,
 

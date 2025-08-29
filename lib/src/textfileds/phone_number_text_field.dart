@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:global365_widgets/src/constants/constants.dart'; 
+import 'package:global365_widgets/src/constants/constants.dart';
 
-class CustomPhoneNumberField extends StatefulWidget {
+class GCustomPhoneNumberField extends StatefulWidget {
   final String? label;
   // final String? initialCountryCode;
   final Function(String phoneNumber, String countryCode, bool isValid)? onChanged;
@@ -15,7 +15,7 @@ class CustomPhoneNumberField extends StatefulWidget {
 
   final CustomPhoneNumberController controller;
 
-  const CustomPhoneNumberField({
+  const GCustomPhoneNumberField({
     Key? key,
     this.label,
     this.isShowHeading = true,
@@ -30,10 +30,10 @@ class CustomPhoneNumberField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CustomPhoneNumberField> createState() => _CustomPhoneNumberFieldState();
+  State<GCustomPhoneNumberField> createState() => _GCustomPhoneNumberFieldState();
 }
 
-class _CustomPhoneNumberFieldState extends State<CustomPhoneNumberField> {
+class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
   final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   final FocusNode _focusNodeSearch = FocusNode();
