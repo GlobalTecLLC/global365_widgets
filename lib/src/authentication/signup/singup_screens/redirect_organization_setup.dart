@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/authentication_routes.dart';
+import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/business_profile_controller.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/setup_screen_controller.dart';
-import 'package:global365_widgets/src/utils/export_utils.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 
 class RedirectOrganizationSetup extends StatefulWidget {
@@ -41,8 +41,10 @@ class _RedirectOrganizationSetupState extends State<RedirectOrganizationSetup> {
     if (widget.organizationId != null && widget.organizationName != null && widget.accessToken.isNotEmpty) {
       accessToken = widget.accessToken; // Set the access token globally
       SetUpController controller = Get.put(SetUpController());
+      BusinessProfileController cntrlr = Get.put(BusinessProfileController());
       controller.businessName.text = widget.organizationName!;
-      controller.existingCompany = widget.organizationId!; // Set the location ID
+      cntrlr.orgIdFromRedirectLogin.value =
+          widget.organizationId!; //  controller.existingCompany = widget.organizationId!; // Set the location ID
       controller.phoneNumber.text = widget.phoneNumber; // Set the phone number
       controller.isExistingCompany = true; // Indicate that this is an existing company
       // Assuming organizationId is the location ID
