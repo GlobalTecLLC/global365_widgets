@@ -79,9 +79,14 @@ class LoginController extends GetxController {
     }
   }
 
-  loginResponsehandler(BuildContext context, dynamic decodedData) async {
+  loginResponsehandler(BuildContext context, dynamic decodedData, {bool? companyStatus}) async {
     accessToken = (decodedData["payload"] ?? {})["token"];
 
+    // if I am redirecting from Accounting and status of Merchant is false, it will redirect me to setup screen no matter what.
+    if (companyStatus == false) {
+      GNav.pushNav(context, "${GRouteConfig.setUpScreenRoute}?orgId=$orgId");
+      return;
+    }
     gLogger(((decodedData["payload"] ?? {})["userPreferences"]));
     //     PreferencesData.myPreferencesGeneral = ((decodedData["payload"] ?? {})["userPreferences"]) == null
     //         ? PreferencesData.myPreferencesGeneral
@@ -137,7 +142,7 @@ class LoginController extends GetxController {
 
     final formattedAddress = addressBuffer.toString().trim();
     companyCompleteAddress = formattedAddress.isNotEmpty ? formattedAddress : "No Address Provided";
-    
+
     // isAccountant.value = defaultCompany["isAccountant"] ?? false;
     companyPhoneNo = defaultCompany["companyPhoneNumber"] ?? "";
     companyEmail = defaultCompany["companyEmail"] ?? "";
@@ -181,9 +186,6 @@ class LoginController extends GetxController {
     prefs.setString("userFirstName", userNameForGlobals.value);
     prefs.setString("companyCompleteAddress", companyCompleteAddress);
     gLogger("Company Complete Address is $companyCompleteAddress");
-
-
-
 
     // prefs.setBool("isMerchant", isMerchant);
     prefs.setBool("isAppOpen", true);
@@ -279,13 +281,13 @@ class LoginController extends GetxController {
     // }
   }
 
-  Future<void> redirectLogin(BuildContext context, String code) async {
+  Future<void> redirectLogin(BuildContext context, String code, bool companyStatus) async {
     ResponseModel response = await APIsCallPost.submitRequest("Users/NewLoginByUniqueCode?UniqueCode=$code", {});
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       dynamic decodedData = jsonDecode(response.data);
 
-      loginResponsehandler(context, decodedData);
+      loginResponsehandler(context, decodedData, companyStatus: companyStatus);
     } else {
       GToast.error(response.data.toString(), context);
       GNav.goNav(context, GRouteConfig.loginUsaPageRoute);

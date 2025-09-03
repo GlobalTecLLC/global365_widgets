@@ -1,7 +1,6 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:g365_widgets_user/constants.dart';
 import 'package:g365_widgets_user/g365_widgets_user.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/login/Controllers/login_controller.dart';
@@ -11,9 +10,10 @@ import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 
 class RedirectLogin extends StatefulWidget {
-  const RedirectLogin({required this.redirectcode, this.orgId = "0", super.key});
+  const RedirectLogin({required this.redirectcode, this.orgId = "0", this.status, super.key});
   final String redirectcode;
   final String orgId;
+  final bool? status;
 
   @override
   State<RedirectLogin> createState() => _RedirectLoginState();
@@ -27,7 +27,7 @@ class _RedirectLoginState extends State<RedirectLogin> {
       gLogger("Redirect Login ${widget.redirectcode}");
       gLogger("Org Id ${widget.orgId}");
       LoginController.to.orgId = widget.orgId;
-      LoginController.to.redirectLogin(context, widget.redirectcode);
+      LoginController.to.redirectLogin(context, widget.redirectcode, widget.status ?? true);
     });
   }
 
