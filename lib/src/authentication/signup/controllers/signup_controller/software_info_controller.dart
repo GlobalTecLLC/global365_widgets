@@ -108,7 +108,7 @@ class SoftwareInfoController extends GetxController {
       "addressLineTwo": BusinessProfileController.to.tecaddressLine2.text.trim(),
       "city": BusinessProfileController.to.tecCity.text.trim(),
       "zip": BusinessProfileController.to.tecZip.text.trim(),
-      "phoneNo": formattedPhone,
+      "phoneNo": g365Module == G365Module.merchant ? SetUpController.to.phoneNumberWithoutFormate.trim() : formattedPhone,
       // BusinessProfileController.to.phoneController.countryCode +
       // BusinessProfileController.to.phoneController.phoneNumber.trim(),
       "planTypeId": 1,
