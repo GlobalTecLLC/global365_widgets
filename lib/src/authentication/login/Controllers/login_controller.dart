@@ -108,7 +108,7 @@ class LoginController extends GetxController {
       GNav.pushNav(context, "${GRouteConfig.setUpScreenRoute}?orgId=$orgId");
       return;
     }
-
+    isPayrollDashboardStepsComplete.value = (decodedData["payload"] ?? {})['isCompanyTabs'] ?? false;
     Global365Widgets.loginCallBack((decodedData["payload"] ?? {}));
     dynamic defaultCompany = listOfConpanies.firstWhere(
       (element) => element["companyId"].toString() == (decodedData["payload"] ?? {})['defaultCompanyId'].toString(),

@@ -29,6 +29,8 @@ G365Module g365Module = G365Module.accounting;
 String companyId = "";
 late SharedPreferences prefs;
 
+RxBool isPayrollDashboardStepsComplete = false.obs; // payrollDashboardStepsComplete
+
 String companyname = "Technupur";
 int fiscalYearId = 1;
 String companyAddress = "";
