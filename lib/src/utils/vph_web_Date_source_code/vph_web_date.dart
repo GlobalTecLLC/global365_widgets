@@ -30,6 +30,7 @@ class GDateTextFiled extends StatefulWidget {
     this.fontSizeForLabel,
     this.onChange,
     this.firstDate,
+    this.lastDate,
     this.isRequired = false,
     this.disableBorderRadius = false,
     this.onTap,
@@ -38,6 +39,7 @@ class GDateTextFiled extends StatefulWidget {
   final double? containerWidth;
   late DateTime selectedDate;
   final DateTime? firstDate;
+  final DateTime? lastDate;
   final double? containerHeight;
   final bool isDateChangeAble;
   final Function? onChange;
@@ -70,7 +72,8 @@ class _GDateTextFiledState extends State<GDateTextFiled> {
       context: context,
       initialDate: widget.selectedDate,
       firstDate: widget.firstDate ?? DateTime(1970),
-      lastDate: DateTime(2101),
+      lastDate: widget.lastDate ?? DateTime(2101),
+     
       weekendDaysColor: mainColorPrimaryYellow,
       withoutOkButtons: true,
       //width: 300,
@@ -127,15 +130,11 @@ class _GDateTextFiledState extends State<GDateTextFiled> {
               constraints: BoxConstraints(minHeight: widget.containerHeight ?? Branding.tFHeight, minWidth: 30),
               contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
               disabledBorder: OutlineInputBorder(
-                borderRadius: widget.disableBorderRadius
-                    ? BorderRadius.circular(0)
-                    : BorderRadius.circular(Branding.tFborderR),
+                borderRadius: widget.disableBorderRadius ? BorderRadius.circular(0) : BorderRadius.circular(Branding.tFborderR),
                 borderSide: BorderSide(width: 1, color: borderColor),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: widget.disableBorderRadius
-                    ? BorderRadius.circular(0)
-                    : BorderRadius.circular(Branding.tFborderR),
+                borderRadius: widget.disableBorderRadius ? BorderRadius.circular(0) : BorderRadius.circular(Branding.tFborderR),
                 borderSide: BorderSide(
                   color: borderColor,
                   width: 1,
@@ -143,9 +142,7 @@ class _GDateTextFiledState extends State<GDateTextFiled> {
                 ),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: widget.disableBorderRadius
-                    ? BorderRadius.circular(0)
-                    : BorderRadius.circular(Branding.tFborderR),
+                borderRadius: widget.disableBorderRadius ? BorderRadius.circular(0) : BorderRadius.circular(Branding.tFborderR),
                 borderSide: BorderSide(
                   color: borderColor, // Set the color of the border when focused
                   width: 1,
@@ -190,11 +187,7 @@ class _GDateTextFiledState extends State<GDateTextFiled> {
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 6),
-                  child: Icon(
-                    BootstrapIcons.calendar2,
-                    color: widget.isDateChangeAble ? titleColor : placeHolderColor,
-                    size: 16,
-                  ),
+                  child: Icon(BootstrapIcons.calendar2, color: widget.isDateChangeAble ? titleColor : placeHolderColor, size: 16),
                 ),
               ),
             ),
