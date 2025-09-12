@@ -44,12 +44,7 @@ class _PaymentInfoState extends State<PaymentInfo> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: const [
-                  BoxShadow(
-                    color: const Color.fromARGB(15, 5, 0, 0),
-                    blurRadius: 10,
-                    spreadRadius: 5,
-                    offset: Offset(2, 2),
-                  ),
+                  BoxShadow(color: const Color.fromARGB(15, 5, 0, 0), blurRadius: 10, spreadRadius: 5, offset: Offset(2, 2)),
                 ],
               ),
               child: SingleChildScrollView(child: Column(children: [createAccountWidget(context)])),
@@ -86,8 +81,7 @@ class _PaymentInfoState extends State<PaymentInfo> {
                   style: GAppStyle.style15w500(color: titleColor),
                 ),
                 TextSpan(
-                  text:
-                      " verification charges will be applied to your card. Please enter your card details to proceed.",
+                  text: " verification charges will be applied to your card. Please enter your card details to proceed.",
                   style: GAppStyle.style15w500(color: bodyTextColor),
                 ),
               ],
@@ -95,7 +89,8 @@ class _PaymentInfoState extends State<PaymentInfo> {
           ),
           SizedBox(height: 40),
 
-          const AddCardSignUpWidget(), 
+          const AddCardSignUpWidget(),
+          SizedBox(height: 40),
           // MyTextFieldForSingleLine(
           //   showheading: true,
           //   labelText: "Name on Card",
@@ -197,9 +192,7 @@ class _PaymentInfoState extends State<PaymentInfo> {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            boxShadow: <BoxShadow>[
-              BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 2),
-            ],
+            boxShadow: <BoxShadow>[BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 2)],
             color: mainColorPrimary,
           ),
           child: GTextHeading4("Proceed", color: whiteColor),

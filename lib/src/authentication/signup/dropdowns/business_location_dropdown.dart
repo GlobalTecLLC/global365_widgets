@@ -207,7 +207,7 @@ class _BusinessLocationDropdownState extends State<BusinessLocationDropdown> {
                   ),
                 ),
               )
-            : globalSpinkitForLoaderswithBorder(height: widget.containerHeight),
+            : globalSpinkitForLoaderswithBorder(height: 40),
       ],
     );
   }

@@ -174,7 +174,7 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
-                    height: 42,
+                    height: 40,
                     child: TextField(
                       focusNode: _focusNodeSearch,
                       autofocus: true,
@@ -370,100 +370,110 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
           child: CompositedTransformTarget(
             link: _layerLink,
             child: SizedBox(
-              height: 42, // Fixed height to prevent RenderFlex overflow
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  IntrinsicWidth(
-                    child: InkWell(
-                      onTap: widget.isCountryEnabled
-                          ? () {
-                              if (_overlayEntry == null) {
-                                _showOverlay();
-                              } else {
-                                _removeOverlay();
+              height: 40, // Fixed height to prevent RenderFlex overflow
+              child: IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    IntrinsicWidth(
+                      child: InkWell(
+                        onTap: widget.isCountryEnabled
+                            ? () {
+                                if (_overlayEntry == null) {
+                                  _showOverlay();
+                                } else {
+                                  _removeOverlay();
+                                }
                               }
+                            : null,
+                        child: Container(
+                          // height: 42,
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                          decoration: BoxDecoration(
+                            color: lightBackgroundColor,
+                            border: Border.all(color: borderColor),
+                            borderRadius: const BorderRadius.only(topLeft: Radius.circular(4), bottomLeft: Radius.circular(4)),
+                          ),
+                          child: Center(
+                            child: Text(_selectedCountryCode, style: const TextStyle(fontSize: 12, color: bodyTextDark)),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Center(
+                        child: TextField(
+                          controller: _controller,
+                          focusNode: _focusNodePhoneNumber,
+                          enabled: widget.isPhoneEnabled,
+                          keyboardType: TextInputType.phone,
+                          textDirection: TextDirection.ltr,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: bodyTextDark,
+                            decorationThickness: 1.5,
+                          ),
+                          inputFormatters: [
+                            // LengthLimitingTextInputFormatter(currentCountry["max"]), // Max length based on selected country
+                            FilteringTextInputFormatter.allow(RegExp(r'[\d\s\(\)\-]')), // Allow digits and formatting chars
+                          ],
+                          decoration: const InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(width: 1, color: borderColor),
+                              borderRadius: BorderRadius.only(topRight: Radius.circular(4), bottomRight: Radius.circular(4)),
+                            ),
+                            hintText: "Enter phone number",
+                            hintStyle: TextStyle(
+                              color: placeHolderColor,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "Montserrat",
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(width: 1, color: borderColor),
+                              borderRadius: BorderRadius.only(topRight: Radius.circular(4), bottomRight: Radius.circular(4)),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 13),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(width: 1, color: borderColor),
+                              borderRadius: BorderRadius.only(topRight: Radius.circular(4), bottomRight: Radius.circular(4)),
+                            ),
+                            isDense: true,
+                          ),
+                          onChanged: (value) {
+                            // Get only digits from input
+                            String digits = value.replaceAll(RegExp(r'[^\d]'), '');
+
+                            // Check if within country limits
+
+                            final formatted = _applyFormat(digits, currentCountry["format"], currentCountry["max"]);
+
+                            // Only update if different to avoid cursor jumping
+                            if (_controller.text != formatted) {
+                              _controller.value = TextEditingValue(
+                                text: formatted,
+                                selection: TextSelection.collapsed(offset: formatted.length),
+                              );
                             }
-                          : null,
-                      child: Container(
-                        height: 42,
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                        decoration: BoxDecoration(
-                          color: lightBackgroundColor,
-                          border: Border.all(color: borderColor),
-                          borderRadius: const BorderRadius.only(topLeft: Radius.circular(4), bottomLeft: Radius.circular(4)),
-                        ),
-                        child: Center(
-                          child: Text(_selectedCountryCode, style: const TextStyle(fontSize: 12, color: bodyTextDark)),
+                            widget.controller.update(
+                              countryCode: _selectedCountryCode,
+                              phoneNumber: formatted,
+                              isValid: CountiresList.isValidNumber(formatted, _selectedCountryCode),
+                            );
+                            if (widget.onChanged != null) {
+                              widget.onChanged!(
+                                formatted,
+                                _selectedCountryCode,
+                                CountiresList.isValidNumber(formatted, _selectedCountryCode),
+                              );
+                            }
+                          },
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: TextField(
-                      controller: _controller,
-                      focusNode: _focusNodePhoneNumber,
-                      enabled: widget.isPhoneEnabled,
-                      keyboardType: TextInputType.phone,
-                      style: const TextStyle(fontSize: 12, color: bodyTextDark),
-                      inputFormatters: [
-                        // LengthLimitingTextInputFormatter(currentCountry["max"]), // Max length based on selected country
-                        FilteringTextInputFormatter.allow(RegExp(r'[\d\s\(\)\-]')), // Allow digits and formatting chars
-                      ],
-                      decoration: const InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 1, color: borderColor),
-                          borderRadius: BorderRadius.only(topRight: Radius.circular(4), bottomRight: Radius.circular(4)),
-                        ),
-                        hintText: "Enter phone number",
-                        hintStyle: TextStyle(
-                          color: placeHolderColor,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: "Montserrat",
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 1, color: borderColor),
-                          borderRadius: BorderRadius.only(topRight: Radius.circular(4), bottomRight: Radius.circular(4)),
-                        ),
-                        // contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(width: 1, color: borderColor),
-                          borderRadius: BorderRadius.only(topRight: Radius.circular(4), bottomRight: Radius.circular(4)),
-                        ),
-                        isDense: true,
-                      ),
-                      onChanged: (value) {
-                        // Get only digits from input
-                        String digits = value.replaceAll(RegExp(r'[^\d]'), '');
-
-                        // Check if within country limits
-
-                        final formatted = _applyFormat(digits, currentCountry["format"], currentCountry["max"]);
-
-                        // Only update if different to avoid cursor jumping
-                        if (_controller.text != formatted) {
-                          _controller.value = TextEditingValue(
-                            text: formatted,
-                            selection: TextSelection.collapsed(offset: formatted.length),
-                          );
-                        }
-                        widget.controller.update(
-                          countryCode: _selectedCountryCode,
-                          phoneNumber: formatted,
-                          isValid: CountiresList.isValidNumber(formatted, _selectedCountryCode),
-                        );
-                        if (widget.onChanged != null) {
-                          widget.onChanged!(
-                            formatted,
-                            _selectedCountryCode,
-                            CountiresList.isValidNumber(formatted, _selectedCountryCode),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
