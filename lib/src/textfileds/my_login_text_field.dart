@@ -97,7 +97,7 @@ class GLoginEmailField extends StatelessWidget {
         Directionality(
           textDirection: TextDirection.ltr,
           child: SizedBox(
-            height: 48,
+            height: 40,
             child: TextFormField(
               key: key,
               autofillHints: autofillHints,

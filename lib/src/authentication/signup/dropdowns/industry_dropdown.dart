@@ -2,11 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/business_profile_controller.dart';
+import 'package:global365_widgets/src/constants/globals.dart';
 import 'package:global365_widgets/src/dropdowns/searchabledropdowncustom/dropdown_plus.dart';
 import 'package:global365_widgets/src/theme/dropdown_theme.dart';
 import 'package:global365_widgets/src/utils/api_services/get_request.dart';
-import 'package:global365_widgets/src/utils/api_client/api_client.dart';
-import 'package:global365_widgets/src/constants/globals.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 
 class IndustryDropdown extends StatefulWidget {

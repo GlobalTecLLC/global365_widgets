@@ -87,6 +87,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
             GSizeW(20),
             Expanded(
               child: IndustryDropdown(
+                // containerHeight: 48,
                 offset: const Offset(0, 40),
                 isNotHistory: true,
                 controller: BusinessProfileController.to.industryDropdown,
@@ -191,6 +192,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                 containerHeight: 40,
                 // isExtraHeightField: true,
                 isCustomHeight: true,
+                hintText: "00000",
                 isRequired: true,
                 controller: BusinessProfileController.to.tecZip,
                 labelText: 'Zip',
