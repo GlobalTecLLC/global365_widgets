@@ -94,7 +94,7 @@ Widget globalSpinkitForLoaderswithBorder({bool isLessHeightLoader = false, doubl
 
 
 String getModuleLogo() {
-  return g365Module == G365Module.merchant ? "assets/svg/logo_merchant_dark.svg" : 'assets/svg/countylogo.svg';
+  return g365Module == G365Module.merchant ? "assets/svg/logo_merchant_dark.svg" : g365Module == G365Module.payroll ? "assets/svg/payroll_dark.svg" : 'assets/svg/countylogo.svg';
 }
 Widget g365NetworkImage(
   String url,

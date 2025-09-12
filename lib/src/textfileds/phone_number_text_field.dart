@@ -174,7 +174,7 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
-                    height: 30,
+                    height: 42,
                     child: TextField(
                       focusNode: _focusNodeSearch,
                       autofocus: true,
@@ -339,6 +339,7 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
                 ),
             ],
           ),
+        if (widget.isShowHeading) const SizedBox(height: 4),
         KeyboardListener(
           focusNode: _focusNode,
           onKeyEvent: (KeyEvent event) {
@@ -369,7 +370,7 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
           child: CompositedTransformTarget(
             link: _layerLink,
             child: SizedBox(
-              height: 30, // Fixed height to prevent RenderFlex overflow
+              height: 42, // Fixed height to prevent RenderFlex overflow
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -385,7 +386,7 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
                             }
                           : null,
                       child: Container(
-                        height: 30,
+                        height: 42,
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                         decoration: BoxDecoration(
                           color: lightBackgroundColor,
@@ -410,13 +411,24 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
                         FilteringTextInputFormatter.allow(RegExp(r'[\d\s\(\)\-]')), // Allow digits and formatting chars
                       ],
                       decoration: const InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 1, color: borderColor),
+                          borderRadius: BorderRadius.only(topRight: Radius.circular(4), bottomRight: Radius.circular(4)),
+                        ),
                         hintText: "Enter phone number",
+                        hintStyle: TextStyle(
+                          color: placeHolderColor,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "Montserrat",
+                        ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: borderColor),
+                          borderSide: BorderSide(width: 1, color: borderColor),
                           borderRadius: BorderRadius.only(topRight: Radius.circular(4), bottomRight: Radius.circular(4)),
                         ),
                         // contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 16),
                         border: OutlineInputBorder(
+                          borderSide: BorderSide(width: 1, color: borderColor),
                           borderRadius: BorderRadius.only(topRight: Radius.circular(4), bottomRight: Radius.circular(4)),
                         ),
                         isDense: true,
