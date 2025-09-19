@@ -64,19 +64,42 @@ class LoginController extends GetxController {
 
     loogingIn.value = true;
     dynamic data = {"email": tecEmail.text, "password": controllerpassword.text};
-    ResponseModel response = await APIsCallPost.submitRequestWithOutAuth("Users/NewLogin", data);
+    ResponseModel response = await APIsCallPost.submitRequestWithOutAuth(
+      g365Module == G365Module.employeePortal ? "Users/EmployeeLogin" : "Users/NewLogin",
+      data,
+    );
     loogingIn.value = false;
     gLogger(response.data);
     gLogger(response.statusCode);
     dynamic decodedData = jsonDecode(response.data);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      loginResponsehandler(context, decodedData);
+      if (g365Module == G365Module.employeePortal) {
+        loginResponseHandlerForEmployeePortal(context, decodedData);
+      } else {
+        loginResponsehandler(context, decodedData);
+      }
     } else {
       loogingIn.value = false;
 
       GToast.error(decodedData["message"].toString(), context);
     }
+  }
+
+  loginResponseHandlerForEmployeePortal(BuildContext context, dynamic decodedData) async {
+    accessToken = (decodedData["payload"] ?? {})["token"];
+    companyId = (decodedData["payload"] ?? {})['defaultCompanyId'].toString();
+    employeeId = (decodedData["payload"] ?? {})['employeeId'].toString();
+    userNameForGlobals.value = (decodedData["payload"] ?? {})["firstName"] ?? "Mr.";
+
+    prefs.setString("accessToken", accessToken);
+
+    prefs.setString("companyId", companyId.toString());
+    prefs.setString("companyLogo", companyLogo.value);
+
+    prefs.setBool("isAppOpen", true);
+
+    GNav.goNav(context, GRouteConfig.dashboard);
   }
 
   loginResponsehandler(BuildContext context, dynamic decodedData, {bool? companyStatus}) async {
@@ -188,7 +211,6 @@ class LoginController extends GetxController {
     gLogger("Company Complete Address is $companyCompleteAddress");
 
     // prefs.setBool("isMerchant", isMerchant);
-    prefs.setBool("isAppOpen", true);
 
     //     if (listOfConpanies != null && listOfConpanies.isNotEmpty) {
     //       globals.loggedCompanyModel = LoggedCompanyModel.fromJson(defaultCompany);

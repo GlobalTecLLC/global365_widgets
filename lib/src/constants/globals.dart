@@ -20,9 +20,7 @@ String tokenType = "Bearer";
 String apiLink = "https://api.global365.com/api/v1/";
 String apiLink2 = "https://admindev.globalgroup.co/api/v2/";
 
-
-
-
+String employeeId = "";
 
 G365Module g365Module = G365Module.accounting;
 
@@ -78,7 +76,12 @@ Widget globalSpinkitForLoaders() {
   );
 }
 
-Widget globalSpinkitForLoaderswithBorder({bool isLessHeightLoader = false, double? height, double? width, bool isFieldForTable = false}) {
+Widget globalSpinkitForLoaderswithBorder({
+  bool isLessHeightLoader = false,
+  double? height,
+  double? width,
+  bool isFieldForTable = false,
+}) {
   return Container(
     height: height ?? (isLessHeightLoader ? 18 : 32),
     width: width,
@@ -91,11 +94,14 @@ Widget globalSpinkitForLoaderswithBorder({bool isLessHeightLoader = false, doubl
   );
 }
 
-
-
 String getModuleLogo() {
-  return g365Module == G365Module.merchant ? "assets/svg/logo_merchant_dark.svg" : g365Module == G365Module.payroll ? "assets/svg/payroll_dark.svg" : 'assets/svg/countylogo.svg';
+  return g365Module == G365Module.merchant
+      ? "assets/svg/logo_merchant_dark.svg"
+      : g365Module == G365Module.payroll
+      ? "assets/svg/payroll_dark.svg"
+      : 'assets/svg/countylogo.svg';
 }
+
 Widget g365NetworkImage(
   String url,
   double height,
@@ -185,7 +191,6 @@ Widget widgetTextPlaceHolder({String placeHolderName = ""}) {
       ),
     );
   }
-  
 }
 
 bool isValidEmail(String email) {
@@ -222,4 +227,3 @@ String formateDateToSendToApi(String inputDate) {
     return '';
   }
 }
-

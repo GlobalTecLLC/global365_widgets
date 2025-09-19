@@ -11,8 +11,6 @@ import '../Widgets/login_widgets.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
-
-
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -31,7 +29,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-   
     return SafeArea(
       child: WillPopScope(
         onWillPop: () async => true,
@@ -41,7 +38,6 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               SigninBackground(),
               Positioned.fill(
-               
                 child: Container(
                   child: Column(
                     children: [
@@ -54,7 +50,11 @@ class _LoginPageState extends State<LoginPage> {
                             GSizeH(32),
                             ContainerWithShadow(
                               child: Column(
-                                children: [title(context), emailPasswordWidget(context), createAccountLabel(context)],
+                                children: [
+                                  title(context),
+                                  emailPasswordWidget(context),
+                                  if (g365Module != G365Module.employeePortal) createAccountLabel(context),
+                                ],
                               ),
                             ),
                           ],
@@ -75,11 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                             textAlign: TextAlign.center,
                           ),
                           GSizeH(5),
-                          GBodyText(
-                            "© 2024, Global365 LLC. All Rights Reserved.",
-                            color: bodyText,
-                            textAlign: TextAlign.center,
-                          ),
+                          GBodyText("© 2024, Global365 LLC. All Rights Reserved.", color: bodyText, textAlign: TextAlign.center),
                           GSizeH(20),
                         ],
                       ),
