@@ -93,7 +93,7 @@ class LoginController extends GetxController {
     userNameForGlobals.value = (decodedData["payload"] ?? {})["firstName"] ?? "Mr.";
 
     prefs.setString("accessToken", accessToken);
-
+    prefs.setString("employeeId", employeeId);
     prefs.setString("companyId", companyId.toString());
     prefs.setString("companyLogo", companyLogo.value);
 
