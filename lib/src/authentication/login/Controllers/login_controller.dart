@@ -208,6 +208,7 @@ class LoginController extends GetxController {
     prefs.setString("companyName", companyNameForGlobals.value);
     prefs.setString("userFirstName", userNameForGlobals.value);
     prefs.setString("companyCompleteAddress", companyCompleteAddress);
+    prefs.setBool("isAppOpen", true);
     gLogger("Company Complete Address is $companyCompleteAddress");
 
     // prefs.setBool("isMerchant", isMerchant);
