@@ -199,7 +199,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                 fontSizeForLabel: 14.0,
                 maxLine: 1,
                 paddingBelowHeading: 5,
-                maxLength: 5,
+                // maxLength: 5,
                 fontSizeForAll: 12.0,
                 // isDropdownStyle: true,
               ),
@@ -333,9 +333,11 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
           gLogger(BusinessProfileController.to.stateDropdown.value);
           gLogger(BusinessProfileController.to.timezoneDropdown.value);
           GToast.info(context, "Please enter all details");
-        } else if (BusinessProfileController.to.tecZip.text.length != 5) {
-          GToast.info(context, "Please enter valid zip code");
-        } else {
+        }
+        //  else if (BusinessProfileController.to.tecZip.text.length != 5) {
+        //   GToast.info(context, "Please enter valid zip code");
+        // }
+        else {
           BusinessProfileController.to.validateAddress(context);
 
           // GNav.pushNav(context, GRouteConfig.softwareInfoScreenRoute);
