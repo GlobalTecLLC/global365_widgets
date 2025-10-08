@@ -410,9 +410,9 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
                           textDirection: TextDirection.ltr,
                           style: const TextStyle(
                             fontSize: 14,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w500,
                             color: bodyTextDark,
-                            decorationThickness: 1.5,
+                            // decorationThickness: 1.5,
                           ),
                           inputFormatters: [
                             // LengthLimitingTextInputFormatter(currentCountry["max"]), // Max length based on selected country
@@ -426,7 +426,7 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
                             hintText: "Enter phone number",
                             hintStyle: TextStyle(
                               color: placeHolderColor,
-                              fontSize: 12,
+                              fontSize: 14,
                               fontWeight: FontWeight.w400,
                               fontFamily: "Montserrat",
                             ),

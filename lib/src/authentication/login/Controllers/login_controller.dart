@@ -132,6 +132,7 @@ class LoginController extends GetxController {
       return;
     }
     isPayrollDashboardStepsComplete.value = (decodedData["payload"] ?? {})['isCompanyTabs'] ?? false;
+
     Global365Widgets.loginCallBack((decodedData["payload"] ?? {}));
     dynamic defaultCompany = listOfConpanies.firstWhere(
       (element) => element["companyId"].toString() == (decodedData["payload"] ?? {})['defaultCompanyId'].toString(),
@@ -193,6 +194,7 @@ class LoginController extends GetxController {
     userNameForGlobals.value = (decodedData["payload"] ?? {})["firstName"] ?? "Mr.";
     //     gLogger("Company name and id is $companyId and $companyNameForGlobals");
     prefs.setString("accessToken", accessToken);
+    prefs.setBool("isPayrollDashboardStepsComplete", isPayrollDashboardStepsComplete.value);
     prefs.setString('usernameforInvitationCompare', tecEmail.text);
     prefs.setString("companyId", companyId.toString());
     prefs.setString("companyLogo", companyLogo.value);

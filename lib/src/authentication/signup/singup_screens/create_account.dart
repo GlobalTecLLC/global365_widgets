@@ -128,7 +128,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             hintText: "Enter Email",
             onChange: (value) {
               final RegExp emailRegExp = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
-              SignUpController.to.isEmailValid.value = emailRegExp.hasMatch(value);
+              SignUpController.to.isEmailValid.value = emailRegExp.hasMatch(value.trim());
             },
             // validator: (value) {
             //   if (value.isEmpty) {
