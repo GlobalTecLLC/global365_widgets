@@ -34,6 +34,7 @@ class GDateTextFiled extends StatefulWidget {
     this.isRequired = false,
     this.disableBorderRadius = false,
     this.onTap,
+    this.isDisableWeekends = false,
   });
   final String labelText;
   final double? containerWidth;
@@ -51,6 +52,7 @@ class GDateTextFiled extends StatefulWidget {
   final bool isRequired;
   final bool disableBorderRadius;
   final void Function()? onTap;
+  final bool isDisableWeekends;
 
   @override
   State<GDateTextFiled> createState() => _GDateTextFiledState();
@@ -73,9 +75,9 @@ class _GDateTextFiledState extends State<GDateTextFiled> {
       initialDate: widget.selectedDate,
       firstDate: widget.firstDate ?? DateTime(1970),
       lastDate: widget.lastDate ?? DateTime(2101),
-     
       weekendDaysColor: mainColorPrimaryYellow,
       withoutOkButtons: true,
+      disableWeekends: widget.isDisableWeekends,
       //width: 300,
       // withoutActionButtons: true,
       // weekendDaysColor: Colors.red,

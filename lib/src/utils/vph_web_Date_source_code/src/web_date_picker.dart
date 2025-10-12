@@ -45,6 +45,7 @@ Future<DateTimeRange?> showWebDatePicker({
   int? firstDayOfWeekIndex,
   bool asDialog = false,
   bool enableDateRangeSelection = false,
+  bool disableWeekends = false,
 }) {
   if (asDialog) {
     final renderBox = context.findRenderObject()! as RenderBox;
@@ -70,6 +71,7 @@ Future<DateTimeRange?> showWebDatePicker({
               cancelButtonColor: cancelButtonColor,
               backgroundColor: backgroundColor,
               enableDateRangeSelection: enableDateRangeSelection,
+              disableWeekends: disableWeekends,
             ),
           ),
         ),
@@ -92,6 +94,7 @@ Future<DateTimeRange?> showWebDatePicker({
         cancelButtonColor: cancelButtonColor,
         backgroundColor: backgroundColor,
         enableDateRangeSelection: enableDateRangeSelection,
+        disableWeekends: disableWeekends,
       ),
       asDropDown: true,
       useTargetWidth: width != null ? false : true,
@@ -115,6 +118,7 @@ class _WebDatePicker extends StatefulWidget {
     this.cancelButtonColor,
     this.backgroundColor,
     this.enableDateRangeSelection = false,
+    this.disableWeekends = false,
   });
 
   final DateTime initialDate;
@@ -130,6 +134,7 @@ class _WebDatePicker extends StatefulWidget {
   final Color? cancelButtonColor;
   final Color? backgroundColor;
   final bool enableDateRangeSelection;
+  final bool disableWeekends;
 
   @override
   State<_WebDatePicker> createState() => _WebDatePickerState();
@@ -151,11 +156,7 @@ class _WebDatePickerState extends State<_WebDatePicker> {
   @override
   void initState() {
     super.initState();
-    _selectedStartDate = _viewStartDate = DateTime(
-      widget.initialDate.year,
-      widget.initialDate.month,
-      widget.initialDate.day,
-    );
+    _selectedStartDate = _viewStartDate = DateTime(widget.initialDate.year, widget.initialDate.month, widget.initialDate.day);
     _selectedEndDate = widget.enableDateRangeSelection
         ? DateTime(
             widget.initialDate2?.year ?? widget.initialDate.year,
@@ -198,12 +199,14 @@ class _WebDatePickerState extends State<_WebDatePicker> {
     for (int i = 0; i < kNumberCellsOfMonth; i++) {
       final date = monthDateRange.start.add(Duration(days: i));
       if (_viewStartDate.month == date.month) {
-        final isEnabled = date.isInDateRange(widget.firstDate, widget.lastDate);
+        // final isEnabled = date.isInDateRange(widget.firstDate, widget.lastDate);
+        final isWeekend = date.weekday == DateTime.saturday || date.weekday == DateTime.sunday;
+        final isEnabled = date.isInDateRange(widget.firstDate, widget.lastDate) && !(widget.disableWeekends && isWeekend);
         final isSelected = date.isInDateRange(_selectedStartDate, _selectedEndDate);
         final isSelectedLeft = isSelected && date.dateCompareTo(_selectedStartDate) == 0;
         final isSelectedRight = isSelected && date.dateCompareTo(_selectedEndDate) == 0;
         final isNow = date.dateCompareTo(now) == 0;
-        final isWeekend = date.weekday == DateTime.saturday || date.weekday == DateTime.sunday;
+        // final isWeekend = date.weekday == DateTime.saturday || date.weekday == DateTime.sunday;
         final color =
             isEnabled
                   ? widget.selectedDayColor ?? theme.colorScheme.primary
@@ -651,8 +654,7 @@ class _WebDatePickerState extends State<_WebDatePicker> {
                   if (_viewMode == _PickerViewMode.day) ...[
                     const SizedBox(width: 4.0),
                     TextButton(
-                      onPressed: () =>
-                          Navigator.of(context).pop(DateTimeRange(start: _selectedStartDate, end: _selectedEndDate)),
+                      onPressed: () => Navigator.of(context).pop(DateTimeRange(start: _selectedStartDate, end: _selectedEndDate)),
                       child: Text(
                         localizations.okButtonLabel,
                         style: TextStyle(color: widget.confirmButtonColor ?? theme.colorScheme.primary),
@@ -737,9 +739,7 @@ class _WebDatePickerState extends State<_WebDatePicker> {
     setState(() {
       _slideDirection = widget.initialDate.isAfter(_viewStartDate) ? 1.0 : -1.0;
       _selectedStartDate = _viewStartDate = widget.initialDate;
-      _selectedEndDate = widget.enableDateRangeSelection
-          ? widget.initialDate2 ?? _selectedStartDate
-          : _selectedStartDate;
+      _selectedEndDate = widget.enableDateRangeSelection ? widget.initialDate2 ?? _selectedStartDate : _selectedStartDate;
       _isViewModeChanged = _viewMode != _PickerViewMode.day;
       _viewMode = _PickerViewMode.day;
     });

@@ -89,7 +89,7 @@ class SoftwareInfoController extends GetxController {
           : SetUpController.to.locationDropdown.value['id'],
       "industryId": BusinessProfileController.to.industryDropdown.value.toString() == "null"
           ? 0
-          : BusinessProfileController.to.industryDropdown.value['id'],
+          : g365Module == G365Module.payroll?  BusinessProfileController.to.industryDropdown.value['id']: BusinessProfileController.to.industryDropdown.value['id'],
       "stateId": g365Module == G365Module.merchant
           ? 4872
           : BusinessProfileController.to.stateDropdown.value.toString() == "null"

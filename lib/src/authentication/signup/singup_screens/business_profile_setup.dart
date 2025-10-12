@@ -6,6 +6,7 @@ import 'package:global365_widgets/src/authentication/signup/controllers/signup_c
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/setup_screen_controller.dart';
 import 'package:global365_widgets/src/authentication/signup/dropdowns/business_location_dropdown.dart';
 import 'package:global365_widgets/src/authentication/signup/dropdowns/industry_dropdown.dart';
+import 'package:global365_widgets/src/authentication/signup/dropdowns/industry_type_dropdown_for_payroll.dart';
 import 'package:global365_widgets/src/authentication/signup/dropdowns/state_dropdown.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
@@ -86,13 +87,20 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
             ),
             GSizeW(20),
             Expanded(
-              child: IndustryDropdown(
-                // containerHeight: 48,
-                offset: const Offset(0, 40),
-                isNotHistory: true,
-                controller: BusinessProfileController.to.industryDropdown,
-                label: 'Industry',
-              ),
+              child: g365Module == G365Module.payroll
+                  ? IndustryDropdownForPayroll(
+                      offset: const Offset(0, 40),
+                      isNotHistory: true,
+                      controller: BusinessProfileController.to.industryDropdown,
+                      label: 'Industry',
+                    )
+                  : IndustryDropdown(
+                      // containerHeight: 48,
+                      offset: const Offset(0, 40),
+                      isNotHistory: true,
+                      controller: BusinessProfileController.to.industryDropdown,
+                      label: 'Industry',
+                    ),
             ),
           ],
         ),
