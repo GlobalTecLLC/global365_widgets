@@ -89,6 +89,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
             Expanded(
               child: g365Module == G365Module.payroll
                   ? IndustryDropdownForPayroll(
+                    isRequired: true,
                       offset: const Offset(0, 40),
                       isNotHistory: true,
                       controller: BusinessProfileController.to.industryDropdown,
@@ -341,6 +342,8 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
           gLogger(BusinessProfileController.to.stateDropdown.value);
           gLogger(BusinessProfileController.to.timezoneDropdown.value);
           GToast.info(context, "Please enter all details");
+        }else if(g365Module == G365Module.payroll && BusinessProfileController.to.industryDropdown.value == null){
+          GToast.info(context, "Please select industry");
         }
         //  else if (BusinessProfileController.to.tecZip.text.length != 5) {
         //   GToast.info(context, "Please enter valid zip code");

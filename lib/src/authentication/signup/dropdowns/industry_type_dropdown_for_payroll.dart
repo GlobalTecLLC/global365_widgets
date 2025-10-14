@@ -1,11 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/business_profile_controller.dart';
-import 'package:global365_widgets/src/constants/globals.dart';
 import 'package:global365_widgets/src/dropdowns/searchabledropdowncustom/dropdown_plus.dart';
 import 'package:global365_widgets/src/theme/dropdown_theme.dart';
-import 'package:global365_widgets/src/utils/api_services/get_request.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 
 class IndustryDropdownForPayroll extends StatefulWidget {
@@ -19,6 +18,7 @@ class IndustryDropdownForPayroll extends StatefulWidget {
   final bool isShowLabelingColumn;
   final double? containerHeight;
   final Offset? offset;
+  final bool? isRequired;
 
   final DropdownEditingController<dynamic> controller;
   const IndustryDropdownForPayroll({
@@ -33,6 +33,7 @@ class IndustryDropdownForPayroll extends StatefulWidget {
     this.isShowLabelingColumn = true,
     this.containerHeight,
     this.offset,
+    this.isRequired = false,
     Key? key,
   }) : super(key: key);
 
@@ -144,7 +145,15 @@ class _IndustryDropdownForPayrollState extends State<IndustryDropdownForPayroll>
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (widget.isShowLabelingColumn) GDropDownTheme.headerTextBold(widget.label),
+        if (widget.isShowLabelingColumn)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GDropDownTheme.headerTextBold(widget.label),
+              if (widget.isRequired ?? false) Text(" *", style: GTextFiledTheme.textStyleHeaderRequired(14)),
+            ],
+          ),
         if (widget.isShowLabelingColumn) const SizedBox(height: 4),
         (isLoading)
             ? Container(
