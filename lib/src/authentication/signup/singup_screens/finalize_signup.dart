@@ -37,7 +37,7 @@ class FinalizeSignup extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GTextHeading2(
-                      "Welcome ${SignUpController.to.firstName.text} ${SignUpController.to.lastName.text}!",
+                      "Welcome ${SignUpController.to.firstName.text.trim()} ${SignUpController.to.lastName.text.trim()}!",
                      
                     ),
                     SizedBox(height: 16),

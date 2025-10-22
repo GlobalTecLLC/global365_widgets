@@ -99,7 +99,7 @@ class _SetUpScreenState extends State<SetUpScreen> {
   Widget createAccountWidget(BuildContext context, SetUpController otpController) {
     return Column(
       children: [
-        GTextHeading2("Welcome ${SignUpController.to.firstName.text} ${SignUpController.to.lastName.text}"),
+        GTextHeading2("Welcome ${SignUpController.to.firstName.text.trim()} ${SignUpController.to.lastName.text.trim()}"),
         SizedBox(height: 32),
         GLoginEmailField(
           showheading: true,
@@ -167,7 +167,6 @@ class _SetUpScreenState extends State<SetUpScreen> {
             controller.phoneNumberWithoutFormate = "1$digitsOnly";
             SoftwareInfoController.to.signUp(context);
           } else {
-           
             GNav.pushNav(context, GRouteConfig.businessProfileSetupRoute);
           }
         }
