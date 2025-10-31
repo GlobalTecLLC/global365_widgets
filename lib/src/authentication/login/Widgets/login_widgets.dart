@@ -219,7 +219,7 @@ Widget createAccountLabel(BuildContext context) {
             isFirstpurchase = true;
             // AutoRouter.of(context).push(const PaymentPlanRoute());
             // GNav.pushNav(context, GRouteConfig.signUpScreenRoute);
-            GNav.pushNav(context, GRouteConfig.paymentPlanRoute);
+            // GNav.pushNav(context, GRouteConfig.paymentPlanRoute);
 
             if (g365Module == G365Module.merchant) {
               if (applicationEnviroment.toLowerCase() == "development") {
