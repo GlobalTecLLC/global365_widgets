@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
-import 'package:global365_widgets/intializer.dart';
 import 'package:global365_widgets/src/constants/branding.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
-import 'package:global365_widgets/src/theme/text_widgets/text_variants/text_heading1.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,6 +21,7 @@ String apiLink2 = "https://admindev.globalgroup.co/api/v2/";
 String employeeId = "";
 
 G365Module g365Module = G365Module.accounting;
+String applicationEnviroment = "";
 
 String companyId = "";
 late SharedPreferences prefs;

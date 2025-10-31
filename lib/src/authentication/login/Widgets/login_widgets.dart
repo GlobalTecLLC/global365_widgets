@@ -2,7 +2,6 @@ import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/authentication_routes.dart';
@@ -75,10 +74,7 @@ Widget emailPasswordWidget(BuildContext context) {
                         hintText: "Enter Password",
                         isEnabled: !LoginController.to.loogingIn.value,
                         suffixIcon: IconButton(
-                          icon: Icon(
-                            LoginController.to.passwordVisible.value ? BootstrapIcons.eye : BootstrapIcons.eye_slash,
-                            color: Colors.green,
-                          ),
+                          icon: Icon(LoginController.to.passwordVisible.value ? BootstrapIcons.eye : BootstrapIcons.eye_slash, color: Colors.green),
                           alignment: Alignment.centerLeft,
                           iconSize: 16,
                           padding: EdgeInsets.zero,
@@ -224,6 +220,24 @@ Widget createAccountLabel(BuildContext context) {
             // AutoRouter.of(context).push(const PaymentPlanRoute());
             // GNav.pushNav(context, GRouteConfig.signUpScreenRoute);
             GNav.pushNav(context, GRouteConfig.paymentPlanRoute);
+
+            if (g365Module == G365Module.merchant) {
+              if (applicationEnviroment.toLowerCase() == "development") {
+                LoginController.to.launchURL("https://global365-sso.netlify.app/merchantSubscriptionPlan");
+              } else if (applicationEnviroment.toLowerCase() == "production") {
+                LoginController.to.launchURL("https://myhub.global365.com/redirectFromWebsite?moduleName=Merchant");
+              } else {
+                 LoginController.to.launchURL("https://global365-sso.netlify.app/merchantSubscriptionPlan");
+              }
+            } else if (g365Module == G365Module.payroll) {
+              if (applicationEnviroment.toLowerCase() == "development") {
+                LoginController.to.launchURL("https://global365-sso.netlify.app/payrollSubscriptionPlan");
+              } else if (applicationEnviroment.toLowerCase() == "production") {
+                LoginController.to.launchURL("https://myhub.global365.com/redirectFromWebsite?moduleName=Payroll");
+              } else {
+                LoginController.to.launchURL("https://global365-sso.netlify.app/payrollSubscriptionPlan");
+              }
+            } else {}
 
             // Modular.to.pushNamed("/Pricing");
             // Modular.to.pushNamed("/SubscriptionPlans");
