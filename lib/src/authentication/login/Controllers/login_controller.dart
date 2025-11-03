@@ -96,7 +96,7 @@ class LoginController extends GetxController {
     prefs.setString("employeeId", employeeId);
     prefs.setString("companyId", companyId.toString());
     prefs.setString("companyLogo", companyLogo.value);
-
+    prefs.setString("userFirstName", userNameForGlobals.value);
     prefs.setBool("isAppOpen", true);
 
     GNav.goNav(context, GRouteConfig.dashboard);
