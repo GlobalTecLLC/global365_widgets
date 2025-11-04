@@ -219,25 +219,25 @@ Widget createAccountLabel(BuildContext context) {
             isFirstpurchase = true;
             // AutoRouter.of(context).push(const PaymentPlanRoute());
             // GNav.pushNav(context, GRouteConfig.signUpScreenRoute);
-            // GNav.pushNav(context, GRouteConfig.paymentPlanRoute);
+            GNav.pushNav(context, GRouteConfig.paymentPlanRoute);
 
-            if (g365Module == G365Module.merchant) {
-              if (applicationEnviroment.toLowerCase() == "development") {
-                LoginController.to.launchURL("https://global365-sso.netlify.app/merchantSubscriptionPlan");
-              } else if (applicationEnviroment.toLowerCase() == "production") {
-                LoginController.to.launchURL("https://myhub.global365.com/redirectFromWebsite?moduleName=Merchant");
-              } else {
-                 LoginController.to.launchURL("https://global365-sso.netlify.app/merchantSubscriptionPlan");
-              }
-            } else if (g365Module == G365Module.payroll) {
-              if (applicationEnviroment.toLowerCase() == "development") {
-                LoginController.to.launchURL("https://global365-sso.netlify.app/payrollSubscriptionPlan");
-              } else if (applicationEnviroment.toLowerCase() == "production") {
-                LoginController.to.launchURL("https://myhub.global365.com/redirectFromWebsite?moduleName=Payroll");
-              } else {
-                LoginController.to.launchURL("https://global365-sso.netlify.app/payrollSubscriptionPlan");
-              }
-            } else {}
+            // if (g365Module == G365Module.merchant) {
+            //   if (applicationEnviroment.toLowerCase() == "development") {
+            //     LoginController.to.launchURL("https://global365-sso.netlify.app/merchantSubscriptionPlan");
+            //   } else if (applicationEnviroment.toLowerCase() == "production") {
+            //     LoginController.to.launchURL("https://myhub.global365.com/redirectFromWebsite?moduleName=Merchant");
+            //   } else {
+            //      LoginController.to.launchURL("https://global365-sso.netlify.app/merchantSubscriptionPlan");
+            //   }
+            // } else if (g365Module == G365Module.payroll) {
+            //   if (applicationEnviroment.toLowerCase() == "development") {
+            //     LoginController.to.launchURL("https://global365-sso.netlify.app/payrollSubscriptionPlan");
+            //   } else if (applicationEnviroment.toLowerCase() == "production") {
+            //     LoginController.to.launchURL("https://myhub.global365.com/redirectFromWebsite?moduleName=Payroll");
+            //   } else {
+            //     LoginController.to.launchURL("https://global365-sso.netlify.app/payrollSubscriptionPlan");
+            //   }
+            // } else {}
 
             // Modular.to.pushNamed("/Pricing");
             // Modular.to.pushNamed("/SubscriptionPlans");
