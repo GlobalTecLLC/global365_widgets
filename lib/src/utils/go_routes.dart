@@ -46,4 +46,24 @@ class GNav {
   static void popNavWithResponse(BuildContext context, dynamic data) async {
     context.pop(data);
   }
+  static void pushReplacementNamedAfterFrame(
+    BuildContext context,
+    String routeName, {
+    Map<String, String>? parameter,
+    Map<String, dynamic>? queryParameter,
+    Map<String, dynamic>? extraData,
+  }) {
+    if (!context.mounted) return;
+
+    final location = GoRouter.of(context).namedLocation(
+      routeName,
+      pathParameters: parameter ?? const <String, String>{},
+      queryParameters: (queryParameter ?? const <String, dynamic>{}).map((k, v) => MapEntry(k, v?.toString() ?? '')),
+    );
+
+    context.pushReplacement(
+      location,
+      extra: extraData ?? const <String, dynamic>{},
+    );
+  }
 }
