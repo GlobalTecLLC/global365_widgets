@@ -91,7 +91,7 @@ class LoginController extends GetxController {
     companyId = (decodedData["payload"] ?? {})['defaultCompanyId'].toString();
     employeeId = (decodedData["payload"] ?? {})['employeeId'].toString();
     userNameForGlobals.value = (decodedData["payload"] ?? {})["firstName"] ?? "Mr.";
-
+    Global365Widgets.loginCallBack((decodedData["payload"] ?? {}));
     prefs.setString("accessToken", accessToken);
     prefs.setString("employeeId", employeeId);
     prefs.setString("companyId", companyId.toString());
