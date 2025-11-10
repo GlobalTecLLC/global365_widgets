@@ -3,13 +3,14 @@ import 'package:g365_widgets_user/g365_widgets_user.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/login/Controllers/login_controller.dart';
-import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 
 import '../Widgets/login_widgets.dart';
 
+// ignore: must_be_immutable
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key, this.inviteCode});
+  String? inviteCode;
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -25,6 +26,9 @@ class _LoginPageState extends State<LoginPage> {
       Get.put(LoginController());
     }
     LoginController.to.checkIsRememberUser();
+    if (widget.inviteCode != null && widget.inviteCode!.isNotEmpty) {
+      LoginController.to.inviteCode.value = widget.inviteCode!;
+    }
   }
 
   @override

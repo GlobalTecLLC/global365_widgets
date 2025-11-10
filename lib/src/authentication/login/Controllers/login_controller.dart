@@ -12,6 +12,7 @@ import 'package:url_launcher/url_launcher.dart';
 class LoginController extends GetxController {
   static LoginController get to => Get.find();
   RxBool isSwitched = false.obs;
+  RxString inviteCode = "".obs;
 
   String orgId = "0";
 
@@ -86,12 +87,34 @@ class LoginController extends GetxController {
     }
   }
 
+  Future<void> acceptEmployeeInvite(BuildContext context) async {
+    ResponseModel response = await APIsCallPut.updateRequestWithIdwithoutbody(
+      "Users/InvitationEmpResponseVerfiiedUser?VerifiedCode=$inviteCode&IsAccepted=true",
+    );
+    inviteCode.value = "";
+    gLogger(response.data);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      dynamic decodedData = jsonDecode(response.data);
+      dynamic companyData = jsonEncode(decodedData["payload"] ?? {});
+      gLogger("Accepted Invitation Company Data: $companyData");
+      prefs.setString("acceptedInvitationCompanyData", companyData);
+      gLogger("THIS IS STORED IN SHARED PREFS NOW :::::: ${prefs.getString("acceptedInvitationCompanyData")}");
+      GToast.succss("Invitation accepted successfully", context);
+    } else {
+      GToast.error("Failed to accept invitation", context);
+    }
+  }
+
   loginResponseHandlerForEmployeePortal(BuildContext context, dynamic decodedData) async {
     accessToken = (decodedData["payload"] ?? {})["token"];
     companyId = (decodedData["payload"] ?? {})['defaultCompanyId'].toString();
     employeeId = (decodedData["payload"] ?? {})['employeeId'].toString();
     userNameForGlobals.value = (decodedData["payload"] ?? {})["firstName"] ?? "Mr.";
+    if (inviteCode.value.isNotEmpty) {
+      await acceptEmployeeInvite(context);
+    }
     Global365Widgets.loginCallBack((decodedData["payload"] ?? {}));
+
     prefs.setString("accessToken", accessToken);
     prefs.setString("employeeId", employeeId);
     prefs.setString("companyId", companyId.toString());
@@ -128,8 +151,13 @@ class LoginController extends GetxController {
     //       return;
     //     }
     if (listOfConpanies.isEmpty) {
-      GNav.pushNav(context, "${GRouteConfig.setUpScreenRoute}?orgId=$orgId");
-      return;
+      if (decodedData["payload"] ?? {}["isPaymentMethodVerfied"] == false) {
+        GNav.pushNav(context, GRouteConfig.paymentInfoRoute);
+        return;
+      } else {
+        GNav.pushNav(context, "${GRouteConfig.setUpScreenRoute}?orgId=$orgId");
+        return;
+      }
     }
     isPayrollDashboardStepsComplete.value = (decodedData["payload"] ?? {})['isCompanyTabs'] ?? false;
 
