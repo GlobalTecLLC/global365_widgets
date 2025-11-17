@@ -38,7 +38,9 @@ class LoginController extends GetxController {
       if (flag) {
         checkedValue.value = true;
 
-        controllerpassword.text = prefs.getString('passwordforremeberMe').toString();
+        controllerpassword.text = prefs
+            .getString('passwordforremeberMe')
+            .toString();
 
         tecEmail.text = prefs.getString('usernameforRemeberMe').toString();
       }
@@ -64,9 +66,14 @@ class LoginController extends GetxController {
     }
 
     loogingIn.value = true;
-    dynamic data = {"email": tecEmail.text, "password": controllerpassword.text};
+    dynamic data = {
+      "email": tecEmail.text,
+      "password": controllerpassword.text,
+    };
     ResponseModel response = await APIsCallPost.submitRequestWithOutAuth(
-      g365Module == G365Module.employeePortal ? "Users/EmployeeLogin" : "Users/NewLogin",
+      g365Module == G365Module.employeePortal
+          ? "Users/EmployeeLogin"
+          : "Users/NewLogin",
       data,
     );
     loogingIn.value = false;
@@ -98,18 +105,24 @@ class LoginController extends GetxController {
       dynamic companyData = jsonEncode(decodedData["payload"] ?? {});
       gLogger("Accepted Invitation Company Data: $companyData");
       prefs.setString("acceptedInvitationCompanyData", companyData);
-      gLogger("THIS IS STORED IN SHARED PREFS NOW :::::: ${prefs.getString("acceptedInvitationCompanyData")}");
+      gLogger(
+        "THIS IS STORED IN SHARED PREFS NOW :::::: ${prefs.getString("acceptedInvitationCompanyData")}",
+      );
       GToast.succss("Invitation accepted successfully", context);
     } else {
       GToast.error("Failed to accept invitation", context);
     }
   }
 
-  loginResponseHandlerForEmployeePortal(BuildContext context, dynamic decodedData) async {
+  loginResponseHandlerForEmployeePortal(
+    BuildContext context,
+    dynamic decodedData,
+  ) async {
     accessToken = (decodedData["payload"] ?? {})["token"];
     companyId = (decodedData["payload"] ?? {})['defaultCompanyId'].toString();
     employeeId = (decodedData["payload"] ?? {})['employeeId'].toString();
-    userNameForGlobals.value = (decodedData["payload"] ?? {})["firstName"] ?? "Mr.";
+    userNameForGlobals.value =
+        (decodedData["payload"] ?? {})["firstName"] ?? "Mr.";
     if (inviteCode.value.isNotEmpty) {
       await acceptEmployeeInvite(context);
     }
@@ -125,7 +138,11 @@ class LoginController extends GetxController {
     GNav.goNav(context, GRouteConfig.dashboard);
   }
 
-  loginResponsehandler(BuildContext context, dynamic decodedData, {bool? companyStatus}) async {
+  loginResponsehandler(
+    BuildContext context,
+    dynamic decodedData, {
+    bool? companyStatus,
+  }) async {
     accessToken = (decodedData["payload"] ?? {})["token"];
 
     // if I am redirecting from Accounting and status of Merchant is false, it will redirect me to setup screen no matter what.
@@ -144,7 +161,8 @@ class LoginController extends GetxController {
     //     isPaymentRedirectionPopupDisable.value = (decodedData["payload"] ?? {})["isPaymentRedirectionPopupDisable"] ?? false;
     //     gLogger(decodedData["payload"]);
     //     gLogger("Default Company Id is ${decodedData["payload"]["defaultCompanyId"]}");
-    List listOfConpanies = (decodedData["payload"] ?? {})['loggedCompanies'] ?? [];
+    List listOfConpanies =
+        (decodedData["payload"] ?? {})['loggedCompanies'] ?? [];
     //     bool isPaymentMethodVerified = (decodedData["payload"] ?? {})['isPaymentMethodVerfied'] ?? false;
     //     if (isPaymentMethodVerified == false) {
     //       GNav.pushNav(context, RouteConfig.paymentInfoRoute);
@@ -159,11 +177,14 @@ class LoginController extends GetxController {
         return;
       }
     }
-    isPayrollDashboardStepsComplete.value = (decodedData["payload"] ?? {})['isCompanyTabs'] ?? false;
+    isPayrollDashboardStepsComplete.value =
+        (decodedData["payload"] ?? {})['isCompanyTabs'] ?? false;
 
     Global365Widgets.loginCallBack((decodedData["payload"] ?? {}));
     dynamic defaultCompany = listOfConpanies.firstWhere(
-      (element) => element["companyId"].toString() == (decodedData["payload"] ?? {})['defaultCompanyId'].toString(),
+      (element) =>
+          element["companyId"].toString() ==
+          (decodedData["payload"] ?? {})['defaultCompanyId'].toString(),
       orElse: () => listOfConpanies.first,
     );
 
@@ -182,18 +203,27 @@ class LoginController extends GetxController {
     companyState = defaultCompany["state"] ?? "";
     companyZip = defaultCompany["zip"] ?? "";
     final addressBuffer = StringBuffer();
-    if (companyAddressLine1.isNotEmpty) addressBuffer.writeln(companyAddressLine1);
-    if (companyAddressLine2.isNotEmpty) addressBuffer.writeln(companyAddressLine2);
-    if (companyCity.isNotEmpty || companyState.isNotEmpty || companyZip.isNotEmpty) {
+    if (companyAddressLine1.isNotEmpty)
+      addressBuffer.writeln(companyAddressLine1);
+    if (companyAddressLine2.isNotEmpty)
+      addressBuffer.writeln(companyAddressLine2);
+    if (companyCity.isNotEmpty ||
+        companyState.isNotEmpty ||
+        companyZip.isNotEmpty) {
       addressBuffer.write(companyCity);
-      if (companyCity.isNotEmpty && companyState.isNotEmpty) addressBuffer.write(", ");
+      if (companyCity.isNotEmpty && companyState.isNotEmpty)
+        addressBuffer.write(", ");
       addressBuffer.write(companyState);
-      if ((companyCity.isNotEmpty || companyState.isNotEmpty) && companyZip.isNotEmpty) addressBuffer.write(" ");
+      if ((companyCity.isNotEmpty || companyState.isNotEmpty) &&
+          companyZip.isNotEmpty)
+        addressBuffer.write(" ");
       addressBuffer.write(companyZip);
     }
 
     final formattedAddress = addressBuffer.toString().trim();
-    companyCompleteAddress = formattedAddress.isNotEmpty ? formattedAddress : "No Address Provided";
+    companyCompleteAddress = formattedAddress.isNotEmpty
+        ? formattedAddress
+        : "No Address Provided";
 
     // isAccountant.value = defaultCompany["isAccountant"] ?? false;
     companyPhoneNo = defaultCompany["companyPhoneNumber"] ?? "";
@@ -219,10 +249,15 @@ class LoginController extends GetxController {
     //     final jsonString = defaultCompany["companywisePermissions"];
     //     prefs.setString("permissions", jsonEncode(jsonString));
     companyNameForGlobals.value = defaultCompany["companyName"] ?? "Globals";
-    userNameForGlobals.value = (decodedData["payload"] ?? {})["firstName"] ?? "Mr.";
+    companyIdentityID.value = defaultCompany["companyIdentityId"] ?? "";
+    userNameForGlobals.value =
+        (decodedData["payload"] ?? {})["firstName"] ?? "Mr.";
     //     gLogger("Company name and id is $companyId and $companyNameForGlobals");
     prefs.setString("accessToken", accessToken);
-    prefs.setBool("isPayrollDashboardStepsComplete", isPayrollDashboardStepsComplete.value);
+    prefs.setBool(
+      "isPayrollDashboardStepsComplete",
+      isPayrollDashboardStepsComplete.value,
+    );
     prefs.setString('usernameforInvitationCompare', tecEmail.text);
     prefs.setString("companyId", companyId.toString());
     prefs.setString("companyLogo", companyLogo.value);
@@ -236,6 +271,8 @@ class LoginController extends GetxController {
     prefs.setString("companyPhoneNo", companyPhoneNo);
     prefs.setString("companyEmail", companyEmail);
     prefs.setString("companyName", companyNameForGlobals.value);
+    prefs.setString("companyIdentityID", companyIdentityID.value);
+
     prefs.setString("userFirstName", userNameForGlobals.value);
     prefs.setString("companyCompleteAddress", companyCompleteAddress);
     prefs.setBool("isAppOpen", true);
@@ -334,8 +371,15 @@ class LoginController extends GetxController {
     // }
   }
 
-  Future<void> redirectLogin(BuildContext context, String code, bool companyStatus) async {
-    ResponseModel response = await APIsCallPost.submitRequest("Users/NewLoginByUniqueCode?UniqueCode=$code", {});
+  Future<void> redirectLogin(
+    BuildContext context,
+    String code,
+    bool companyStatus,
+  ) async {
+    ResponseModel response = await APIsCallPost.submitRequest(
+      "Users/NewLoginByUniqueCode?UniqueCode=$code",
+      {},
+    );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       dynamic decodedData = jsonDecode(response.data);
@@ -352,6 +396,11 @@ class LoginController extends GetxController {
   RxBool checkedValue = false.obs;
 
   void launchURL(String url) async => await canLaunch(url)
-      ? await launch(url, forceSafariVC: true, forceWebView: true, webOnlyWindowName: '_self')
+      ? await launch(
+          url,
+          forceSafariVC: true,
+          forceWebView: true,
+          webOnlyWindowName: '_self',
+        )
       : throw 'Could not launch $url';
 }
