@@ -53,10 +53,13 @@ class VerifyOtpController extends GetxController {
       "Users/ResendVerificationCode?Email=${SignUpController.to.tecEmail.text.trim()}",
     );
     GProgressDialog(context).hide();
+    dynamic data = jsonDecode(response.data);
     if (response.statusCode == 200 || response.statusCode == 201) {
       gLogger("API Response: ${response.data}");
+      GToast.succss("OTP sent successfully", context);
     } else {
-      GToast.error(response.data.toString(), context);
+      GToast.error(data["message"].toString(), context);
+
       gLogger("Error: ${response.data.toString()}");
     }
   }

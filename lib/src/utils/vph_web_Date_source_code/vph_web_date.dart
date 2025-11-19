@@ -2,6 +2,7 @@ import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:global365_widgets/src/utils/vph_web_Date_source_code/src/customized_tooltip.dart';
 
 import 'package:intl/intl.dart';
 
@@ -34,6 +35,8 @@ class GDateTextFiled extends StatefulWidget {
     this.isRequired = false,
     this.disableBorderRadius = false,
     this.onTap,
+    this.helpText,
+    this.isShowHelp = false,
     this.isDisableWeekends = false,
   });
   final String labelText;
@@ -53,6 +56,8 @@ class GDateTextFiled extends StatefulWidget {
   final bool disableBorderRadius;
   final void Function()? onTap;
   final bool isDisableWeekends;
+  final String? helpText;
+  final bool? isShowHelp;
 
   @override
   State<GDateTextFiled> createState() => _GDateTextFiledState();
@@ -102,6 +107,36 @@ class _GDateTextFiledState extends State<GDateTextFiled> {
             children: [
               GDropDownTheme.headerText(widget.labelText),
               if (widget.isRequired) Text(" *", style: GTextFiledTheme.textStyleHeaderRequired(12)),
+              SizedBox(width: 4),
+              if (widget.isShowHelp == true)
+                Padding(
+                  padding: const EdgeInsets.only(left: 4.0),
+                  child: GCustomizedTooltip(
+                    maxWidth: 300,
+                    message: widget.helpText ?? "",
+                    // onTap: () {
+                    //   showDialog(
+                    //     context: context,
+                    //     builder: (context) => AlertDialog(
+                    //       title: Text(T("pos_Help")),
+                    //       content: Text(helpText ?? "No Content Provided by County"),
+                    //       actions: <Widget>[
+                    //         InkWell(
+                    //           onTap: () {
+                    //             Navigator.pop(context);
+                    //           },
+                    //           child: Padding(
+                    //             padding: const EdgeInsets.all(15.0),
+                    //             child: Text(T("login_ok")),
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   );
+                    // },
+                    child: Icon(Icons.help, size: 15),
+                  ),
+                ),
             ],
           ),
 
