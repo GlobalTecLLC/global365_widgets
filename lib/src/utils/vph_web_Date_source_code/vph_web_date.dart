@@ -38,7 +38,9 @@ class GDateTextFiled extends StatefulWidget {
     this.helpText,
     this.isShowHelp = false,
     this.isDisableWeekends = false,
+    this.allowManualInput = true,
   });
+  final bool allowManualInput;
   final String labelText;
   final double? containerWidth;
   late DateTime selectedDate;
@@ -73,7 +75,7 @@ class _GDateTextFiledState extends State<GDateTextFiled> {
     // _controller = TextEditingController(text: _selectedDate.toString().split(' ')[0]);
   }
 
-  Future<void> _selectDate(BuildContext context, bool flag) async {
+  Future<bool> _selectDate(BuildContext context, bool flag) async {
     final pickedDate = await showWebDatePicker(
       width: 250,
       context: context,
@@ -93,7 +95,9 @@ class _GDateTextFiledState extends State<GDateTextFiled> {
         widget.selectedDate = pickedDate.start;
         widget.dateController.text = DateFormat('MM/dd/yyyy').format(widget.selectedDate);
       });
+      return true;
     }
+    return false;
   }
 
   @override
@@ -147,7 +151,7 @@ class _GDateTextFiledState extends State<GDateTextFiled> {
           child: TextField(
             // key: textFieldKey,
             controller: widget.dateController,
-            readOnly: false,
+            readOnly: !widget.isDateChangeAble || !widget.allowManualInput,
             focusNode: widget.focusNode,
             onChanged: widget.onChange as void Function(String?)?,
             onTap: widget.onTap,
@@ -215,11 +219,18 @@ class _GDateTextFiledState extends State<GDateTextFiled> {
                 focusNode: FocusNode(skipTraversal: true),
                 onTap: () async {
                   if (widget.isDateChangeAble) {
-                    await _selectDate(context, false); // Open the date picker and update the date
-                    if (widget.onChange != null) {
-                      // Trigger the onChange callback after updating the date
+                    if (!widget.isDateChangeAble) return;
+
+                    bool dateSelected = await _selectDate(context, false);
+
+                    if (dateSelected && widget.onChange != null) {
                       widget.onChange!(widget.dateController.text);
                     }
+                    // await _selectDate(context, false); // Open the date picker and update the date
+                    // if (widget.onChange != null) {
+                    //   // Trigger the onChange callback after updating the date
+                    //   widget.onChange!(widget.dateController.text);
+                    // }
                   }
                 },
                 child: Padding(
