@@ -365,6 +365,10 @@ class GCustomMenuButton extends StatelessWidget {
         return BootstrapIcons.arrow_clockwise;
       case "UnLink":
         return BootstrapIcons.link_45deg;
+         case "Use":
+        return BootstrapIcons.envelope_check;
+      case "Skip Next":
+        return BootstrapIcons.skip_forward;
       default:
         return BootstrapIcons.question_circle;
     }
