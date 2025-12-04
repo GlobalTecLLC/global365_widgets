@@ -12,6 +12,5 @@ class GRouteConfig {
   static const String completemerchantprocess = "/completemerchantprocess";
   static const String merchantSuccess = "/merchantSuccess";
   static const String dashboard = "/dashboard";
-
-
+  static const String forgotPassword = "/forgotPassword";
 }

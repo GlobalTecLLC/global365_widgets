@@ -8,6 +8,7 @@ import 'package:global365_widgets/src/authentication/authentication_routes.dart'
 import 'package:global365_widgets/src/authentication/login/Controllers/login_controller.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
+import 'package:global365_widgets/src/utils/logger.dart';
 
 Widget title(BuildContext context) {
   return Column(children: [GTextHeading2("Sign In to Your Account"), GSizeH(16)]);
@@ -74,7 +75,10 @@ Widget emailPasswordWidget(BuildContext context) {
                         hintText: "Enter Password",
                         isEnabled: !LoginController.to.loogingIn.value,
                         suffixIcon: IconButton(
-                          icon: Icon(LoginController.to.passwordVisible.value ? BootstrapIcons.eye : BootstrapIcons.eye_slash, color: Colors.green),
+                          icon: Icon(
+                            LoginController.to.passwordVisible.value ? BootstrapIcons.eye : BootstrapIcons.eye_slash,
+                            color: Colors.green,
+                          ),
                           alignment: Alignment.centerLeft,
                           iconSize: 16,
                           padding: EdgeInsets.zero,
@@ -137,9 +141,12 @@ Widget emailPasswordWidget(BuildContext context) {
                         ),
                         const Spacer(),
                         InkWell(
-                          // onTap: () async {
-                          //   Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetPassword()));
-                          // },
+                          onTap: () async {
+                            Logger.log("FORGOT PASSWORD CLICKED");
+                            if (g365Module == G365Module.payroll || g365Module == G365Module.employeePortal) {
+                              GNav.pushNav(context, GRouteConfig.forgotPassword);
+                            }
+                          },
                           child: Text(
                             "Forgot Password",
                             textAlign: TextAlign.right,

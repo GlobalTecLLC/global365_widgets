@@ -14,6 +14,9 @@ export 'signup/controllers/signup_controller/sign_up_controller.dart';
 export 'signup/controllers/signup_controller/software_info_controller.dart';
 export 'my_profile/profile_screen_widget.dart';
 
+// export forgot password
+export 'forgot_password/forgot_password_view.dart';
+
 //Login
 
 export 'login/Pages/login_page_USA.dart';

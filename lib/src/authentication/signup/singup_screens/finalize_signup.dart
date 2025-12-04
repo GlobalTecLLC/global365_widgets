@@ -49,7 +49,7 @@ class FinalizeSignup extends StatelessWidget {
                           TextSpan(text: 'Thank you for selecting Global365 for '),
                           TextSpan(
                             // text: '${SetUpController.to.businessName.text}!',
-                            text: ' your business needs!',
+                            text: 'your business needs!',
                             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
                           ),
                           TextSpan(
