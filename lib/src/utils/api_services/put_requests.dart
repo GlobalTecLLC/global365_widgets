@@ -11,12 +11,13 @@ import 'package:http_parser/http_parser.dart';
 import 'package:global365_widgets/src/utils/api_services/response_model/resonse_model.dart';
 
 class APIsCallPut {
-  static Future<ResponseModel> updateRequestWithIdwithoutbody(String requestUrl) async {
+  static Future<ResponseModel> updateRequestWithIdwithoutbody(String requestUrl, {String? baseUrl}) async {
+    final url = baseUrl != null ? Uri.parse(baseUrl + requestUrl) : Uri.parse(apiLink + requestUrl);
     gLogger("Acces toke put $accessToken");
     gLogger("Request URL $requestUrl");
     try {
       final response = await http.put(
-        Uri.parse("$apiLink$requestUrl"),
+        url,
         headers: <String, String>{
           'Accept': 'application/json',
           'Content-Type': 'application/json; charset=UTF-8',
@@ -33,11 +34,11 @@ class APIsCallPut {
     }
   }
 
-  static Future<ResponseModel> updateRequestWithId(String requestUrl, dynamic data) async {
+  static Future<ResponseModel> updateRequestWithId(String requestUrl, dynamic data, {String? baseUrl}) async {
     gLogger("Acces toke put $accessToken");
     try {
       final response = await http.put(
-        Uri.parse("$apiLink$requestUrl"),
+        baseUrl != null ? Uri.parse(baseUrl + requestUrl) : Uri.parse(apiLink + requestUrl),
         headers: <String, String>{
           'Accept': 'application/json',
           'Content-Type': 'application/json; charset=UTF-8',
