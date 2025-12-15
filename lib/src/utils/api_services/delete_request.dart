@@ -7,13 +7,13 @@ import 'package:global365_widgets/src/utils/api_services/response_model/resonse_
 import 'package:http/http.dart' as http;
 
 class APIDeleteRequest {
-  static Future<ResponseModel> deleteById(String requestUrl) async {
+  static Future<ResponseModel> deleteById(String requestUrl, {String? baseUrl}) async {
     gLogger("Delete Request complete url is: $apiLink$requestUrl");
     gLogger("Delete Request access Token is: $accessToken");
 
     try {
       final response = await http.delete(
-        Uri.parse(apiLink + requestUrl),
+        baseUrl != null ? Uri.parse(baseUrl + requestUrl) : Uri.parse(apiLink + requestUrl),
         headers: <String, String>{
           'Accept': 'application/json',
           'Content-Type': 'application/json; charset=UTF-8',
