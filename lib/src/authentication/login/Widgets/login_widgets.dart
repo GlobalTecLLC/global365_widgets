@@ -10,6 +10,53 @@ import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/utils/logger.dart';
 
+// Helper function to get the sign-up redirect URL
+String _getSignUpRedirectURL(G365Module module, String environment) {
+  final env = environment.toLowerCase();
+
+  switch (module) {
+    case G365Module.payroll:
+      switch (env) {
+        case "development":
+          return "https://global365-sso.netlify.app/redirectFromWebsite?moduleName=Payroll";
+        case "production":
+          return "https://myhub.global365.com/redirectFromWebsite?moduleName=Payroll";
+        case "staging":
+          return "https://global365-myhub-sit.netlify.app/redirectFromWebsite?moduleName=Payroll";
+        default:
+          return "https://global365-sso.netlify.app/redirectFromWebsite?moduleName=Payroll";
+      }
+
+    case G365Module.merchant:
+      switch (env) {
+        case "development":
+          return "https://global365-sso.netlify.app/redirectFromWebsite?moduleName=Merchant";
+        case "production":
+          return "https://myhub.global365.com/redirectFromWebsite?moduleName=Merchant";
+        case "staging":
+          return "https://global365-myhub-sit.netlify.app/redirectFromWebsite?moduleName=Merchant";
+        default:
+          return "https://global365-sso.netlify.app/redirectFromWebsite?moduleName=Merchant";
+      }
+
+    case G365Module.accounting:
+      switch (env) {
+        case "development":
+          return "https://global365-sso.netlify.app/redirectFromWebsite?moduleName=Accounting";
+        case "production":
+          return "https://myhub.global365.com/redirectFromWebsite?moduleName=Accounting";
+        case "staging":
+          return "https://global365-myhub-sit.netlify.app/redirectFromWebsite?moduleName=Accounting";
+        default:
+          return "https://global365-sso.netlify.app/redirectFromWebsite?moduleName=Accounting";
+      }
+
+    case G365Module.employeePortal:
+      // employeePortal uses internal payment plan route
+      return "";
+  }
+}
+
 Widget title(BuildContext context) {
   return Column(children: [GTextHeading2("Sign In to Your Account"), GSizeH(16)]);
 }
@@ -221,12 +268,13 @@ Widget createAccountLabel(BuildContext context) {
         GSizeW(4),
         InkWell(
           onTap: () {
-            // logEvent("ClickOnRegister", {});
-
             isFirstpurchase = true;
-            // AutoRouter.of(context).push(const PaymentPlanRoute());
-            // GNav.pushNav(context, GRouteConfig.signUpScreenRoute);
-            GNav.pushNav(context, GRouteConfig.paymentPlanRoute);
+            if (g365Module == G365Module.payroll) {
+              final redirectURL = _getSignUpRedirectURL(g365Module, applicationEnviroment);
+              LoginController.to.launchURL(redirectURL);
+            } else {
+              GNav.pushNav(context, GRouteConfig.paymentPlanRoute);
+            }
 
             // if (g365Module == G365Module.merchant) {
             //   if (applicationEnviroment.toLowerCase() == "development") {
