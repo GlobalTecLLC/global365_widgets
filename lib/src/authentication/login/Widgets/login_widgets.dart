@@ -269,12 +269,12 @@ Widget createAccountLabel(BuildContext context) {
         InkWell(
           onTap: () {
             isFirstpurchase = true;
-            if (g365Module == G365Module.payroll) {
-              final redirectURL = _getSignUpRedirectURL(g365Module, applicationEnviroment);
-              LoginController.to.launchURL(redirectURL);
-            } else {
+            // if (g365Module == G365Module.payroll) {
+            //   final redirectURL = _getSignUpRedirectURL(g365Module, applicationEnviroment);
+            //   LoginController.to.launchURL(redirectURL);
+            // } else {
               GNav.pushNav(context, GRouteConfig.paymentPlanRoute);
-            }
+            // }
 
             // if (g365Module == G365Module.merchant) {
             //   if (applicationEnviroment.toLowerCase() == "development") {
