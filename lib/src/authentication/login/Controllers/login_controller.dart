@@ -66,7 +66,11 @@ class LoginController extends GetxController {
     loogingIn.value = true;
     dynamic data = {"email": tecEmail.text, "password": controllerpassword.text};
     ResponseModel response = await APIsCallPost.submitRequestWithOutAuth(
-      g365Module == G365Module.employeePortal ? "Users/EmployeeLogin" : "Users/NewLogin",
+      g365Module == G365Module.employeePortal
+          ? "Users/EmployeeLogin"
+          : g365Module == G365Module.contractorPortal
+          ? "Users/ContractorLogin"
+          : "Users/NewLogin",
       data,
     );
     loogingIn.value = false;
@@ -75,7 +79,7 @@ class LoginController extends GetxController {
     dynamic decodedData = jsonDecode(response.data);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      if (g365Module == G365Module.employeePortal) {
+      if (g365Module == G365Module.employeePortal || g365Module == G365Module.contractorPortal) {
         loginResponseHandlerForEmployeePortal(context, decodedData);
       } else {
         loginResponsehandler(context, decodedData);
@@ -109,6 +113,7 @@ class LoginController extends GetxController {
     accessToken = (decodedData["payload"] ?? {})["token"];
     companyId = (decodedData["payload"] ?? {})['defaultCompanyId'].toString();
     employeeId = (decodedData["payload"] ?? {})['employeeId'].toString();
+    contractorId = (decodedData["payload"] ?? {})['contractorId'].toString();
     userNameForGlobals.value = (decodedData["payload"] ?? {})["firstName"] ?? "Mr.";
     if (inviteCode.value.isNotEmpty) {
       await acceptEmployeeInvite(context);
@@ -117,6 +122,7 @@ class LoginController extends GetxController {
 
     prefs.setString("accessToken", accessToken);
     prefs.setString("employeeId", employeeId);
+    prefs.setString("contractorId", contractorId);
     prefs.setString("companyId", companyId.toString());
     prefs.setString("companyLogo", companyLogo.value);
     prefs.setString("userFirstName", userNameForGlobals.value);

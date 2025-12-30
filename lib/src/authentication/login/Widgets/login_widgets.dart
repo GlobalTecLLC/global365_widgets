@@ -54,6 +54,9 @@ String _getSignUpRedirectURL(G365Module module, String environment) {
     case G365Module.employeePortal:
       // employeePortal uses internal payment plan route
       return "";
+    case G365Module.contractorPortal:
+      // contractorPortal uses internal payment plan route
+      return "";
   }
 }
 
@@ -273,7 +276,7 @@ Widget createAccountLabel(BuildContext context) {
             //   final redirectURL = _getSignUpRedirectURL(g365Module, applicationEnviroment);
             //   LoginController.to.launchURL(redirectURL);
             // } else {
-              GNav.pushNav(context, GRouteConfig.paymentPlanRoute);
+            GNav.pushNav(context, GRouteConfig.paymentPlanRoute);
             // }
 
             // if (g365Module == G365Module.merchant) {

@@ -19,6 +19,7 @@ String apiLink = "https://api.global365.com/api/v1/";
 String apiLink2 = "https://admindev.globalgroup.co/api/v2/";
 
 String employeeId = "";
+String contractorId = "";
 
 G365Module g365Module = G365Module.accounting;
 String applicationEnviroment = "";
@@ -26,8 +27,7 @@ String applicationEnviroment = "";
 String companyId = "";
 late SharedPreferences prefs;
 
-RxBool isPayrollDashboardStepsComplete =
-    false.obs; // payrollDashboardStepsComplete
+RxBool isPayrollDashboardStepsComplete = false.obs; // payrollDashboardStepsComplete
 
 String companyname = "Technupur";
 int fiscalYearId = 1;
@@ -88,14 +88,8 @@ Widget globalSpinkitForLoaderswithBorder({
     width: width,
     decoration: BoxDecoration(
       color: whiteColor,
-      borderRadius: BorderRadius.circular(
-        isFieldForTable ? 0 : Branding.tFborderR,
-      ),
-      border: Border.all(
-        width: isFieldForTable ? 0.5 : 1,
-        style: BorderStyle.solid,
-        color: borderColor,
-      ),
+      borderRadius: BorderRadius.circular(isFieldForTable ? 0 : Branding.tFborderR),
+      border: Border.all(width: isFieldForTable ? 0.5 : 1, style: BorderStyle.solid, color: borderColor),
     ),
     child: globalSpinkitForLoaders(),
   );
@@ -121,8 +115,7 @@ Widget g365NetworkImage(
     height: height,
     width: width,
     fit: fit,
-    imageErrorBuilder: (context, e, stackTrace) =>
-        widgetTextPlaceHolder(placeHolderName: placeHolderName),
+    imageErrorBuilder: (context, e, stackTrace) => widgetTextPlaceHolder(placeHolderName: placeHolderName),
     image: NetworkImage(url),
     placeholder: const AssetImage('assets/imgs/logo2.png'),
   );
@@ -161,9 +154,7 @@ Widget widgetTextPlaceHolder({String placeHolderName = ""}) {
       child: CircleAvatar(
         radius: 15,
         backgroundColor: Colors.transparent,
-        child: Center(
-          child: Opacity(opacity: 1, child: GTextHeading3(placeHolder)),
-        ),
+        child: Center(child: Opacity(opacity: 1, child: GTextHeading3(placeHolder))),
       ),
     );
   } else {
@@ -197,17 +188,14 @@ Widget widgetTextPlaceHolder({String placeHolderName = ""}) {
       child: CircleAvatar(
         radius: 15,
         backgroundColor: mainColorPrimaryYellow.withOpacity(0.2),
-        child: Center(
-          child: Opacity(opacity: 0.5, child: GTextHeading3(placeHolder)),
-        ),
+        child: Center(child: Opacity(opacity: 0.5, child: GTextHeading3(placeHolder))),
       ),
     );
   }
 }
 
 bool isValidEmail(String email) {
-  String pattern =
-      r'^[a-zA-Z0-9.a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9]+\.[a-zA-Z]+';
+  String pattern = r'^[a-zA-Z0-9.a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9]+\.[a-zA-Z]+';
   RegExp regex = RegExp(pattern);
   return regex.hasMatch(email);
 }

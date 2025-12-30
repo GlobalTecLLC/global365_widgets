@@ -18,4 +18,4 @@ class Global365Widgets {
   }
 }
 
-enum G365Module { accounting, payroll, merchant , employeePortal}
+enum G365Module { accounting, payroll, merchant, employeePortal, contractorPortal }
