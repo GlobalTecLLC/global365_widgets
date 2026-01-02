@@ -573,7 +573,7 @@ Widget oTPWidget(BuildContext context) {
                 child: GCustomButton(
                   onTap: userInvitationController.isButtonEnabled.value
                       ? () {
-                          userInvitationController.verifyOTP(context);
+                          userInvitationController.confirmVerificationCode(context);
                           // gLogger("Verify and accept Clicekd ${userInvitationController.otp}");
                         }
                       : null,

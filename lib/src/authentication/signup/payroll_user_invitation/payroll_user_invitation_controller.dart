@@ -22,8 +22,10 @@ class PayrollUserInvitationController extends GetxController {
   RxnBool isUserVerifiedNull = RxnBool(false);
 
   String statusCode = "";
+  RxString verificationCode = "".obs;
   void getInvitedUserData(BuildContext context, {String? verficationCode}) async {
     isgettingData.value = true;
+    verificationCode.value = verficationCode ?? "";
     // (SP-1008)GetUserInfoThroughCode
     gLogger("INSIDE THE GET INVITED USER DATA API CALL and verification code is $verficationCode");
     ResponseModel response = await APIsCallGet.getDataWithOutAuth(
@@ -145,112 +147,112 @@ class PayrollUserInvitationController extends GetxController {
     }
   }
 
-  acceptAndRejectAfterSignIn(BuildContext context, bool isAcceptedInvite) async {
-    gLogger("INSIDE verifiedUserInvitationResponse and isaccepted: $isAcceptedInvite");
-    GProgressDialog(context).show();
-    // (SP-1009) VerifiedUserInvitationResponse
-    ResponseModel response = await APIsCallPut.updateRequestWithIdwithoutbody(
-      "Users/InvitationResponseVerfiiedUser?IsAccepted=$isAcceptedInvite&VerifiedCode=",
-    );
-    gLogger("data: ${response.data}");
-    gLogger("status code ${response.statusCode}");
-    GProgressDialog(context).hide();
-    dynamic decodedData = jsonDecode(response.data);
+  // acceptAndRejectAfterSignIn(BuildContext context, bool isAcceptedInvite) async {
+  //   gLogger("INSIDE verifiedUserInvitationResponse and isaccepted: $isAcceptedInvite");
+  //   GProgressDialog(context).show();
+  //   // (SP-1009) VerifiedUserInvitationResponse
+  //   ResponseModel response = await APIsCallPut.updateRequestWithIdwithoutbody(
+  //     "Users/InvitationResponseVerfiiedUser?IsAccepted=$isAcceptedInvite&VerifiedCode=",
+  //   );
+  //   gLogger("data: ${response.data}");
+  //   gLogger("status code ${response.statusCode}");
+  //   GProgressDialog(context).hide();
+  //   dynamic decodedData = jsonDecode(response.data);
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      GToast.succss(decodedData["message"], context);
+  //   if (response.statusCode == 200 || response.statusCode == 201) {
+  //     GToast.succss(decodedData["message"], context);
 
-      dynamic loggedCompanies = (decodedData["payload"] ?? {});
+  //     dynamic loggedCompanies = (decodedData["payload"] ?? {});
 
-      userNameForGlobals.value = prefs.getString('userName').toString();
-      companyNameForGlobals.value = loggedCompanies["companyName"] ?? "";
+  //     userNameForGlobals.value = prefs.getString('userName').toString();
+  //     companyNameForGlobals.value = loggedCompanies["companyName"] ?? "";
 
-      final jsonString = loggedCompanies["companywisePermissions"];
-      prefs.setString("permissions", jsonEncode(jsonString));
+  //     final jsonString = loggedCompanies["companywisePermissions"];
+  //     prefs.setString("permissions", jsonEncode(jsonString));
 
-      // prefs.setString("listOfWidgets", jsonEncode(DashboardController.to.listOfWidgets.value));
-      // if (isAcceptedInvite) {
-      //   globals.isLoggingInInvitedUser.value = false;
+  //     // prefs.setString("listOfWidgets", jsonEncode(DashboardController.to.listOfWidgets.value));
+  //     // if (isAcceptedInvite) {
+  //     //   globals.isLoggingInInvitedUser.value = false;
 
-      //   context.push(RouteConfig.dashboard);
-      // } else {
-      //   globals.isLoggingInInvitedUser.value = false;
-      //   alertForRejection(context);
-      // }
-      isAccepted = false;
-    } else {
-      GToast.error(decodedData["message"], context);
-      gLogger("Error: ${response.data.toString()}");
-    }
-  }
+  //     //   context.push(RouteConfig.dashboard);
+  //     // } else {
+  //     //   globals.isLoggingInInvitedUser.value = false;
+  //     //   alertForRejection(context);
+  //     // }
+  //     isAccepted = false;
+  //   } else {
+  //     GToast.error(decodedData["message"], context);
+  //     gLogger("Error: ${response.data.toString()}");
+  //   }
+  // }
 
-  verifiedClientInvitationResponse(BuildContext context, bool isAcceptedInvite) async {
-    gLogger("INSIDE verifiedUserInvitationResponse and isaccepted: $isAcceptedInvite");
-    GProgressDialog(context).show();
-    // (CPA-IC-1003) InvitationResponseVerfiiedUserV2
-    ResponseModel response = await APIsCallPut.updateRequestWithIdwithoutbody(
-      "Users/InvitationResponseVerfiiedUserV2?IsAccepted=$isAcceptedInvite&VerifiedCode=",
-    );
-    gLogger("data: ${response.data}");
-    GProgressDialog(context).hide();
-    dynamic decodedData = jsonDecode(response.data);
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      GToast.succss(decodedData["message"], context);
-      // if (isAcceptedInvite) {
-      //   globals.isLoggingInInvitedUser.value = false;
-      // } else {
-      //   globals.isLoggingInInvitedUser.value = false;
-      //   alertForRejection(context);
-      // }
-    } else {
-      GToast.error(decodedData["message"], context);
-      gLogger("Error: ${response.data.toString()}");
-    }
-  }
+  // verifiedClientInvitationResponse(BuildContext context, bool isAcceptedInvite) async {
+  //   gLogger("INSIDE verifiedUserInvitationResponse and isaccepted: $isAcceptedInvite");
+  //   GProgressDialog(context).show();
+  //   // (CPA-IC-1003) InvitationResponseVerfiiedUserV2
+  //   ResponseModel response = await APIsCallPut.updateRequestWithIdwithoutbody(
+  //     "Users/InvitationResponseVerfiiedUserV2?IsAccepted=$isAcceptedInvite&VerifiedCode=",
+  //   );
+  //   gLogger("data: ${response.data}");
+  //   GProgressDialog(context).hide();
+  //   dynamic decodedData = jsonDecode(response.data);
+  //   if (response.statusCode == 200 || response.statusCode == 201) {
+  //     GToast.succss(decodedData["message"], context);
+  //     // if (isAcceptedInvite) {
+  //     //   globals.isLoggingInInvitedUser.value = false;
+  //     // } else {
+  //     //   globals.isLoggingInInvitedUser.value = false;
+  //     //   alertForRejection(context);
+  //     // }
+  //   } else {
+  //     GToast.error(decodedData["message"], context);
+  //     gLogger("Error: ${response.data.toString()}");
+  //   }
+  // }
 
-  rejectUnVerifiedUser(BuildContext context) async {
-    gLogger("INSIDE rejectUnVerifiedUser");
-    GProgressDialog(context).show();
-    // (SP-1010)RejectedUnVerfiiedUser
-    ResponseModel response = await APIsCallPut.updateRequestWithIdwithoutbodyWithOutAuth(
-      "Users/RejectedUnVerfiiedUser?VerifiedCode=",
-    );
-    GProgressDialog(context).hide();
-    dynamic decodedData = jsonDecode(response.data);
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      GToast.succss(decodedData["message"], context);
-      // alertForRejection(context);
-    } else {
-      GToast.error(decodedData["message"], context);
-      gLogger("Error: ${response.data.toString()}");
-    }
-  }
+  // rejectUnVerifiedUser(BuildContext context) async {
+  //   gLogger("INSIDE rejectUnVerifiedUser");
+  //   GProgressDialog(context).show();
+  //   // (SP-1010)RejectedUnVerfiiedUser
+  //   ResponseModel response = await APIsCallPut.updateRequestWithIdwithoutbodyWithOutAuth(
+  //     "Users/RejectedUnVerfiiedUser?VerifiedCode=",
+  //   );
+  //   GProgressDialog(context).hide();
+  //   dynamic decodedData = jsonDecode(response.data);
+  //   if (response.statusCode == 200 || response.statusCode == 201) {
+  //     GToast.succss(decodedData["message"], context);
+  //     // alertForRejection(context);
+  //   } else {
+  //     GToast.error(decodedData["message"], context);
+  //     gLogger("Error: ${response.data.toString()}");
+  //   }
+  // }
 
-  rejectUnVerifiedClient(BuildContext context) async {
-    gLogger("INSIDE rejectUnVerifiedUser");
-    GProgressDialog(context).show();
-    //  (CPA-IC-1004) RejectedUnVerfiiedUserV2
-    ResponseModel response = await APIsCallPut.updateRequestWithIdwithoutbodyWithOutAuth(
-      "Users/RejectedUnVerfiiedUserV2?VerifiedCode=",
-    );
-    GProgressDialog(context).hide();
-    dynamic decodedData = jsonDecode(response.data);
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      GToast.succss(decodedData["message"], context);
-      // alertForRejection(context);
-    } else {
-      GToast.error(decodedData["message"], context);
-      gLogger("Error: ${response.data.toString()}");
-    }
-  }
+  // rejectUnVerifiedClient(BuildContext context) async {
+  //   gLogger("INSIDE rejectUnVerifiedUser");
+  //   GProgressDialog(context).show();
+  //   //  (CPA-IC-1004) RejectedUnVerfiiedUserV2
+  //   ResponseModel response = await APIsCallPut.updateRequestWithIdwithoutbodyWithOutAuth(
+  //     "Users/RejectedUnVerfiiedUserV2?VerifiedCode=",
+  //   );
+  //   GProgressDialog(context).hide();
+  //   dynamic decodedData = jsonDecode(response.data);
+  //   if (response.statusCode == 200 || response.statusCode == 201) {
+  //     GToast.succss(decodedData["message"], context);
+  //     // alertForRejection(context);
+  //   } else {
+  //     GToast.error(decodedData["message"], context);
+  //     gLogger("Error: ${response.data.toString()}");
+  //   }
+  // }
 
   verifyOTP(BuildContext context) async {
     gLogger("INSIDE VERIFY OTP API CALL and otp is ${otpController.text}");
-    GProgressDialog(context).show();
-    ResponseModel response = await APIsCallPut.updateRequestWithIdwithoutbodyWithOutAuth(
-      "Users/InvitationResponseVerfiiedUser?IsAccepted=true&VerifiedCode=${otpController.text.trim()}",
+
+    ResponseModel response = await APIsCallPut.updateRequestWithIdwithoutbody(
+      "Users/InvitationResponseVerfiiedUser?IsAccepted=true&VerifiedCode=${verificationCode.value.trim()}",
     );
-    GProgressDialog(context).hide();
+
     dynamic decodedData = jsonDecode(response.data);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
@@ -260,6 +262,27 @@ class PayrollUserInvitationController extends GetxController {
       gLogger("API Response: ${response.data}");
     } else {
       GToast.error((decodedData["message"] ?? "").toString(), context);
+      gLogger("Error: ${response.data.toString()}");
+    }
+  }
+
+  confirmVerificationCode(context) async {
+    gLogger("INSIDE VERIFY OTP API CALL");
+    GProgressDialog(context).show();
+    ResponseModel response = await APIsCallPut.updateRequestWithIdwithoutbody(
+      "Users/ConfirmVerificationCode?Email=${invitedUserEmail.value.trim()}&VerificationCode=${otpController.text.trim()}",
+    );
+    GProgressDialog(context).hide();
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      dynamic decodedData = jsonDecode(response.data);
+      String accessToken1 = decodedData["payload"]["token"];
+      accessToken = accessToken1;
+      gLogger("accessToken: $accessToken");
+      verifyOTP(context);
+      gLogger("API Response: ${response.data}");
+    } else {
+      GToast.error("Invalid OTP", context);
       gLogger("Error: ${response.data.toString()}");
     }
   }
