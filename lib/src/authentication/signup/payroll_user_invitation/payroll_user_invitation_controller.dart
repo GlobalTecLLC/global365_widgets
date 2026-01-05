@@ -67,6 +67,7 @@ class PayrollUserInvitationController extends GetxController {
       "email": invitedUserEmail.value,
       "password": tecPassword.text.trim(),
       "fullName": "${tecFirstName.text.trim()} ${tecLastname.text.trim()}",
+      "uniqueInvitedEmailVerificationCode": verificationCode.value.trim(),
     };
     gLogger("User Data: $data");
     GProgressDialog(context).show();
@@ -270,7 +271,7 @@ class PayrollUserInvitationController extends GetxController {
     gLogger("INSIDE VERIFY OTP API CALL");
     GProgressDialog(context).show();
     ResponseModel response = await APIsCallPut.updateRequestWithIdwithoutbody(
-      "Users/ConfirmVerificationCode?Email=${invitedUserEmail.value.trim()}&VerificationCode=${otpController.text.trim()}",
+      "Users/ConfirmVerificationCode?Email=${invitedUserEmail.value.trim()}&VerificationCode=${otpController.text.trim()}&UniqueInvitedEmailVerificationCode=${verificationCode.value.trim()}",
     );
     GProgressDialog(context).hide();
 
