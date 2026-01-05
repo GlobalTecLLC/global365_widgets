@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                                 children: [
                                   title(context),
                                   emailPasswordWidget(context),
-                                  if (g365Module != G365Module.employeePortal) createAccountLabel(context),
+                                  if (g365Module != G365Module.employeePortal && g365Module != G365Module.contractorPortal) createAccountLabel(context),
                                 ],
                               ),
                             ),
