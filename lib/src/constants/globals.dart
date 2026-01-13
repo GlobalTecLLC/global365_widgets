@@ -55,9 +55,9 @@ extension TextEditingControllerExt on TextEditingController {
   }
 }
 
-RxList dropDownValuesforSave = ["Save and New"].obs;
+RxList dropDownValuesforSave = ["Save & New"].obs;
 
-RxList dropDownValuesforSaveAndClose = ["Save and Close"].obs;
+RxList dropDownValuesforSaveAndClose = ["Save & Close"].obs;
 
 Widget globalSpinkit({double? size}) {
   return Center(

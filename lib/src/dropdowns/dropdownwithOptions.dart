@@ -320,7 +320,7 @@ class MenuItemsForDropdownButton {
                             // gLogger("controller.dropDownValuesforSetting ${controller.dropDownValuesforSetting}");
                             if (isFromSave) {
                               controller.checkboxValuesforSave[index] = !controller.checkboxValuesforSave[index];
-                              if (dropDownValuesforSave[index] == "Save and New") {
+                              if (dropDownValuesforSave[index] == "Save & New") {
                                 // await // context.router.pop();
                                 if (onTap != null) {
                                   // GNav.popNav(context);
@@ -330,7 +330,7 @@ class MenuItemsForDropdownButton {
                                   await controller.postData(context, true);
                                 }
                               }
-                              if (dropDownValuesforSave[index] == "Save and Close") {
+                              if (dropDownValuesforSave[index] == "Save & Close") {
                                 await controller.postData(context, false);
                               }
                             } else if (isPay) {
