@@ -3,12 +3,9 @@
 ////////////////////////////////////////////////////////////////////////
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:global365_widgets/src/authentication/signup/payment_plan/talus_pay/payment_method_service.dart';
-import 'package:global365_widgets/src/authentication/signup/payment_plan/talus_pay/talus_pay_tokenizor.dart';
-import 'package:global365_widgets/src/authentication/signup/payment_plan/talus_pay/web_widget.dart';
-import 'package:global365_widgets/src/utils/print_log.dart';
+import 'package:get/get.dart';
+import 'package:global365_widgets/global365_widgets.dart';
+import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/payment_info_controller.dart';
 
 class AddCardSignUpWidget extends StatefulWidget {
   const AddCardSignUpWidget({super.key});
@@ -18,7 +15,10 @@ class AddCardSignUpWidget extends StatefulWidget {
 }
 
 class _AddCardSignUpWidgetState extends State<AddCardSignUpWidget> {
-  late InAppWebViewController controller;
+  // late InAppWebViewController controller;
+  final controller = Get.isRegistered<PaymentInfoController>()
+      ? Get.find<PaymentInfoController>()
+      : Get.put(PaymentInfoController());
 
   @override
   void initState() {
@@ -28,46 +28,95 @@ class _AddCardSignUpWidgetState extends State<AddCardSignUpWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 150,
       width: 400,
-      child:
-          // Container());
-          (kIsWeb)
-          ? WebViewWebPayment(isSignUp: true)
-          : InAppWebView(
-              initialData: InAppWebViewInitialData(data: PaymentProcessing.getHTMLString(btnText: "Proceed")),
-              initialSettings: InAppWebViewSettings(
-                javaScriptEnabled: true,
-                allowUniversalAccessFromFileURLs: true,
-                allowFileAccessFromFileURLs: true,
+      child: Column(
+        children: [
+          GTextFieldForSingleLine(
+            controller: controller.cardCardNumber,
+            labelText: 'Card Number',
+            hintText: "xxxx-xxxx-xxxx-xxxx",
+            maxLine: 1,
+            isRequired: true,
+            cardNumber: true,
+          ),
+          GSizeH(12),
+          Row(
+            children: [
+              Expanded(
+                child: GTextFieldForSingleLine(
+                  controller: controller.cardExpiry,
+                  labelText: "Expiry",
+                  maxLine: 1,
+                  hintText: "MM/YY",
+                  isRequired: true,
+                  cardExpiry: true,
+                ),
               ),
-              onWebViewCreated: (controller) {
-                gLogger("WebView created123");
-                controller = controller;
-              },
-              onLoadStart: (controller, url) {
-                gLogger("on load start");
-              },
-              onLoadStop: (controller, url) async {
-                gLogger("on load stop");
-              },
-              onNavigationResponse: (controller, navigationResponse) async {
-                gLogger("Navigation Response: ${navigationResponse.response?.statusCode}");
-                return NavigationResponseAction.CANCEL;
-              },
-              onConsoleMessage: (controller, consoleMessage) {
-                PaymentMethodService.onSubmissionOfPaymentMethod(consoleMessage.message, context, true);
-              },
-              onReceivedHttpError: (controller, request, errorResponse) {
-                gLogger("HTTP Error: ${errorResponse.statusCode} ${errorResponse.reasonPhrase}");
-              },
-              onReceivedError: (controller, request, error) {
-                gLogger("Web Resource Error: ${error.description}");
-              },
-              onLoadError: (controller, url, code, message) {
-                gLogger("@@Error: $message");
-              },
-            ),
+              const GSizeW(12),
+              Expanded(
+                child: GTextFieldForSingleLine(
+                  controller: controller.cardCCV,
+                  labelText: "CVV",
+                  hintText: "XXX",
+                  maxLine: 1,
+                  isRequired: true,
+                  cvvNumber: true,
+                ),
+              ),
+            ],
+          ),
+          GSizeH(12),
+          GCustomButton(
+            btnText: "Proceed",
+            onTap: () {
+              controller.submitPaymentInfo(context);
+            },
+            variant: ButtonVariant.filledPrimary,
+          ),
+        ],
+      ),
+
+      // Old webview component
+      //   (kIsWeb)
+      //       ? WebViewWebPayment(
+      //           isSignUp: true,
+      //         )
+      //       : InAppWebView(
+      //           initialData: InAppWebViewInitialData(
+      //             data: PaymentProcessing.getHTMLString(btnText: "Proceed"),
+      //           ),
+      //           initialSettings: InAppWebViewSettings(
+      //             javaScriptEnabled: true,
+      //             allowUniversalAccessFromFileURLs: true,
+      //             allowFileAccessFromFileURLs: true,
+      //           ),
+      //           onWebViewCreated: (controller) {
+      //             printLog("WebView created123");
+      //             controller = controller;
+      //           },
+      //           onLoadStart: (controller, url) {
+      //             printLog("on load start");
+      //           },
+      //           onLoadStop: (controller, url) async {
+      //             printLog("on load stop");
+      //           },
+      //           onNavigationResponse: (controller, navigationResponse) async {
+      //             printLog("Navigation Response: ${navigationResponse.response?.statusCode}");
+      //             return NavigationResponseAction.CANCEL;
+      //           },
+      //           onConsoleMessage: (controller, consoleMessage) {
+      //              PaymentMethodService.onSubmissionOfPaymentMethod(consoleMessage.message, context, true);
+      //           },
+      //           onReceivedHttpError: (controller, request, errorResponse) {
+      //             printLog("HTTP Error: ${errorResponse.statusCode} ${errorResponse.reasonPhrase}");
+      //           },
+      //           onReceivedError: (controller, request, error) {
+      //             printLog("Web Resource Error: ${error.description}");
+      //           },
+      //           onLoadError: (controller, url, code, message) {
+      //             printLog("@@Error: $message");
+      //           },
+      //         ),
     );
   }
 }

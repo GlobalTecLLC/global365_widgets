@@ -157,7 +157,7 @@ class LoginController extends GetxController {
     //       return;
     //     }
     if (listOfConpanies.isEmpty) {
-      if (decodedData["payload"] ?? {}["isPaymentMethodVerfied"] == false) {
+      if ((decodedData["payload"] ?? {})["isPaymentMethodVerfied"] == false) {
         GNav.pushNav(context, GRouteConfig.paymentInfoRoute);
         return;
       } else {

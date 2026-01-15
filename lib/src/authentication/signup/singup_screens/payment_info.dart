@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:g365_widgets_user/g365_widgets_user.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/authentication_routes.dart';
@@ -35,19 +36,23 @@ class _PaymentInfoState extends State<PaymentInfo> {
       decoration: const BoxDecoration(color: lightBackgroundColor),
       child: Stack(
         children: [
-          Container(height: height, width: width, color: lightBackgroundColor),
+          const SigninBackground(),
           Center(
-            child: Container(
-              // height: 800,
-              width: GResponsive.isMobile(context) ? width - 40 : 700,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: const [
-                  BoxShadow(color: const Color.fromARGB(15, 5, 0, 0), blurRadius: 10, spreadRadius: 5, offset: Offset(2, 2)),
-                ],
-              ),
-              child: SingleChildScrollView(child: Column(children: [createAccountWidget(context)])),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 282,
+                  height: 56,
+                  child: SvgPicture.asset(getModuleLogo(), fit: BoxFit.fill, package: packageName),
+                ),
+                GSizeH(32),
+                ContainerWithShadow(
+                  width: GResponsive.isMobile(context) ? width - 40 : 500,
+                  child: SingleChildScrollView(child: createAccountWidget(context)),
+                ),
+              ],
             ),
           ),
         ],
@@ -60,13 +65,6 @@ class _PaymentInfoState extends State<PaymentInfo> {
       key: controller.formKey,
       child: Column(
         children: [
-          SizedBox(height: 80),
-          SizedBox(
-            width: 282,
-            height: 56,
-            child: SvgPicture.asset(getModuleLogo(), fit: BoxFit.fill, package: packageName),
-          ),
-          SizedBox(height: 40),
           GTextHeading2("Enter Payment Information"),
           SizedBox(height: 12),
           Text.rich(
@@ -87,10 +85,10 @@ class _PaymentInfoState extends State<PaymentInfo> {
               ],
             ),
           ),
-          SizedBox(height: 40),
+          SizedBox(height: 32),
 
           const AddCardSignUpWidget(),
-          SizedBox(height: 40),
+          SizedBox(height: 32),
           // MyTextFieldForSingleLine(
           //   showheading: true,
           //   labelText: "Name on Card",
@@ -174,7 +172,7 @@ class _PaymentInfoState extends State<PaymentInfo> {
           //   height: 80,
           // ),
         ],
-      ).marginSymmetric(horizontal: 80),
+      ),
     );
   }
 
