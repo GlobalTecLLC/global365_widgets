@@ -119,7 +119,7 @@ class MyProfileController extends GetxController {
 
   RxBool isUploadingImage = false.obs;
   void pickImage(BuildContext context) async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.image);
+    FilePickerResult? result = await FilePicker.pickFiles(type: FileType.image);
 
     if (result != null && result.files.isNotEmpty) {
       uploadFile(result.files, context);
