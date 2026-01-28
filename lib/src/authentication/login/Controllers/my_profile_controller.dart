@@ -119,7 +119,7 @@ class MyProfileController extends GetxController {
 
   RxBool isUploadingImage = false.obs;
   void pickImage(BuildContext context) async {
-    FilePickerResult? result = await FilePicker.pickFiles(type: FileType.image);
+    FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.image);
 
     if (result != null && result.files.isNotEmpty) {
       uploadFile(result.files, context);
@@ -137,10 +137,7 @@ class MyProfileController extends GetxController {
     isUploadingImage.value = true;
     var headers = {'Authorization': '$tokenType $accessToken'};
 
-    var request = http.MultipartRequest(
-      'POST',
-      Uri.parse('${apiLink}UploadFile/UploadMultipleFiles_v1?CompanyId=$companyId'),
-    );
+    var request = http.MultipartRequest('POST', Uri.parse('${apiLink}UploadFile/UploadMultipleFiles_v1?CompanyId=$companyId'));
 
     if (kIsWeb) {
       for (int i = 0; i < listOffilePathWithOutBase64.length; i++) {
@@ -225,10 +222,7 @@ class MyProfileController extends GetxController {
     gLogger("Data to send to api for updateProfileData $data");
     GProgressDialog(context).show();
     //  (S-3002)  UpdateUserProfile
-    ResponseModel response = await APIsCallPut.updateRequestWithId(
-      "Users/UpdateUserProfile?CompanyId=$companyId",
-      data,
-    );
+    ResponseModel response = await APIsCallPut.updateRequestWithId("Users/UpdateUserProfile?CompanyId=$companyId", data);
     GProgressDialog(context).hide();
     gLogger("Response od update profile api  ${response.data}");
     gLogger(response.statusCode);
