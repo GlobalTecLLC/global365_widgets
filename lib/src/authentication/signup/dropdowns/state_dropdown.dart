@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/business_profile_controller.dart';
+import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/dropdowns/searchabledropdowncustom/dropdown_plus.dart';
 import 'package:global365_widgets/src/theme/dropdown_theme.dart';
 import 'package:global365_widgets/src/utils/api_services/get_request.dart';
@@ -190,7 +192,7 @@ class _StateDropdownState extends State<StateDropdown> {
                   onEmptyActionPressed: null,
                   emptyActionText: "",
                   controller: controller,
-                  decoration: GDropDownTheme.dropDownDecorationBold(widget.label),
+                  decoration: GDropDownTheme.dropDownDecoration(widget.label),
                   onSaved: (dynamic str) {
                     print("run on saved");
                   },
@@ -201,7 +203,7 @@ class _StateDropdownState extends State<StateDropdown> {
                   },
                   displayItemFn: (dynamic item) => Text(
                     (item ?? {})[objectName] ?? '',
-                    style: GDropDownTheme.displayTextStyleBold(),
+                    style: GAppStyle.style14w500(color: bodyTextDark),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),

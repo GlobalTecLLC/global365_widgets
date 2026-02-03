@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 
 class GCustomPhoneNumberField extends StatefulWidget {
@@ -178,7 +179,7 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
                     child: TextField(
                       focusNode: _focusNodeSearch,
                       autofocus: true,
-                      style: const TextStyle(fontSize: 12, color: bodyTextDark, fontFamily: "Montserrat"),
+                      style: GAppStyle.style14w500(color: bodyTextDark),
                       decoration: const InputDecoration(hintText: "Search country", border: OutlineInputBorder(), isDense: true),
                       onChanged: (value) {
                         setState(() {
@@ -408,12 +409,7 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
                           enabled: widget.isPhoneEnabled,
                           keyboardType: TextInputType.phone,
                           textDirection: TextDirection.ltr,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: bodyTextDark,
-                            // decorationThickness: 1.5,
-                          ),
+                          style: GAppStyle.style14w500(color: bodyTextDark),
                           inputFormatters: [
                             // LengthLimitingTextInputFormatter(currentCountry["max"]), // Max length based on selected country
                             FilteringTextInputFormatter.allow(RegExp(r'[\d\s\(\)\-]')), // Allow digits and formatting chars

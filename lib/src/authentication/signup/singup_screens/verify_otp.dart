@@ -84,79 +84,63 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
         ),
         SizedBox(height: 16),
 
-        Pinput(
-          isCursorAnimationEnabled: true,
-          animationCurve: Curves.bounceIn,
-          autofocus: true,
-          controller: controller.tecOtpController,
-          closeKeyboardWhenCompleted: false,
-          focusedPinTheme: defaultPinTheme.copyDecorationWith(
-            border: Border.all(color: primaryColor),
-            borderRadius: BorderRadius.circular(6),
-          ),
-          onChanged: (value) {
-            otpController.isButtonEnabled.value = value.length == 6;
-          },
-          length: 6,
-          cursor: Container(
-            width: 12,
-            height: 4,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: primaryColor),
-          ),
-          keyboardType: TextInputType.number,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          defaultPinTheme: defaultPinTheme,
-          validator: (value) {
-            if (value == null || value.length < 6) {
-              return 'Enter a valid OTP';
+        KeyboardListener(
+          focusNode: FocusNode(),
+          onKeyEvent: (event) async {
+            if (event is KeyDownEvent) {
+              final isControlPressed =
+                  event.logicalKey == LogicalKeyboardKey.controlLeft || event.logicalKey == LogicalKeyboardKey.controlRight;
+              final isVPressed = event.logicalKey == LogicalKeyboardKey.keyV;
+
+              if (HardwareKeyboard.instance.isControlPressed && isVPressed) {
+                final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+                if (clipboardData != null && clipboardData.text != null) {
+                  final pastedText = clipboardData.text!.replaceAll(RegExp(r'[^0-9]'), '');
+                  if (pastedText.length >= 6) {
+                    controller.tecOtpController.text = pastedText.substring(0, 6);
+                    otpController.isButtonEnabled.value = true;
+                  } else if (pastedText.isNotEmpty) {
+                    controller.tecOtpController.text = pastedText;
+                    otpController.isButtonEnabled.value = pastedText.length == 6;
+                  }
+                }
+              }
             }
-            return null;
           },
-          onCompleted: (pin) => gLogger('Completed with pin $pin'),
+          child: Pinput(
+            isCursorAnimationEnabled: true,
+            animationCurve: Curves.bounceIn,
+            autofocus: true,
+            controller: controller.tecOtpController,
+            closeKeyboardWhenCompleted: false,
+            enableIMEPersonalizedLearning: true,
+            toolbarEnabled: true,
+            focusedPinTheme: defaultPinTheme.copyDecorationWith(
+              border: Border.all(color: primaryColor),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            onChanged: (value) {
+              otpController.isButtonEnabled.value = value.length == 6;
+            },
+            length: 6,
+            cursor: Container(
+              width: 12,
+              height: 4,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: primaryColor),
+            ),
+            keyboardType: TextInputType.number,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            defaultPinTheme: defaultPinTheme,
+            validator: (value) {
+              if (value == null || value.length < 6) {
+                return 'Enter a valid OTP';
+              }
+              return null;
+            },
+            onCompleted: (pin) => gLogger('Completed with pin $pin'),
+          ),
         ),
 
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: List.generate(6, (index) {
-        //     return Container(
-        //       width: 50,
-        //       height: 50,
-        //       margin: const EdgeInsets.symmetric(horizontal: 4),
-        //       decoration: BoxDecoration(
-        //         border: Border.all(color: otpController.otp[index].isEmpty ? borderColor : lightBackgroundColor),
-        //         borderRadius: BorderRadius.circular(8),
-        //       ),
-        //       child: Center(
-        //         child: TextField(
-        //           cursorHeight: 30,
-        //           onChanged: (value) {
-        //             if (value.length == 1) {
-        //               otpController.updateOtp(index, value);
-        //               if (index < 5) {
-        //                 FocusScope.of(context).nextFocus();
-        //               }
-        //             } else if (value.isEmpty) {
-        //               otpController.updateOtp(index, '');
-        //               if (index > 0) {
-        //                 FocusScope.of(context).previousFocus();
-        //               }
-        //             }
-        //           },
-        //           textAlign: TextAlign.center,
-        //           keyboardType: TextInputType.number,
-        //           maxLength: 1,
-        //           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        //           style: TextStyle(fontSize: 30, fontFamily: 'Montserrat', fontWeight: FontWeight.w600),
-        //           decoration: const InputDecoration(
-        //             counterText: '',
-        //             border: InputBorder.none,
-        //             contentPadding: EdgeInsets.zero,
-        //           ),
-        //         ),
-        //       ),
-        //     );
-        //   }),
-        // ),
         SizedBox(height: 16),
 
         Row(
