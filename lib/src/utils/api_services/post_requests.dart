@@ -12,16 +12,16 @@ import 'package:global365_widgets/src/utils/api_services/response_model/resonse_
 import '../api_services/response_model/file_model/multipart_file_model.dart';
 
 class APIsCallPost {
-  static Future<ResponseModel> submitRequest(String requestUrl, dynamic data) async {
+  static Future<ResponseModel> submitRequest(String requestUrl, dynamic data, {String? baseUrl}) async {
     try {
       print(tokenType + " " + accessToken);
 
       gLogger("Data:${jsonEncode(data)}");
       // gLogger("Data:$requestUrl");
-      gLogger("Link for request url:$apiLink$requestUrl");
+      gLogger("Link for request url:${baseUrl ?? apiLink}$requestUrl");
 
       final response = await http.post(
-        Uri.parse(apiLink + requestUrl),
+        Uri.parse((baseUrl ?? apiLink) + requestUrl),
         headers: <String, String>{'Accept': 'application/json', 'Content-Type': 'application/json; charset=UTF-8', 'Authorization': "$tokenType $accessToken"},
         body: jsonEncode(data),
       );
@@ -196,15 +196,15 @@ class APIsCallPost {
     }
   }
 
-  static Future<ResponseModel> submitRequestWithOutBody(String requestUrl) async {
+  static Future<ResponseModel> submitRequestWithOutBody(String requestUrl, {String? baseUrl}) async {
     try {
       // print(tokenType + " " + accessToken);
 
       // gLogger("Data:${jsonEncode(data)}");
-      gLogger("Link:$apiLink$requestUrl");
+      gLogger("Link:${baseUrl ?? apiLink}$requestUrl");
 
       final response = await http.post(
-        Uri.parse(apiLink + requestUrl),
+        Uri.parse((baseUrl ?? apiLink) + requestUrl),
         headers: <String, String>{'Accept': 'application/json', 'Content-Type': 'application/json; charset=UTF-8', 'Authorization': "$tokenType $accessToken"},
         // body: jsonEncode(data),
       );
