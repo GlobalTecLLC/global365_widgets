@@ -85,18 +85,10 @@ Widget emailPasswordWidget(BuildContext context) {
                             autofillHints: [AutofillHints.email],
                             labelText: "Email",
                             controller: LoginController.to.tecEmail,
+                            focusNode: LoginController.to.emailFocusNode,
                             hintText: "Enter Email",
                             isEnabled: (isLoggingInInvitedUser.isTrue) ? false : true,
-                            // validator: (value) {
-                            //   if (value.isEmpty) {
-                            //     return 'Please enter an email address';
-                            //   }
-                            //   final RegExp emailRegExp = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
-                            //   if (!emailRegExp.hasMatch(value)) {
-                            //     return 'Please enter a valid email address';
-                            //   }
-                            //   return null;
-                            // },
+                            onFieldSubmitted: (_) => LoginController.to.passwordFocusNode.requestFocus(),
                           ),
                         ),
                         GSizeH(16),
@@ -122,12 +114,13 @@ Widget emailPasswordWidget(BuildContext context) {
                         autofillHints: [AutofillHints.password],
                         labelText: "Password",
                         controller: LoginController.to.controllerpassword,
+                        focusNode: LoginController.to.passwordFocusNode,
                         hintText: "Enter Password",
                         isEnabled: !LoginController.to.loogingIn.value,
                         suffixIcon: IconButton(
                           icon: Icon(
                             LoginController.to.passwordVisible.value ? BootstrapIcons.eye : BootstrapIcons.eye_slash,
-                            color: Colors.green,
+                            color: Colors.green, // Consider changing to primaryColor for consistency
                           ),
                           alignment: Alignment.centerLeft,
                           iconSize: 16,
@@ -139,17 +132,7 @@ Widget emailPasswordWidget(BuildContext context) {
                         isPassword: LoginController.to.passwordVisible.value,
                         onFieldSubmitted: (value) {
                           LoginController.to.login(context);
-                          // if (LoginController.to.formKey.currentState!.validate()) {
-                          //   LoginController.to.login(context);
-                          // }
                         },
-                        // validator: (value) {
-                        //   if (value.length < 2) {
-                        //     return T("login_Password_should_be_minimum");
-                        //   }
-                        //   LoginController.to.formKey.currentState!.save();
-                        //   return null;
-                        // },
                       ),
                     ],
                   ),
@@ -157,50 +140,63 @@ Widget emailPasswordWidget(BuildContext context) {
                     padding: EdgeInsets.only(top: 16),
                     child: Row(
                       children: [
-                        Row(
-                          children: [
-                            SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: Checkbox(
-                                checkColor: Colors.white,
-                                activeColor: secondaryColorOrange,
-                                value: LoginController.to.checkedValue.value,
-                                splashRadius: 0,
-                                side: BorderSide(color: borderColor, width: 2),
-                                onChanged: (value) {
-                                  // setState(() {
-                                  LoginController.to.checkedValue.value = !LoginController.to.checkedValue.value;
-                                  // });
-                                },
+                        InkWell(
+                          onTap: () {
+                            LoginController.to.checkedValue.value = !LoginController.to.checkedValue.value;
+                          },
+                          focusNode: LoginController.to.rememberMeFocusNode,
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: ExcludeFocus(
+                                  child: Checkbox(
+                                    checkColor: Colors.white,
+                                    activeColor: secondaryColorOrange,
+                                    value: LoginController.to.checkedValue.value,
+                                    splashRadius: 0,
+                                    side: BorderSide(color: borderColor, width: 2),
+                                    onChanged: (value) {
+                                      LoginController.to.checkedValue.value = !LoginController.to.checkedValue.value;
+                                    },
+                                  ),
+                                ),
                               ),
-                            ),
-                            GSizeW(9),
-                            InkWell(
-                              onTap: () {
-                                // setState(() {
-                                LoginController.to.checkedValue.value = !LoginController.to.checkedValue.value;
-                                // });
-                              },
-                              child: Text(
+                              GSizeW(9),
+                              Text(
                                 "Remember Me",
                                 style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black, fontSize: 14),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         const Spacer(),
                         InkWell(
+                          focusNode: LoginController.to.forgotPasswordFocusNode,
                           onTap: () async {
                             Logger.log("FORGOT PASSWORD CLICKED");
                             if (g365Module == G365Module.payroll || g365Module == G365Module.employeePortal) {
                               GNav.pushNav(context, GRouteConfig.forgotPassword);
                             }
                           },
-                          child: Text(
-                            "Forgot Password",
-                            textAlign: TextAlign.right,
-                            style: TextStyle(fontWeight: FontWeight.w500, color: secondaryColorOrange, fontSize: 14),
+                          child: AnimatedBuilder(
+                            animation: LoginController.to.forgotPasswordFocusNode,
+                            builder: (context, child) {
+                              final hasFocus = LoginController.to.forgotPasswordFocusNode.hasFocus;
+                              return Container(
+                                decoration: hasFocus
+                                    ? BoxDecoration(
+                                        border: Border(bottom: BorderSide(color: secondaryColorOrange, width: 1)),
+                                      )
+                                    : null,
+                                child: Text(
+                                  "Forgot Password",
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(fontWeight: FontWeight.w500, color: secondaryColorOrange, fontSize: 14),
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ],
@@ -220,28 +216,34 @@ Widget emailPasswordWidget(BuildContext context) {
 
 Widget _submitButton(BuildContext context) {
   return InkWell(
+    focusNode: LoginController.to.loginButtonFocusNode,
     onTap: () {
-      // _showMyDialogLoader("");
-      // if (LoginController.to.formKey.currentState!.validate()) {
       LoginController.to.login(context);
-      // }
-
-      // Navigator.push(
-      //     context, MaterialPageRoute(builder: (context) => DashBoard()));
     },
-    child: Container(
-      height: 48,
-      width: double.maxFinite,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        boxShadow: <BoxShadow>[BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 2)],
-        color: mainColorPrimary,
-      ),
-      child: Text(
-        "Login",
-        style: TextStyle(fontWeight: FontWeight.w700, color: whiteColor, fontSize: 18),
-      ),
+    child: AnimatedBuilder(
+      animation: LoginController.to.loginButtonFocusNode,
+      builder: (context, child) {
+        final hasFocus = LoginController.to.loginButtonFocusNode.hasFocus;
+        return Container(
+          height: 48,
+          width: double.maxFinite,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            boxShadow: hasFocus
+                ? <BoxShadow>[
+                    BoxShadow(color: secondaryColorOrange.withOpacity(0.2), offset: Offset(0, 0), blurRadius: 8, spreadRadius: 1),
+                  ]
+                : <BoxShadow>[BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 1)],
+            color: mainColorPrimary,
+            border: hasFocus ? Border.all(color: secondaryColorOrange, width: 1) : null,
+          ),
+          child: Text(
+            "Login",
+            style: TextStyle(fontWeight: FontWeight.w700, color: whiteColor, fontSize: 18),
+          ),
+        );
+      },
     ),
   );
 }
@@ -270,6 +272,7 @@ Widget createAccountLabel(BuildContext context) {
         Text("Don't have a Global365 Account?", style: GAppStyle.style14w500(color: titleColor)),
         GSizeW(4),
         InkWell(
+          focusNode: LoginController.to.signUpFocusNode,
           onTap: () {
             isFirstpurchase = true;
             // if (g365Module == G365Module.payroll) {
@@ -300,7 +303,20 @@ Widget createAccountLabel(BuildContext context) {
             // Modular.to.pushNamed("/Pricing");
             // Modular.to.pushNamed("/SubscriptionPlans");
           },
-          child: Text("Sign Up Now", style: GAppStyle.style14w500(color: secondaryColorOrange)),
+          child: AnimatedBuilder(
+            animation: LoginController.to.signUpFocusNode,
+            builder: (context, child) {
+              final hasFocus = LoginController.to.signUpFocusNode.hasFocus;
+              return Container(
+                decoration: hasFocus
+                    ? BoxDecoration(
+                        border: Border(bottom: BorderSide(color: secondaryColorOrange, width: 1)),
+                      )
+                    : null,
+                child: Text("Sign Up Now", style: GAppStyle.style14w500(color: secondaryColorOrange)),
+              );
+            },
+          ),
         ),
       ],
     ),

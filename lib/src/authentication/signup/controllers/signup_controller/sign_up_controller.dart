@@ -22,6 +22,28 @@ class SignUpController extends GetxController {
   TextEditingController tecEmail = TextEditingController();
   TextEditingController controllerpassword = TextEditingController();
 
+  FocusNode firstNameFocusNode = FocusNode();
+  FocusNode lastNameFocusNode = FocusNode();
+  FocusNode emailFocusNode = FocusNode();
+  FocusNode passwordFocusNode = FocusNode();
+  FocusNode betaAgreementFocusNode = FocusNode();
+  FocusNode termsFocusNode = FocusNode();
+  FocusNode createAccountButtonFocusNode = FocusNode();
+  FocusNode signInFocusNode = FocusNode();
+
+  @override
+  void onClose() {
+    firstNameFocusNode.dispose();
+    lastNameFocusNode.dispose();
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
+    betaAgreementFocusNode.dispose();
+    termsFocusNode.dispose();
+    createAccountButtonFocusNode.dispose();
+    signInFocusNode.dispose();
+    super.onClose();
+  }
+
   Future<void> launchURL(String url) async {
     if (await canLaunch(url)) {
       try {
@@ -84,5 +106,22 @@ class SignUpController extends GetxController {
 
     isPasswordValid.value = passwordStrength.value >= 2;
     return passwordStrength.value;
+  }
+
+  void reset() {
+    firstName.clear();
+    lastName.clear();
+    tecEmail.clear();
+    controllerpassword.clear();
+    controllerusernmae.clear();
+    checkedValue.value = false;
+    betaTestingAgreement.value = false;
+    isEmailValid.value = false;
+    isLoading.value = false;
+    passwordVisible.value = true;
+    isPasswordValid.value = false;
+    passwordStrength.value = 0;
+    passwordStrengthText.value = '';
+    isShowValidation.value = false;
   }
 }

@@ -27,10 +27,11 @@ class GLoginEmailField extends StatelessWidget {
   final Color containerColor;
   final Color textFieldColor;
   final bool isWidthForHeader;
+
   final Key? key;
 
   final List<String>? autofillHints;
-  // final bool isHeightForChecksOnPopUp;
+  final FocusNode? focusNode;
 
   GLoginEmailField({
     this.hintText,
@@ -56,6 +57,7 @@ class GLoginEmailField extends StatelessWidget {
     this.isWidthForHeader = false,
     this.key,
     this.autofillHints,
+    this.focusNode,
   });
 
   @override
@@ -100,6 +102,7 @@ class GLoginEmailField extends StatelessWidget {
             height: 40,
             child: TextFormField(
               key: key,
+              focusNode: focusNode,
               autofillHints: autofillHints,
               controller: controller,
               initialValue: intialValue,

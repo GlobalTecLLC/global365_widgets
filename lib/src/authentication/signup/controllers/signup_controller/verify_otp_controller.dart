@@ -16,6 +16,14 @@ class VerifyOtpController extends GetxController {
 
   TextEditingController tecOtpController = TextEditingController();
 
+  final FocusNode submitButtonFocusNode = FocusNode();
+
+  @override
+  void onClose() {
+    submitButtonFocusNode.dispose();
+    super.onClose();
+  }
+
   var isButtonEnabled = false.obs;
 
   RxBool isLoading = false.obs;

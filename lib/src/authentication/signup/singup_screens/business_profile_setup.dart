@@ -82,25 +82,39 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                 isRequired: true,
                 labelText: "Organization/Business Display Name",
                 controller: SetUpController.to.businessName,
+                focusNode: BusinessProfileController.to.businessNameFocusNode,
                 hintText: "Enter Name",
+                onFieldSubmitted: (_) => BusinessProfileController.to.industryDropdownFocusNode.requestFocus(),
               ),
             ),
             GSizeW(20),
             Expanded(
               child: g365Module == G365Module.payroll
                   ? IndustryDropdownForPayroll(
-                    isRequired: true,
+                      isRequired: true,
                       offset: const Offset(0, 40),
                       isNotHistory: true,
                       controller: BusinessProfileController.to.industryDropdown,
+                      focusNode: BusinessProfileController.to.industryDropdownFocusNode,
                       label: 'Industry',
+                      onChanged: (val) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          FocusScope.of(context).requestFocus(BusinessProfileController.to.addressLine1FocusNode);
+                        });
+                        // BusinessProfileController.to.addressLine1FocusNode.requestFocus();
+                      },
                     )
                   : IndustryDropdown(
                       // containerHeight: 48,
                       offset: const Offset(0, 40),
                       isNotHistory: true,
                       controller: BusinessProfileController.to.industryDropdown,
-                      label: 'Industry',
+                      focusNode: BusinessProfileController.to.industryDropdownFocusNode,
+                      onChanged: (val) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          FocusScope.of(context).requestFocus(BusinessProfileController.to.addressLine1FocusNode);
+                        });
+                      },
                     ),
             ),
           ],
@@ -118,6 +132,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                 // // isExtraHeightField: true,
                 // isCustomHeight: true,
                 controller: BusinessProfileController.to.tecaddressLine1,
+                focusNode: BusinessProfileController.to.addressLine1FocusNode,
                 labelText: 'Address Line 1',
                 showheading: true,
                 // paddingBelowHeading: 5,
@@ -127,6 +142,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                 // fontSizeForLabel: 14.0,
                 hintText: "Address Line 1",
                 isRequired: true,
+                onFieldSubmitted: (_) => BusinessProfileController.to.addressLine2FocusNode.requestFocus(),
                 // isDropdownStyle: true,
               ),
             ),
@@ -138,6 +154,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                 // isExtraHeightField: true,
                 // isCustomHeight: true,
                 controller: BusinessProfileController.to.tecaddressLine2,
+                focusNode: BusinessProfileController.to.addressLine2FocusNode,
                 labelText: 'Address Line 2',
                 // fontSizeForAll: 12.0,
                 textFieldColor: Colors.black,
@@ -146,6 +163,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                 maxLine: 1,
                 // paddingBelowHeading: 5,
                 hintText: "Address Line 2",
+                onFieldSubmitted: (_) => BusinessProfileController.to.cityFocusNode.requestFocus(),
                 // isDropdownStyle: true,
               ),
             ),
@@ -164,6 +182,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                     // isExtraHeightField: true,
                     // isCustomHeight: true,
                     controller: BusinessProfileController.to.tecCity,
+                    focusNode: BusinessProfileController.to.cityFocusNode,
                     labelText: 'City',
                     hintText: "City",
                     // fontSizeForLabel: 14.0,
@@ -172,6 +191,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                     // fontSizeForAll: 14.0,
                     textFieldColor: Colors.black,
                     isRequired: true,
+                    onFieldSubmitted: (_) => BusinessProfileController.to.stateDropdownFocusNode.requestFocus(),
                     // isDropdownStyle: true,
                   ),
                 ],
@@ -189,7 +209,15 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                         // containerHeight: 56,
                         offset: const Offset(0, 40),
                         controller: BusinessProfileController.to.stateDropdown,
+                        focusNode: BusinessProfileController.to.stateDropdownFocusNode,
                         label: 'State',
+                        onChanged: (val) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            FocusScope.of(context).requestFocus(BusinessProfileController.to.zipFocusNode);
+                          });
+
+                          // BusinessProfileController.to.zipFocusNode.requestFocus();
+                        },
                       ),
               ),
             ),
@@ -204,12 +232,14 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                 hintText: "00000",
                 isRequired: true,
                 controller: BusinessProfileController.to.tecZip,
+                focusNode: BusinessProfileController.to.zipFocusNode,
                 labelText: 'Zip',
                 // fontSizeForLabel: 14.0,
                 maxLine: 1,
                 // paddingBelowHeading: 5,
                 // maxLength: 5,
                 // fontSizeForAll: 12.0,
+                onFieldSubmitted: (_) => BusinessProfileController.to.phoneNumberFocusNode.requestFocus(),
                 // isDropdownStyle: true,
               ),
             ),
@@ -223,24 +253,27 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                 flex: 1,
                 child: SetUpController.to.isUpdatingCOntroller.isTrue
                     ? Container()
-                    : BusinessLocationDropdown(
-                        containerHeight: 42,
-                        isNotHistory: true,
-                        isEnabled: false,
-                        offset: const Offset(0, 40),
-                        controller: SetUpController.to.locationDropdown,
-                        partyId: SetUpController.to.locationDropdownId,
-                        isRequired: true,
-                        label: 'Organization/Business Location',
-                        onChanged: (item) {
-                          BusinessProfileController.to.statesList.clear();
+                    : ExcludeFocus(
+                        child: BusinessLocationDropdown(
+                          containerHeight: 42,
+                          isNotHistory: true,
+                          isEnabled: false,
+                          offset: const Offset(0, 40),
+                          controller: SetUpController.to.locationDropdown,
+                          partyId: SetUpController.to.locationDropdownId,
+                          isRequired: true,
+                          label: 'Organization/Business Location',
+                          onChanged: (item) {
+                            BusinessProfileController.to.statesList.clear();
 
-                          BusinessProfileController.to.selectedLocationId.value = SetUpController.to.locationDropdown.value["id"];
-                          BusinessProfileController.to.getStatesData(context);
+                            BusinessProfileController.to.selectedLocationId.value =
+                                SetUpController.to.locationDropdown.value["id"];
+                            BusinessProfileController.to.getStatesData(context);
 
-                          SetUpController.to.updationControllerFunctin();
-                          gLogger("LocationId: ${BusinessProfileController.to.selectedLocationId.value}");
-                        },
+                            SetUpController.to.updationControllerFunctin();
+                            gLogger("LocationId: ${BusinessProfileController.to.selectedLocationId.value}");
+                          },
+                        ),
                       ),
               ),
 
@@ -252,6 +285,8 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                   isRequired: true,
 
                   controller: BusinessProfileController.to.phoneController,
+                  focusNode: BusinessProfileController.to.phoneNumberFocusNode,
+                  onSubmitted: (_) => BusinessProfileController.to.nextButtonFocusNode.requestFocus(),
                   onChanged: (phoneNumber, countryCode, isValid) {
                     print(
                       'Phone: ${BusinessProfileController.to.phoneController.phoneNumber}, Country: $countryCode, isValid: $isValid',
@@ -301,27 +336,47 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
 
   Widget _goBack(BuildContext context) {
     return InkWell(
+      focusNode: BusinessProfileController.to.goBackButtonFocusNode,
       onTap: () {
         // AutoRouter.of(context).pop();
         GNav.popNav(context);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          SetUpController.to.submitButtonFocusNode.requestFocus();
+        });
       },
-      child: Container(
-        height: 48,
-        width: double.maxFinite,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: const Color(0xffc4d2d8)),
-          // boxShadow: <BoxShadow>[BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 2)],
-          color: lightBackgroundColor,
-        ),
-        child: const GTextHeading4("Go Back"),
+      child: AnimatedBuilder(
+        animation: BusinessProfileController.to.goBackButtonFocusNode,
+        builder: (context, child) {
+          final hasFocus = BusinessProfileController.to.goBackButtonFocusNode.hasFocus;
+          return Container(
+            height: 48,
+            width: double.maxFinite,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(color: hasFocus ? secondaryColorOrange : const Color(0xffc4d2d8), width: hasFocus ? 1 : 1),
+              boxShadow: hasFocus
+                  ? <BoxShadow>[
+                      BoxShadow(
+                        color: secondaryColorOrange.withOpacity(0.2),
+                        offset: Offset(0, 0),
+                        blurRadius: 8,
+                        spreadRadius: 1,
+                      ),
+                    ]
+                  : null,
+              color: lightBackgroundColor,
+            ),
+            child: const GTextHeading4("Go Back"),
+          );
+        },
       ),
     );
   }
 
   Widget _submitButton(BuildContext context) {
     return InkWell(
+      focusNode: BusinessProfileController.to.nextButtonFocusNode,
       onTap: () {
         if (SetUpController.to.businessName.text.trim().isEmpty ||
             BusinessProfileController.to.phoneController.phoneNumber.trim().isEmpty ||
@@ -342,7 +397,7 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
           gLogger(BusinessProfileController.to.stateDropdown.value);
           gLogger(BusinessProfileController.to.timezoneDropdown.value);
           GToast.info(context, "Please enter all details");
-        }else if(g365Module == G365Module.payroll && BusinessProfileController.to.industryDropdown.value == null){
+        } else if (g365Module == G365Module.payroll && BusinessProfileController.to.industryDropdown.value == null) {
           GToast.info(context, "Please select industry");
         }
         //  else if (BusinessProfileController.to.tecZip.text.length != 5) {
@@ -354,16 +409,32 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
           // GNav.pushNav(context, GRouteConfig.softwareInfoScreenRoute);
         }
       },
-      child: Container(
-        height: 48,
-        width: double.maxFinite,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          boxShadow: <BoxShadow>[BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 2)],
-          color: mainColorPrimary,
-        ),
-        child: GTextHeading4("Next", color: whiteColor),
+      child: AnimatedBuilder(
+        animation: BusinessProfileController.to.nextButtonFocusNode,
+        builder: (context, child) {
+          final hasFocus = BusinessProfileController.to.nextButtonFocusNode.hasFocus;
+          return Container(
+            height: 48,
+            width: double.maxFinite,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              boxShadow: hasFocus
+                  ? <BoxShadow>[
+                      BoxShadow(
+                        color: secondaryColorOrange.withOpacity(0.2),
+                        offset: Offset(0, 0),
+                        blurRadius: 8,
+                        spreadRadius: 1,
+                      ),
+                    ]
+                  : <BoxShadow>[BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 2)],
+              color: mainColorPrimary,
+              border: hasFocus ? Border.all(color: secondaryColorOrange, width: 1) : null,
+            ),
+            child: GTextHeading4("Next", color: whiteColor),
+          );
+        },
       ),
     );
   }

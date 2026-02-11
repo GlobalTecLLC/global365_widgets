@@ -29,13 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.firstName.text = '';
-      controller.lastName.text = '';
-      controller.tecEmail.text = '';
-      controller.controllerpassword.text = '';
-      controller.checkedValue.value = false;
-      controller.isLoading.value = false;
-      controller.betaTestingAgreement.value = false;
+      controller.reset();
     });
   }
 
@@ -89,15 +83,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   showheading: true,
                   labelText: "First Name",
                   isRequired: true,
+                  focusNode: SignUpController.to.firstNameFocusNode,
                   controller: SignUpController.to.firstName,
                   hintText: "First Name",
-                  // validator: (value) {
-                  //   if (value.isEmpty) {
-                  //     return 'Please enter an first name';
-                  //   }
-
-                  //   return null;
-                  // },
+                  onFieldSubmitted: (_) => SignUpController.to.lastNameFocusNode.requestFocus(),
                 ),
               ),
               GSizeW(8),
@@ -106,15 +95,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   isRequired: true,
                   showheading: true,
                   labelText: "Last Name",
+                  focusNode: SignUpController.to.lastNameFocusNode,
                   controller: SignUpController.to.lastName,
                   hintText: "Last Name",
-                  // validator: (value) {
-                  //   if (value.isEmpty) {
-                  //     return 'Please enter an last name';
-                  //   }
-
-                  //   return null;
-                  // },
+                  onFieldSubmitted: (_) => SignUpController.to.emailFocusNode.requestFocus(),
                 ),
               ),
             ],
@@ -124,22 +108,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
             isRequired: true,
             showheading: true,
             labelText: "Email",
+            focusNode: SignUpController.to.emailFocusNode,
             controller: SignUpController.to.tecEmail,
             hintText: "Enter Email",
+            onFieldSubmitted: (_) => SignUpController.to.passwordFocusNode.requestFocus(),
             onChange: (value) {
               final RegExp emailRegExp = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
               SignUpController.to.isEmailValid.value = emailRegExp.hasMatch(value.trim());
             },
-            // validator: (value) {
-            //   if (value.isEmpty) {
-            //     return 'Please enter an email address';
-            //   }
-            //   final RegExp emailRegExp = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
-            //   if (!emailRegExp.hasMatch(value)) {
-            //     return 'Please enter a valid email address';
-            //   }
-            //   return null;
-            // },
           ),
           GSizeH(16),
 
@@ -147,12 +123,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
             isRequired: true,
             showheading: true,
             labelText: "Password",
+            focusNode: SignUpController.to.passwordFocusNode,
             controller: SignUpController.to.controllerpassword,
             hintText: "Password",
+            onFieldSubmitted: (_) => SignUpController.to.betaAgreementFocusNode.requestFocus(),
             suffixIcon: IconButton(
               icon: Icon(
                 SignUpController.to.passwordVisible.value ? Icons.visibility : Icons.visibility_off,
-                color: Colors.green,
+                color: Colors.green, // Consider changing to primaryColor for consistency
               ),
               alignment: Alignment.centerLeft,
               iconSize: 16,
@@ -208,54 +186,65 @@ class _SignUpScreenState extends State<SignUpScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 18,
-                width: 18,
-                child: Checkbox(
-                  checkColor: Colors.white,
-                  activeColor: secondaryColorOrange,
-                  value: SignUpController.to.betaTestingAgreement.value,
-                  splashRadius: 0,
-                  side: BorderSide(color: lightBackgroundColor, width: 2),
-                  onChanged: (value) {
-                    // setState(() {
-                    SignUpController.to.betaTestingAgreement.value = !SignUpController.to.betaTestingAgreement.value;
-                    // });
-                  },
-                ),
-              ),
-              GSizeW(9),
-              Expanded(
-                child: SizedBox(
-                  // width: 350,
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "I accept ",
-                          style: GAppStyle.style14w600(),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              SignUpController.to.betaTestingAgreement.value = !SignUpController.to.betaTestingAgreement.value;
-                            },
-                        ),
-                        TextSpan(
-                          text: "Beta Testing Agreement",
-                          style: TextStyle(
-                            fontFamily: "Montserrat",
-                            color: secondaryColorOrange,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            decoration: TextDecoration.underline,
+              InkWell(
+                focusNode: SignUpController.to.betaAgreementFocusNode,
+                onTap: () {
+                  SignUpController.to.betaTestingAgreement.value = !SignUpController.to.betaTestingAgreement.value;
+                },
+                child: Row(
+                  children: [
+                    AnimatedBuilder(
+                      animation: SignUpController.to.betaAgreementFocusNode,
+                      builder: (context, child) {
+                        return SizedBox(
+                          height: 18,
+                          width: 18,
+                          child: ExcludeFocus(
+                            child: Obx(
+                              () => Checkbox(
+                                checkColor: Colors.white,
+                                activeColor: secondaryColorOrange,
+                                value: SignUpController.to.betaTestingAgreement.value,
+                                splashRadius: 0,
+                                side: BorderSide(
+                                  color: SignUpController.to.betaAgreementFocusNode.hasFocus ? secondaryColorOrange : lightBackgroundColor,
+                                  width: 2,
+                                ),
+                                onChanged: (value) {
+                                  SignUpController.to.betaTestingAgreement.value = !SignUpController.to.betaTestingAgreement.value;
+                                },
+                              ),
+                            ),
                           ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              SignUpController.to.launchURL('https://global365.com/beta-agreement');
-                            },
-                        ),
-                      ],
+                        );
+                      },
                     ),
-                  ),
+                    GSizeW(9),
+                    SizedBox(
+                      // width: 350,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(text: "I accept ", style: GAppStyle.style14w600()),
+                            TextSpan(
+                              text: "Beta Testing Agreement",
+                              style: TextStyle(
+                                fontFamily: "Montserrat",
+                                color: secondaryColorOrange,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                decoration: TextDecoration.underline,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  SignUpController.to.launchURL('https://global365.com/beta-agreement');
+                                },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -264,69 +253,80 @@ class _SignUpScreenState extends State<SignUpScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 18,
-                width: 18,
-                child: Checkbox(
-                  checkColor: Colors.white,
-                  activeColor: secondaryColorOrange,
-                  value: SignUpController.to.checkedValue.value,
-                  splashRadius: 0,
-                  side: BorderSide(color: lightBackgroundColor, width: 2),
-                  onChanged: (value) {
-                    // setState(() {
-                    SignUpController.to.checkedValue.value = !SignUpController.to.checkedValue.value;
-                    // });
-                  },
-                ),
-              ),
-              GSizeW(9),
-              Expanded(
-                child: SizedBox(
-                  // width: 350,
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "I agree to the ",
-                          style: GAppStyle.style14w600(),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              SignUpController.to.checkedValue.value = !SignUpController.to.checkedValue.value;
-                            },
-                        ),
-                        TextSpan(
-                          text: "Terms of Service",
-                          style: TextStyle(
-                            fontFamily: "Montserrat",
-                            color: secondaryColorOrange,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            decoration: TextDecoration.underline,
+              InkWell(
+                focusNode: SignUpController.to.termsFocusNode,
+                onTap: () {
+                  SignUpController.to.checkedValue.value = !SignUpController.to.checkedValue.value;
+                },
+                child: Row(
+                  children: [
+                    AnimatedBuilder(
+                      animation: SignUpController.to.termsFocusNode,
+                      builder: (context, child) {
+                        return SizedBox(
+                          height: 18,
+                          width: 18,
+                          child: ExcludeFocus(
+                            child: Obx(
+                              () => Checkbox(
+                                checkColor: Colors.white,
+                                activeColor: secondaryColorOrange,
+                                value: SignUpController.to.checkedValue.value,
+                                splashRadius: 0,
+                                side: BorderSide(
+                                  color: SignUpController.to.termsFocusNode.hasFocus ? secondaryColorOrange : lightBackgroundColor,
+                                  width: 2,
+                                ),
+                                onChanged: (value) {
+                                  SignUpController.to.checkedValue.value = !SignUpController.to.checkedValue.value;
+                                },
+                              ),
+                            ),
                           ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              SignUpController.to.launchURL('https://global365.com/services');
-                            },
-                        ),
-                        TextSpan(text: " and ", style: GAppStyle.style14w600()),
-                        TextSpan(
-                          text: "Privacy Policy.",
-                          style: TextStyle(
-                            fontFamily: "Montserrat",
-                            color: secondaryColorOrange,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            decoration: TextDecoration.underline,
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              SignUpController.to.launchURL('https://global365.com/privacyPolicy');
-                            },
-                        ),
-                      ],
+                        );
+                      },
                     ),
-                  ),
+                    GSizeW(9),
+                    SizedBox(
+                      // width: 350,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(text: "I agree to the ", style: GAppStyle.style14w600()),
+                            TextSpan(
+                              text: "Terms of Service",
+                              style: TextStyle(
+                                fontFamily: "Montserrat",
+                                color: secondaryColorOrange,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                decoration: TextDecoration.underline,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  SignUpController.to.launchURL('https://global365.com/services');
+                                },
+                            ),
+                            TextSpan(text: " and ", style: GAppStyle.style14w600()),
+                            TextSpan(
+                              text: "Privacy Policy.",
+                              style: TextStyle(
+                                fontFamily: "Montserrat",
+                                color: secondaryColorOrange,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                decoration: TextDecoration.underline,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  SignUpController.to.launchURL('https://global365.com/privacyPolicy');
+                                },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -341,10 +341,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Text("Already have a Global365 account?", style: GAppStyle.style14w500()),
               GSizeW(4),
               InkWell(
+                focusNode: SignUpController.to.signInFocusNode,
                 onTap: () {
                   GNav.pushNav(context, GRouteConfig.loginUsaPageRoute);
                 },
-                child: Text(" Sign In", style: GAppStyle.style14w500(color: secondaryColorOrange)),
+                child: AnimatedBuilder(
+                  animation: SignUpController.to.signInFocusNode,
+                  builder: (context, child) {
+                    final hasFocus = SignUpController.to.signInFocusNode.hasFocus;
+                    return Container(
+                      decoration: hasFocus
+                          ? BoxDecoration(
+                              border: Border(bottom: BorderSide(color: secondaryColorOrange, width: 1)),
+                            )
+                          : null,
+                      child: Text(" Sign In", style: GAppStyle.style14w500(color: secondaryColorOrange)),
+                    );
+                  },
+                ),
               ),
             ],
           ),
@@ -355,6 +369,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget _submitButton(BuildContext context) {
     return InkWell(
+      focusNode: SignUpController.to.createAccountButtonFocusNode,
       onTap: () {
         // gLogger("password: ${SignUpController.to.controllerpassword.text}");
         if (SignUpController.to.firstName.text.isEmpty ||
@@ -372,28 +387,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
           SignUpController.to.signUp(context);
         }
       },
-      child: Opacity(
-        opacity:
-            (SignUpController.to.firstName.text.isNotEmpty &&
-                SignUpController.to.lastName.text.isNotEmpty &&
-                SignUpController.to.tecEmail.text.isNotEmpty &&
-                SignUpController.to.controllerpassword.text.isNotEmpty &&
-                SignUpController.to.checkedValue.value &&
-                SignUpController.to.isEmailValid.value &&
-                SignUpController.to.betaTestingAgreement.value)
-            ? 1.0
-            : 0.5,
-        child: Container(
-          height: 48,
-          width: double.maxFinite,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            boxShadow: <BoxShadow>[BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 2)],
-            color: mainColorPrimary,
-          ),
-          child: GTextHeading4("Create Account", color: whiteColor),
-        ),
+      child: AnimatedBuilder(
+        animation: SignUpController.to.createAccountButtonFocusNode,
+        builder: (context, child) {
+          final hasFocus = SignUpController.to.createAccountButtonFocusNode.hasFocus;
+          return Opacity(
+            opacity:
+                (SignUpController.to.firstName.text.isNotEmpty &&
+                    SignUpController.to.lastName.text.isNotEmpty &&
+                    SignUpController.to.tecEmail.text.isNotEmpty &&
+                    SignUpController.to.controllerpassword.text.isNotEmpty &&
+                    SignUpController.to.checkedValue.value &&
+                    SignUpController.to.isEmailValid.value &&
+                    SignUpController.to.betaTestingAgreement.value)
+                ? 1.0
+                : 0.5,
+            child: Container(
+              height: 48,
+              width: double.maxFinite,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                boxShadow: hasFocus
+                    ? <BoxShadow>[
+                        BoxShadow(
+                          color: secondaryColorOrange.withOpacity(0.2),
+                          offset: Offset(0, 0),
+                          blurRadius: 8,
+                          spreadRadius: 1,
+                        ),
+                      ]
+                    : <BoxShadow>[BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 1)],
+                color: mainColorPrimary,
+                border: hasFocus ? Border.all(color: secondaryColorOrange, width: 1) : null,
+              ),
+              child: GTextHeading4("Create Account", color: whiteColor),
+            ),
+          );
+        },
       ),
     );
   }

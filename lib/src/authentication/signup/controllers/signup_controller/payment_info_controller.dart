@@ -24,6 +24,20 @@ class PaymentInfoController extends GetxController {
   TextEditingController cardExpiry = TextEditingController();
   TextEditingController cardCCV = TextEditingController();
 
+  final FocusNode cardCardNumberFocusNode = FocusNode();
+  final FocusNode cardExpiryFocusNode = FocusNode();
+  final FocusNode cardCCVFocusNode = FocusNode();
+  final FocusNode proceedButtonFocusNode = FocusNode();
+
+  @override
+  void onClose() {
+    cardCardNumberFocusNode.dispose();
+    cardExpiryFocusNode.dispose();
+    cardCCVFocusNode.dispose();
+    proceedButtonFocusNode.dispose();
+    super.onClose();
+  }
+
   /// Validation Methods
   bool _isValidCardNumber(String cardNumber) {
     // Remove dashes and check if it's 16 digits in format ####-####-####-####

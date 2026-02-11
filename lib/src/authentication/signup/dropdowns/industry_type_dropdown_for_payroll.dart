@@ -20,6 +20,7 @@ class IndustryDropdownForPayroll extends StatefulWidget {
   final double? containerHeight;
   final Offset? offset;
   final bool? isRequired;
+  final FocusNode? focusNode;
 
   final DropdownEditingController<dynamic> controller;
   const IndustryDropdownForPayroll({
@@ -35,6 +36,7 @@ class IndustryDropdownForPayroll extends StatefulWidget {
     this.containerHeight,
     this.offset,
     this.isRequired = false,
+    this.focusNode,
     Key? key,
   }) : super(key: key);
 
@@ -162,6 +164,7 @@ class _IndustryDropdownForPayrollState extends State<IndustryDropdownForPayroll>
                 child: DropdownFormField<dynamic>(
                   // dropdownHeight: getHeight(context) * 0.7,
                   offset: widget.offset ?? const Offset(0, 0),
+                  focusNode: widget.focusNode,
                   onEmptyActionPressed: null,
                   emptyActionText: "",
                   controller: controller,

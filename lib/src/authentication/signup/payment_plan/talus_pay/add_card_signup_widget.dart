@@ -3,9 +3,12 @@
 ////////////////////////////////////////////////////////////////////////
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/payment_info_controller.dart';
+import 'package:global365_widgets/src/constants/colors.dart';
+import 'package:global365_widgets/src/constants/constants.dart';
 
 class AddCardSignUpWidget extends StatefulWidget {
   const AddCardSignUpWidget({super.key});
@@ -33,11 +36,13 @@ class _AddCardSignUpWidgetState extends State<AddCardSignUpWidget> {
         children: [
           GTextFieldForSingleLine(
             controller: controller.cardCardNumber,
+            focusNode: controller.cardCardNumberFocusNode,
             labelText: 'Card Number',
             hintText: "xxxx-xxxx-xxxx-xxxx",
             maxLine: 1,
             isRequired: true,
             cardNumber: true,
+            onFieldSubmitted: (_) => controller.cardExpiryFocusNode.requestFocus(),
           ),
           GSizeH(12),
           Row(
@@ -45,33 +50,65 @@ class _AddCardSignUpWidgetState extends State<AddCardSignUpWidget> {
               Expanded(
                 child: GTextFieldForSingleLine(
                   controller: controller.cardExpiry,
+                  focusNode: controller.cardExpiryFocusNode,
                   labelText: "Expiry",
                   maxLine: 1,
                   hintText: "MM/YY",
                   isRequired: true,
                   cardExpiry: true,
+                  onFieldSubmitted: (_) => controller.cardCCVFocusNode.requestFocus(),
                 ),
               ),
               const GSizeW(12),
               Expanded(
                 child: GTextFieldForSingleLine(
                   controller: controller.cardCCV,
+                  focusNode: controller.cardCCVFocusNode,
                   labelText: "CVV",
                   hintText: "XXX",
                   maxLine: 1,
                   isRequired: true,
                   cvvNumber: true,
+                  onFieldSubmitted: (_) => controller.proceedButtonFocusNode.requestFocus(),
                 ),
               ),
             ],
           ),
           GSizeH(12),
-          GCustomButton(
-            btnText: "Proceed",
+          InkWell(
+            focusNode: controller.proceedButtonFocusNode,
             onTap: () {
               controller.submitPaymentInfo(context);
             },
-            variant: ButtonVariant.filledPrimary,
+            child: AnimatedBuilder(
+              animation: controller.proceedButtonFocusNode,
+              builder: (context, child) {
+                final hasFocus = controller.proceedButtonFocusNode.hasFocus;
+                return Container(
+                  height: 48,
+                  width: double.maxFinite,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    boxShadow: hasFocus
+                        ? <BoxShadow>[
+                            BoxShadow(
+                              color: secondaryColorOrange.withOpacity(0.2),
+                              offset: Offset(0, 0),
+                              blurRadius: 8,
+                              spreadRadius: 1,
+                            ),
+                          ]
+                        : <BoxShadow>[
+                            BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 1),
+                          ],
+                    color: mainColorPrimary,
+                    border: hasFocus ? Border.all(color: secondaryColorOrange, width: 1) : null,
+                  ),
+                  child: GTextHeading4("Proceed", color: whiteColor),
+                );
+              },
+            ),
           ),
         ],
       ),

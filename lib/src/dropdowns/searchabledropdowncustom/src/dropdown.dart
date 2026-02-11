@@ -86,6 +86,7 @@ class DropdownFormField<T> extends StatefulWidget {
   void Function(bool isCreateEdit, String userValue)? onPressedOFEmptyAction;
   final String textonEmptyActionPressed;
   final Key? key1;
+  final FocusNode? focusNode;
 
   DropdownFormField({
     Key? key,
@@ -120,6 +121,7 @@ class DropdownFormField<T> extends StatefulWidget {
     this.selectedFn,
     this.isHeightForTransactionType = false,
     this.key1,
+    this.focusNode,
   }) : super(key: key);
 
   @override
@@ -127,7 +129,7 @@ class DropdownFormField<T> extends StatefulWidget {
 }
 
 class DropdownFormFieldState<T> extends State<DropdownFormField> with SingleTickerProviderStateMixin {
-  final FocusNode _widgetFocusNode = FocusNode(debugLabel: "widget");
+  late FocusNode _widgetFocusNode;
   final FocusNode _searchFocusNode = FocusNode(debugLabel: "search");
   final LayerLink _layerLink = LayerLink();
   final ValueNotifier<List<T>> _listItemsValueNotifier = ValueNotifier<List<T>>([]);
@@ -169,6 +171,8 @@ class DropdownFormFieldState<T> extends State<DropdownFormField> with SingleTick
   @override
   void initState() {
     super.initState();
+    _widgetFocusNode = widget.focusNode ?? FocusNode(debugLabel: "widget");
+
     controller = AutoScrollController(
       viewportBoundaryGetter: () => Rect.fromLTRB(0, 0, 0, MediaQuery.of(context).padding.bottom),
       axis: Axis.vertical,
@@ -215,6 +219,10 @@ class DropdownFormFieldState<T> extends State<DropdownFormField> with SingleTick
     super.dispose();
     _debounce?.cancel();
     _searchTextController.dispose();
+    // Only dispose if we created it
+    if (widget.focusNode == null) {
+      _widgetFocusNode.dispose();
+    }
   }
 
   InputDecoration decoration = const InputDecoration(
@@ -304,7 +312,7 @@ class DropdownFormFieldState<T> extends State<DropdownFormField> with SingleTick
                           _searchTextController.value = const TextEditingValue(text: "");
                           _setValue();
                           _removeOverlay();
-                          _widgetFocusNode.unfocus();
+                          // _widgetFocusNode.unfocus();
                         },
                         onEditingComplete: () {},
                       )
@@ -387,6 +395,7 @@ class DropdownFormFieldState<T> extends State<DropdownFormField> with SingleTick
                             (widget.selectedFn ?? _selectedFn)(_selectedItem, item),
                             // 3) Re-order: call _setValue() first, then _removeOverlay()
                             () {
+                              if (!mounted) return;
                               overlayTapped.value = true;
                               _listItemFocusedPosition = position;
                               _searchTextController.value = const TextEditingValue(text: "");
@@ -483,9 +492,14 @@ class DropdownFormFieldState<T> extends State<DropdownFormField> with SingleTick
         child: GestureDetector(
           onTap: () {
             // Unfocus everything and remove overlay
-            _widgetFocusNode.unfocus();
-            _searchFocusNode.unfocus();
-            _removeOverlay();
+            if (mounted) {
+              // _widgetFocusNode.unfocus();
+              try {
+                if (_searchFocusNode.hasFocus) _searchFocusNode.unfocus();
+              } catch (_) {}
+
+              _removeOverlay();
+            }
           },
           behavior: HitTestBehavior.translucent,
           child: Container(color: Colors.transparent),
@@ -521,7 +535,7 @@ class DropdownFormFieldState<T> extends State<DropdownFormField> with SingleTick
       _overlayEntry = null;
       decoration = widget.decoration ?? InputDecoration(border: UnderlineInputBorder(), suffixIcon: Icon(Icons.arrow_drop_down));
       _searchTextController.value = const TextEditingValue(text: "");
-      setState(() {});
+      if (mounted) setState(() {});
     }
   }
 
@@ -547,7 +561,10 @@ class DropdownFormFieldState<T> extends State<DropdownFormField> with SingleTick
   KeyEventResult _onKeyPressed(RawKeyEvent event) {
     if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
       _searchTextController.value = const TextEditingValue(text: "");
-      _removeOverlay();
+      if (_overlayEntry != null && mounted) {
+        _setValue();
+        _removeOverlay();
+      }
       return KeyEventResult.ignored;
     } else if (event.isKeyPressed(LogicalKeyboardKey.escape)) {
       _searchTextController.value = const TextEditingValue(text: "");
@@ -592,9 +609,14 @@ class DropdownFormFieldState<T> extends State<DropdownFormField> with SingleTick
       return KeyEventResult.ignored;
     } else if (event.isKeyPressed(LogicalKeyboardKey.tab)) {
       gLogger("User press tab============================");
+      // make the selection only if the value of controller is null
+      if (_selectedItem == null) {
+        _setValue();
 
-      _removeOverlay();
-      return KeyEventResult.ignored;
+        _removeOverlay();
+
+        return KeyEventResult.ignored;
+      }
     }
 
     return KeyEventResult.ignored;
@@ -704,7 +726,7 @@ class DropdownFormFieldState<T> extends State<DropdownFormField> with SingleTick
     if (widget.onChanged != null) {
       widget.onChanged!(_selectedItem);
     }
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   void _clearValue() {
@@ -713,5 +735,6 @@ class DropdownFormFieldState<T> extends State<DropdownFormField> with SingleTick
       widget.onChanged!(_selectedItem);
     }
     _searchTextController.value = const TextEditingValue(text: "");
+    if (mounted) setState(() {});
   }
 }

@@ -137,7 +137,15 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
               }
               return null;
             },
-            onCompleted: (pin) => gLogger('Completed with pin $pin'),
+            onCompleted: (pin) {
+              gLogger('Completed with pin $pin');
+              // Short delay to ensure Obx rebuilds the Submit button to be enabled (focusable) before requesting focus
+              Future.delayed(const Duration(milliseconds: 300), () {
+                if (context.mounted) {
+                   FocusScope.of(context).requestFocus(otpController.submitButtonFocusNode);
+                }
+              });
+            },
           ),
         ),
 
@@ -161,23 +169,44 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
           () => otpController.isLoading.value
               ? _submitButtonProcess(context)
               : InkWell(
+                  focusNode: otpController.submitButtonFocusNode,
                   onTap: otpController.isButtonEnabled.value
                       ? () {
                           otpController.verifyOTP(context);
                         }
                       : null,
-                  child: Opacity(
-                    opacity: otpController.isButtonEnabled.value ? 1 : 0.5,
-                    child: Container(
-                      height: 48,
-                      decoration: BoxDecoration(color: mainColorPrimary, borderRadius: BorderRadius.circular(6)),
-                      child: Center(
-                        child: Text(
-                          'Submit',
-                          style: TextStyle(color: whiteColor, fontWeight: FontWeight.w700, fontSize: 15),
+                  child: AnimatedBuilder(
+                    animation: otpController.submitButtonFocusNode,
+                    builder: (context, child) {
+                      final hasFocus = otpController.submitButtonFocusNode.hasFocus;
+                      return Opacity(
+                        opacity: otpController.isButtonEnabled.value ? 1 : 0.5,
+                        child: Container(
+                          height: 48,
+                          decoration: BoxDecoration(
+                            color: mainColorPrimary,
+                            borderRadius: BorderRadius.circular(6),
+                            boxShadow: hasFocus
+                                ? <BoxShadow>[
+                                    BoxShadow(
+                                      color: secondaryColorOrange.withOpacity(0.2),
+                                      offset: Offset(0, 0),
+                                      blurRadius: 8,
+                                      spreadRadius: 1,
+                                    ),
+                                  ]
+                                : null,
+                            border: hasFocus ? Border.all(color: secondaryColorOrange, width: 1) : null,
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Submit',
+                              style: TextStyle(color: whiteColor, fontWeight: FontWeight.w700, fontSize: 15),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 ),
         ),

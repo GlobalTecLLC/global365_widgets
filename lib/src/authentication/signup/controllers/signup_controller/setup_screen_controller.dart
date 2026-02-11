@@ -24,6 +24,16 @@ class SetUpController extends GetxController {
   String statusId = "4842";
   DropdownEditingController<dynamic> locationDropdown = DropdownEditingController();
 
+  final FocusNode businessNameFocusNode = FocusNode();
+  final FocusNode submitButtonFocusNode = FocusNode();
+
+  @override
+  void onClose() {
+    businessNameFocusNode.dispose();
+    submitButtonFocusNode.dispose();
+    super.onClose();
+  }
+
   bool isExistingCompany=false;
   String existingCompany = "0";
 }

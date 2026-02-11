@@ -19,6 +19,7 @@ class IndustryDropdown extends StatefulWidget {
   final bool isShowLabelingColumn;
   final double? containerHeight;
   final Offset? offset;
+  final FocusNode? focusNode;
 
   final DropdownEditingController<dynamic> controller;
   const IndustryDropdown({
@@ -33,6 +34,7 @@ class IndustryDropdown extends StatefulWidget {
     this.isShowLabelingColumn = true,
     this.containerHeight,
     this.offset,
+    this.focusNode,
     Key? key,
   }) : super(key: key);
 
@@ -152,6 +154,7 @@ class _IndustryDropdownState extends State<IndustryDropdown> {
                 child: DropdownFormField<dynamic>(
                   // dropdownHeight: getHeight(context) * 0.7,
                   offset: widget.offset ?? const Offset(0, 0),
+                  focusNode: widget.focusNode,
                   onEmptyActionPressed: null,
                   emptyActionText: "",
                   controller: controller,

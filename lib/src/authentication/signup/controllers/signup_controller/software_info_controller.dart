@@ -39,6 +39,16 @@ class SoftwareInfoController extends GetxController {
   RxInt selectedSoftwareId = 0.obs;
   RxString selectedSoftware = ''.obs;
 
+  final FocusNode goBackButtonFocusNode = FocusNode();
+  final FocusNode letsGetStartedButtonFocusNode = FocusNode();
+
+  @override
+  void onClose() {
+    goBackButtonFocusNode.dispose();
+    letsGetStartedButtonFocusNode.dispose();
+    super.onClose();
+  }
+
   void setSelectedSoftware(String software) {
     selectedSoftware.value = software;
     switch (software) {

@@ -13,6 +13,8 @@ class GCustomPhoneNumberField extends StatefulWidget {
   final bool isRequired;
   final bool isPhoneEnabled;
   final bool isCountryEnabled;
+  final FocusNode? focusNode;
+  final Function(String)? onSubmitted;
 
   final CustomPhoneNumberController controller;
 
@@ -28,6 +30,8 @@ class GCustomPhoneNumberField extends StatefulWidget {
     this.maxLength = 11,
     this.isPhoneEnabled = true,
     this.isCountryEnabled = true,
+    this.focusNode,
+    this.onSubmitted,
   }) : super(key: key);
 
   @override
@@ -36,9 +40,9 @@ class GCustomPhoneNumberField extends StatefulWidget {
 
 class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
   final TextEditingController _controller = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
+  late FocusNode _focusNode;
   final FocusNode _focusNodeSearch = FocusNode();
-  final FocusNode _focusNodePhoneNumber = FocusNode();
+  late FocusNode _focusNodePhoneNumber;
   OverlayEntry? _overlayEntry;
   OverlayEntry? _overlayBackdropEntry;
   final LayerLink _layerLink = LayerLink();
@@ -55,6 +59,9 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
   @override
   void initState() {
     super.initState();
+    _focusNode = FocusNode(canRequestFocus: widget.isCountryEnabled, skipTraversal: !widget.isCountryEnabled);
+    _focusNodePhoneNumber = widget.focusNode ?? FocusNode();
+    
     widget.controller.addListener(_onControllerChanged);
 
     // Set initial country code if provided
@@ -311,6 +318,9 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
     _removeOverlay();
     _controller.dispose();
     _focusNode.dispose();
+    if (widget.focusNode == null) {
+      _focusNodePhoneNumber.dispose();
+    }
     widget.controller.removeListener(_onControllerChanged);
     super.dispose();
   }
@@ -414,6 +424,7 @@ class _GCustomPhoneNumberFieldState extends State<GCustomPhoneNumberField> {
                             // LengthLimitingTextInputFormatter(currentCountry["max"]), // Max length based on selected country
                             FilteringTextInputFormatter.allow(RegExp(r'[\d\s\(\)\-]')), // Allow digits and formatting chars
                           ],
+                          onSubmitted: widget.onSubmitted,
                           decoration: const InputDecoration(
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(width: 1, color: borderColor),

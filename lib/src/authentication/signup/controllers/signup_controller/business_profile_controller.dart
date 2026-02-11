@@ -30,8 +30,34 @@ class BusinessProfileController extends GetxController {
   DropdownEditingController<dynamic> stateDropdown = DropdownEditingController();
   DropdownEditingController<dynamic> languageDropdown = DropdownEditingController();
   DropdownEditingController<dynamic> timezoneDropdown = DropdownEditingController();
-
   DropdownEditingController<dynamic> currencyDropdown = DropdownEditingController();
+
+  final FocusNode businessNameFocusNode = FocusNode();
+  final FocusNode industryDropdownFocusNode = FocusNode();
+  final FocusNode addressLine1FocusNode = FocusNode();
+  final FocusNode addressLine2FocusNode = FocusNode();
+  final FocusNode cityFocusNode = FocusNode();
+  final FocusNode stateDropdownFocusNode = FocusNode();
+  final FocusNode zipFocusNode = FocusNode();
+  final FocusNode phoneNumberFocusNode = FocusNode();
+  final FocusNode goBackButtonFocusNode = FocusNode();
+  final FocusNode nextButtonFocusNode = FocusNode();
+
+  @override
+  void onClose() {
+    businessNameFocusNode.dispose();
+    industryDropdownFocusNode.dispose();
+    addressLine1FocusNode.dispose();
+    addressLine2FocusNode.dispose();
+    cityFocusNode.dispose();
+    stateDropdownFocusNode.dispose();
+    zipFocusNode.dispose();
+    phoneNumberFocusNode.dispose();
+    goBackButtonFocusNode.dispose();
+    nextButtonFocusNode.dispose();
+    super.onClose();
+  }
+
 
   RxList industryList = [].obs;
   RxList currenciesList = [].obs;

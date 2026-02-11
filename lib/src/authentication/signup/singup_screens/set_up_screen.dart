@@ -8,6 +8,7 @@ import 'package:global365_widgets/src/authentication/signup/controllers/signup_c
 import 'package:global365_widgets/src/authentication/signup/controllers/signup_controller/setup_screen_controller.dart';
 import 'package:global365_widgets/src/authentication/signup/dropdowns/business_location_dropdown.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
+import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 
 class SetUpScreen extends StatefulWidget {
@@ -106,7 +107,9 @@ class _SetUpScreenState extends State<SetUpScreen> {
           labelText: "Organization/Business Display Name",
           isRequired: true,
           controller: controller.businessName,
+          focusNode: controller.businessNameFocusNode,
           hintText: "Enter Name",
+          onFieldSubmitted: (_) => controller.submitButtonFocusNode.requestFocus(),
         ),
         GSizeH(16),
         if (g365Module == G365Module.merchant)
@@ -118,28 +121,30 @@ class _SetUpScreenState extends State<SetUpScreen> {
             borderRadius: 5,
             onChanged: (fullNumber) {},
             onSubmitted: (value) {
-              // Handle form submission
+              controller.submitButtonFocusNode.requestFocus();
             },
           ),
         if (g365Module != G365Module.merchant)
           Obx(
             () => controller.isUpdatingCOntroller.isTrue
                 ? Container(height: 56)
-                : BusinessLocationDropdown(
-                    containerHeight: 56,
-                    offset: const Offset(0, 40),
-                    controller: controller.locationDropdown,
-                    partyId: controller.locationDropdownId,
-                    label: 'Organization/Business Location',
-                    isNotHistory: true,
-                    isUpdate: true,
-                    onChanged: (item) {
-                      BusinessProfileController.to.statesList.clear();
-                      BusinessProfileController.to.selectedLocationId.value = controller.locationDropdown.value["id"];
-                      BusinessProfileController.to.getStatesData(context);
-                      controller.updationControllerFunctin();
-                      gLogger("LocationId: ${BusinessProfileController.to.selectedLocationId.value}");
-                    },
+                : ExcludeFocus(
+                    child: BusinessLocationDropdown(
+                      containerHeight: 56,
+                      offset: const Offset(0, 40),
+                      controller: controller.locationDropdown,
+                      partyId: controller.locationDropdownId,
+                      label: 'Organization/Business Location',
+                      isNotHistory: true,
+                      isUpdate: true,
+                      onChanged: (item) {
+                        BusinessProfileController.to.statesList.clear();
+                        BusinessProfileController.to.selectedLocationId.value = controller.locationDropdown.value["id"];
+                        BusinessProfileController.to.getStatesData(context);
+                        controller.updationControllerFunctin();
+                        gLogger("LocationId: ${BusinessProfileController.to.selectedLocationId.value}");
+                      },
+                    ),
                   ),
           ),
 
@@ -151,6 +156,7 @@ class _SetUpScreenState extends State<SetUpScreen> {
 
   Widget _submitButton(BuildContext context) {
     return InkWell(
+      focusNode: controller.submitButtonFocusNode,
       onTap: () {
         gLogger("Let's get your setup called and ${controller.locationDropdown.value}");
         if (controller.businessName.text.isEmpty) {
@@ -171,16 +177,32 @@ class _SetUpScreenState extends State<SetUpScreen> {
           }
         }
       },
-      child: Container(
-        height: 48,
-        width: double.maxFinite,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          boxShadow: <BoxShadow>[BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 2)],
-          color: mainColorPrimary,
-        ),
-        child: GTextHeading4("Let’s get you setup", color: whiteColor),
+      child: AnimatedBuilder(
+        animation: controller.submitButtonFocusNode,
+        builder: (context, child) {
+          final hasFocus = controller.submitButtonFocusNode.hasFocus;
+          return Container(
+            height: 48,
+            width: double.maxFinite,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              boxShadow: hasFocus
+                  ? <BoxShadow>[
+                      BoxShadow(
+                        color: secondaryColorOrange.withOpacity(0.2),
+                        offset: Offset(0, 0),
+                        blurRadius: 8,
+                        spreadRadius: 1,
+                      ),
+                    ]
+                  : <BoxShadow>[BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 1)],
+              color: mainColorPrimary,
+              border: hasFocus ? Border.all(color: secondaryColorOrange, width: 1) : null,
+            ),
+            child: GTextHeading4("Let’s get you setup", color: whiteColor),
+          );
+        },
       ),
     );
   }

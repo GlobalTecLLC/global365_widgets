@@ -24,6 +24,24 @@ class LoginController extends GetxController {
 
   RxBool passwordVisible = true.obs;
 
+  FocusNode emailFocusNode = FocusNode();
+  FocusNode passwordFocusNode = FocusNode();
+  FocusNode rememberMeFocusNode = FocusNode();
+  FocusNode forgotPasswordFocusNode = FocusNode();
+  FocusNode loginButtonFocusNode = FocusNode();
+  FocusNode signUpFocusNode = FocusNode();
+
+  @override
+  void onClose() {
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
+    rememberMeFocusNode.dispose();
+    forgotPasswordFocusNode.dispose();
+    loginButtonFocusNode.dispose();
+    signUpFocusNode.dispose();
+    super.onClose();
+  }
+
   RxString phoneNumber = "".obs;
 
   String usernmae = "";
