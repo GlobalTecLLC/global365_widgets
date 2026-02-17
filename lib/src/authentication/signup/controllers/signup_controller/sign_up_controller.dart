@@ -32,6 +32,24 @@ class SignUpController extends GetxController {
   FocusNode signInFocusNode = FocusNode();
 
   @override
+  void onInit() {
+    super.onInit();
+    // Add listeners to track text field changes
+    firstName.addListener(() {
+      hasFirstName.value = firstName.text.trim().isNotEmpty;
+    });
+    lastName.addListener(() {
+      hasLastName.value = lastName.text.trim().isNotEmpty;
+    });
+    tecEmail.addListener(() {
+      hasEmail.value = tecEmail.text.trim().isNotEmpty;
+    });
+    controllerpassword.addListener(() {
+      hasPassword.value = controllerpassword.text.trim().isNotEmpty;
+    });
+  }
+
+  @override
   void onClose() {
     firstNameFocusNode.dispose();
     lastNameFocusNode.dispose();
@@ -60,6 +78,12 @@ class SignUpController extends GetxController {
   RxBool checkedValue = false.obs;
   RxBool betaTestingAgreement = false.obs;
   RxBool isEmailValid = false.obs;
+
+  // Reactive variables to track if fields have content
+  RxBool hasFirstName = false.obs;
+  RxBool hasLastName = false.obs;
+  RxBool hasEmail = false.obs;
+  RxBool hasPassword = false.obs;
 
   RxBool isLoading = false.obs;
   signUp(context) async {
@@ -117,6 +141,10 @@ class SignUpController extends GetxController {
     checkedValue.value = false;
     betaTestingAgreement.value = false;
     isEmailValid.value = false;
+    hasFirstName.value = false;
+    hasLastName.value = false;
+    hasEmail.value = false;
+    hasPassword.value = false;
     isLoading.value = false;
     passwordVisible.value = true;
     isPasswordValid.value = false;

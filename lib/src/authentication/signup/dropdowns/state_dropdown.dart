@@ -6,9 +6,6 @@ import 'package:global365_widgets/src/authentication/signup/controllers/signup_c
 import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/dropdowns/searchabledropdowncustom/dropdown_plus.dart';
 import 'package:global365_widgets/src/theme/dropdown_theme.dart';
-import 'package:global365_widgets/src/utils/api_services/get_request.dart';
-import 'package:global365_widgets/src/utils/toast/delightful_toast_class.dart';
-import 'package:global365_widgets/src/constants/globals.dart';
 
 class StateDropdown extends StatefulWidget {
   final bool isNotHistory;
@@ -59,7 +56,7 @@ class _StateDropdownState extends State<StateDropdown> {
   }
 
   String objectName = "name";
-  String objectIDName = "value";
+  String objectIDName = "id";
 
   bool isNotHistory = false;
   bool isUpdate = false;
@@ -226,7 +223,7 @@ class _StateDropdownState extends State<StateDropdown> {
                   ),
                 ),
               )
-            : globalSpinkitForLoaderswithBorder(),
+            : globalSpinkitForLoaderswithBorder(height: 40),
       ],
     );
   }

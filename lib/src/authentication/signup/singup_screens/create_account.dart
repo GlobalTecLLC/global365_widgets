@@ -207,11 +207,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 value: SignUpController.to.betaTestingAgreement.value,
                                 splashRadius: 0,
                                 side: BorderSide(
-                                  color: SignUpController.to.betaAgreementFocusNode.hasFocus ? secondaryColorOrange : lightBackgroundColor,
+                                  color: SignUpController.to.betaAgreementFocusNode.hasFocus
+                                      ? secondaryColorOrange
+                                      : lightBackgroundColor,
                                   width: 2,
                                 ),
                                 onChanged: (value) {
-                                  SignUpController.to.betaTestingAgreement.value = !SignUpController.to.betaTestingAgreement.value;
+                                  SignUpController.to.betaTestingAgreement.value =
+                                      !SignUpController.to.betaTestingAgreement.value;
                                 },
                               ),
                             ),
@@ -274,7 +277,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 value: SignUpController.to.checkedValue.value,
                                 splashRadius: 0,
                                 side: BorderSide(
-                                  color: SignUpController.to.termsFocusNode.hasFocus ? secondaryColorOrange : lightBackgroundColor,
+                                  color: SignUpController.to.termsFocusNode.hasFocus
+                                      ? secondaryColorOrange
+                                      : lightBackgroundColor,
                                   width: 2,
                                 ),
                                 onChanged: (value) {
@@ -391,37 +396,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
         animation: SignUpController.to.createAccountButtonFocusNode,
         builder: (context, child) {
           final hasFocus = SignUpController.to.createAccountButtonFocusNode.hasFocus;
-          return Opacity(
-            opacity:
-                (SignUpController.to.firstName.text.isNotEmpty &&
-                    SignUpController.to.lastName.text.isNotEmpty &&
-                    SignUpController.to.tecEmail.text.isNotEmpty &&
-                    SignUpController.to.controllerpassword.text.isNotEmpty &&
-                    SignUpController.to.checkedValue.value &&
-                    SignUpController.to.isEmailValid.value &&
-                    SignUpController.to.betaTestingAgreement.value)
-                ? 1.0
-                : 0.5,
-            child: Container(
-              height: 48,
-              width: double.maxFinite,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                boxShadow: hasFocus
-                    ? <BoxShadow>[
-                        BoxShadow(
-                          color: secondaryColorOrange.withOpacity(0.2),
-                          offset: Offset(0, 0),
-                          blurRadius: 8,
-                          spreadRadius: 1,
-                        ),
-                      ]
-                    : <BoxShadow>[BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 1)],
-                color: mainColorPrimary,
-                border: hasFocus ? Border.all(color: secondaryColorOrange, width: 1) : null,
+          return Obx(
+            () => Opacity(
+              opacity:
+                  (SignUpController.to.hasFirstName.value &&
+                      SignUpController.to.hasLastName.value &&
+                      SignUpController.to.hasEmail.value &&
+                      SignUpController.to.hasPassword.value &&
+                      SignUpController.to.checkedValue.value &&
+                      SignUpController.to.isEmailValid.value &&
+                      SignUpController.to.betaTestingAgreement.value)
+                  ? 1.0
+                  : 0.5,
+              child: Container(
+                height: 48,
+                width: double.maxFinite,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  boxShadow: hasFocus
+                      ? <BoxShadow>[
+                          BoxShadow(
+                            color: secondaryColorOrange.withOpacity(0.2),
+                            offset: Offset(0, 0),
+                            blurRadius: 8,
+                            spreadRadius: 1,
+                          ),
+                        ]
+                      : <BoxShadow>[BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 1)],
+                  color: mainColorPrimary,
+                  border: hasFocus ? Border.all(color: secondaryColorOrange, width: 1) : null,
+                ),
+                child: GTextHeading4("Create Account", color: whiteColor),
               ),
-              child: GTextHeading4("Create Account", color: whiteColor),
             ),
           );
         },

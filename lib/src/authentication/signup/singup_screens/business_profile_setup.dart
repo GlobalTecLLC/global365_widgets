@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:g365_widgets_user/g365_widgets_user.dart';
 import 'package:get/get.dart';
@@ -10,7 +12,10 @@ import 'package:global365_widgets/src/authentication/signup/dropdowns/industry_t
 import 'package:global365_widgets/src/authentication/signup/dropdowns/state_dropdown.dart';
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
+import 'package:global365_widgets/src/dropdowns/searchable_address_dropdown.dart';
 import 'package:global365_widgets/src/textfileds/phone_number_text_field.dart';
+import 'package:global365_widgets/src/theme/dropdown_theme.dart';
+import 'package:global365_widgets/src/utils/logger.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 
 class BusinessProfileSetup extends StatefulWidget {
@@ -127,24 +132,98 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
           children: [
             Expanded(
               flex: 1,
-              child: GLoginEmailField(
-                // containerHeight: 40,
-                // // isExtraHeightField: true,
-                // isCustomHeight: true,
-                controller: BusinessProfileController.to.tecaddressLine1,
-                focusNode: BusinessProfileController.to.addressLine1FocusNode,
-                labelText: 'Address Line 1',
-                showheading: true,
-                // paddingBelowHeading: 5,
-                maxLine: 1,
-                // fontSizeForAll: 12.0,
-                textFieldColor: Colors.black,
-                // fontSizeForLabel: 14.0,
-                hintText: "Address Line 1",
+              child: SearchableAddressDropDownForSignup(
+                isNotHistory: true,
                 isRequired: true,
-                onFieldSubmitted: (_) => BusinessProfileController.to.addressLine2FocusNode.requestFocus(),
-                // isDropdownStyle: true,
+                screenController: BusinessProfileController.to,
+                containerHeight: 40,
+                controller: BusinessProfileController.to.addressLine1NetworkController,
+                focusNode: BusinessProfileController.to.addressLine1FocusNode,
+                addressDataMap: BusinessProfileController.to.addressDataMap,
+                apiLinkEndPoint: "Companies/AddressSuggestion?Address=",
+                label: 'Address Line 1',
+                apiChangeCallBack: (placeId, item) async {
+                  String placeId = item["placeId"];
+
+                  GProgressDialog(context).show();
+
+                  ResponseModel response = await APIsCallPost.submitRequestWithOutBody("Companies/FullAddress?Places=$placeId");
+                  GProgressDialog(context).hide();
+                  if (response.statusCode == 200) {
+                    final dynamic res = jsonDecode(response.data);
+                    final dynamic payload = res['payload'] ?? {};
+                    final String streetLine1 = (payload['streetLine1'] ?? '').toString();
+
+                    controller.addressLine1ControllerForAddressDropdown.text = streetLine1;
+                    if (item is Map) {
+                      item['description'] = streetLine1;
+                    }
+                    BusinessProfileController.to.statesList.value = [];
+                    BusinessProfileController.to.tecaddressLine1.text = payload["streetLine1"] ?? "";
+                    BusinessProfileController.to.tecCity.text = payload["city"] ?? "";
+                    BusinessProfileController.to.tecZip.text = payload["zip"] ?? "";
+                    BusinessProfileController.to.stateDropdown.value?["id"] = payload["stateId"] ?? "";
+                    BusinessProfileController.to.partyIdOfState.value = payload["stateId"]?.toString() ?? "";
+                  }
+                  SetUpController.to.isUpdatingCOntroller.value = true;
+
+                  await Future.delayed(const Duration(milliseconds: 500), () {});
+                  SetUpController.to.isUpdatingCOntroller.value = false;
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    FocusScope.of(context).requestFocus(BusinessProfileController.to.addressLine2FocusNode);
+                  });
+                },
+                onFocusLost: (typedText) {
+                  // If user typed something but didn't select from dropdown, use the typed text
+
+                  if (typedText.isNotEmpty) {
+                    BusinessProfileController.to.tecaddressLine1.text = typedText;
+                    controller.addressLine1ControllerForAddressDropdown.text = typedText;
+                  }
+                },
+
+                // onChanged: (item) async {
+                //   String placeId = item["placeId"];
+                //   GProgressDialog(context).show();
+                //   ResponseModel response = await APIsCallPost.submitRequestWithOutBody("Companies/FullAddress?Places=$placeId");
+                //   GProgressDialog(context).hide();
+                //   SetUpController.to.isUpdatingCOntroller.value = true;
+                //   if (response.statusCode == 200 || response.statusCode == 201) {
+                //     dynamic data = jsonDecode(response.data);
+                //     Logger.log("Full Address Data: $data");
+
+                //     BusinessProfileController.to.tecaddressLine1.text = (data["payload"] ?? {})["streetLine1"] ?? "";
+                //     BusinessProfileController.to.tecCity.text = (data["payload"] ?? {})["city"] ?? "";
+                //     BusinessProfileController.to.tecZip.text = (data["payload"] ?? {})["zip"] ?? "";
+                //     BusinessProfileController.to.stateDropdown.value?["id"] = (data["payload"] ?? {})["stateId"] ?? "";
+                //     BusinessProfileController.to.partyIdOfState.value = ((data["payload"] ?? {})["stateId"] ?? "").toString();
+                //     await Future.delayed(const Duration(milliseconds: 500), () {
+                //       SetUpController.to.isUpdatingCOntroller.value = false;
+                //     });
+                //   }
+                //   WidgetsBinding.instance.addPostFrameCallback((_) {
+                //     FocusScope.of(context).requestFocus(BusinessProfileController.to.addressLine2FocusNode);
+                //   });
+                // },
               ),
+              // GLoginEmailField(
+              //   // containerHeight: 40,
+              //   // // isExtraHeightField: true,
+              //   // isCustomHeight: true,
+              //   controller: BusinessProfileController.to.tecaddressLine1,
+              //   focusNode: BusinessProfileController.to.addressLine1FocusNode,
+              //   labelText: 'Address Line 1',
+              //   showheading: true,
+              //   // paddingBelowHeading: 5,
+              //   maxLine: 1,
+              //   // fontSizeForAll: 12.0,
+              //   textFieldColor: Colors.black,
+              //   // fontSizeForLabel: 14.0,
+              //   hintText: "Address Line 1",
+              //   isRequired: true,
+              //   onFieldSubmitted: (_) => BusinessProfileController.to.addressLine2FocusNode.requestFocus(),
+              //   // isDropdownStyle: true,
+              // ),
             ),
             GSizeW(20),
             Expanded(
@@ -202,7 +281,23 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
               () => Expanded(
                 flex: 1,
                 child: SetUpController.to.isUpdatingCOntroller.isTrue
-                    ? Container()
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              GDropDownTheme.headerTextBold("State"),
+
+                              Text(
+                                " *",
+                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Colors.red),
+                              ),
+                            ],
+                          ),
+                          globalSpinkitForLoaderswithBorder(height: 40),
+                        ],
+                      )
                     : StateDropdown(
                         isNotHistory: true,
                         isRequired: true,
@@ -210,7 +305,9 @@ class _BusinessProfileSetupState extends State<BusinessProfileSetup> {
                         offset: const Offset(0, 40),
                         controller: BusinessProfileController.to.stateDropdown,
                         focusNode: BusinessProfileController.to.stateDropdownFocusNode,
+                        partyId: BusinessProfileController.to.partyIdOfState.value.toString(),
                         label: 'State',
+                        isUpdate: true,
                         onChanged: (val) {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
                             FocusScope.of(context).requestFocus(BusinessProfileController.to.zipFocusNode);

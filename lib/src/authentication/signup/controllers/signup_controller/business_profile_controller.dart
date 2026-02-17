@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/authentication_routes.dart';
+import 'package:global365_widgets/src/dropdowns/netWorkSearchabledropdowncustom/dropdown_plus.dart';
 import 'package:global365_widgets/src/dropdowns/searchabledropdowncustom/dropdown_plus.dart';
 import 'package:global365_widgets/src/utils/logger.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
@@ -20,8 +21,11 @@ class BusinessProfileController extends GetxController {
   TextEditingController tecZip = TextEditingController();
   TextEditingController phoneNumber = TextEditingController();
 
+  Map<String, Object> addressDataMap = {};
+  NetWorkDropdownEditingController addressLine1NetworkController = NetWorkDropdownEditingController();
   CustomPhoneNumberController phoneController = CustomPhoneNumberController();
 
+  TextEditingController addressLine1ControllerForAddressDropdown = TextEditingController();
   RxString orgIdFromRedirectLogin = "".obs;
   //Dropdowns initialization
 
@@ -31,6 +35,8 @@ class BusinessProfileController extends GetxController {
   DropdownEditingController<dynamic> languageDropdown = DropdownEditingController();
   DropdownEditingController<dynamic> timezoneDropdown = DropdownEditingController();
   DropdownEditingController<dynamic> currencyDropdown = DropdownEditingController();
+
+  RxString partyIdOfState = "-1".obs;
 
   final FocusNode businessNameFocusNode = FocusNode();
   final FocusNode industryDropdownFocusNode = FocusNode();
@@ -57,7 +63,6 @@ class BusinessProfileController extends GetxController {
     nextButtonFocusNode.dispose();
     super.onClose();
   }
-
 
   RxList industryList = [].obs;
   RxList currenciesList = [].obs;
