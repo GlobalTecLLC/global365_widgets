@@ -176,7 +176,7 @@ Widget emailPasswordWidget(BuildContext context) {
                           focusNode: LoginController.to.forgotPasswordFocusNode,
                           onTap: () async {
                             Logger.log("FORGOT PASSWORD CLICKED");
-                            if (g365Module == G365Module.payroll || g365Module == G365Module.employeePortal) {
+                            if (g365Module == G365Module.payroll || g365Module == G365Module.employeePortal || g365Module == G365Module.contractorPortal) {
                               GNav.pushNav(context, GRouteConfig.forgotPassword);
                             }
                           },
