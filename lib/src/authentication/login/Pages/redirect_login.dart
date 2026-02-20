@@ -94,7 +94,7 @@ class _RedirectLoginState extends State<RedirectLogin> {
               ),
               Positioned.fill(
                 bottom: 66,
-                child: Align(alignment: Alignment.bottomCenter, child: SvgPicture.asset(AppAssets.poweredByLogoWhiteIcon)),
+                child: Align(alignment: Alignment.bottomCenter, child: SvgPicture.asset("assets/svg/powered_by_global.svg")),
               ),
             ],
           ),
