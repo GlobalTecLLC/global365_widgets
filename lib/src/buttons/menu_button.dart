@@ -166,10 +166,7 @@ class GCustomMenuButton extends StatelessWidget {
                                                 (isDynamic
                                                         ? (selectedValue == e[objValueID].toString())
                                                         : (selectedValue == e.toString()))
-                                                    ? const GCustomIcon(
-                                                        icon: BootstrapIcons.check_circle,
-                                                        iconOnly: true,
-                                                      )
+                                                    ? const GCustomIcon(icon: BootstrapIcons.check_circle, iconOnly: true)
                                                     : GSizeW(14),
                                                 GSizeW(6),
                                               ],
@@ -278,6 +275,12 @@ class GCustomMenuButton extends StatelessWidget {
     if (e.toString().toLowerCase().contains("copy")) {
       return BootstrapIcons.copy;
     }
+    if (e.toString().toLowerCase().contains("enable")) {
+      return BootstrapIcons.toggle_on;
+    }
+    if (e.toString().toLowerCase().contains("disable")) {
+      return BootstrapIcons.toggle_off;
+    }
     switch (e) {
       case "All":
         return BootstrapIcons.list_check;
@@ -365,7 +368,7 @@ class GCustomMenuButton extends StatelessWidget {
         return BootstrapIcons.arrow_clockwise;
       case "UnLink":
         return BootstrapIcons.link_45deg;
-         case "Use":
+      case "Use":
         return BootstrapIcons.envelope_check;
       case "Skip Next":
         return BootstrapIcons.skip_forward;
