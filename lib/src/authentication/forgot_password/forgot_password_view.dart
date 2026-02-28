@@ -344,15 +344,10 @@ class _ForgetPasswodScreenState extends State<ForgetPasswodScreen> {
                         ],
                       ),
                     ),
-                    const Column(
+                    Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        GBodyText(
-                          "Global365 are registered trademarks of GlobalGroup.Co, LLC.",
-                          color: bodyText,
-                          textAlign: TextAlign.center,
-                        ),
                         GBodyText(
                           "Terms and conditions, features, and pricing are all subject to change without notice.",
                           color: bodyText,
@@ -374,7 +369,7 @@ class _ForgetPasswodScreenState extends State<ForgetPasswodScreen> {
                           //   );
                           // },
                           child: GBodyText(
-                            "© 2024, Global365 LLC. All Rights Reserved.",
+                            "© ${DateTime.now().year}, Global365 LLC. All Rights Reserved.",
                             color: bodyText,
                             textAlign: TextAlign.center,
                           ),

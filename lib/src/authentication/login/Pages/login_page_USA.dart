@@ -68,18 +68,14 @@ class _LoginPageState extends State<LoginPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          GBodyText(
-                            "Global365 are registered trademarks of GlobalGroup.Co, LLC.",
-                            color: bodyText,
-                            textAlign: TextAlign.center,
-                          ),
+                          
                           GBodyText(
                             "Terms and conditions, features, and pricing are all subject to change without notice.",
                             color: bodyText,
                             textAlign: TextAlign.center,
                           ),
                           GSizeH(5),
-                          GBodyText("© 2024, Global365 LLC. All Rights Reserved.", color: bodyText, textAlign: TextAlign.center),
+                          GBodyText("© ${DateTime.now().year}, Global365 LLC. All Rights Reserved.", color: bodyText, textAlign: TextAlign.center),
                           GSizeH(20),
                         ],
                       ),
