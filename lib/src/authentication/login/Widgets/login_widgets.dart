@@ -12,43 +12,44 @@ import 'package:global365_widgets/src/utils/logger.dart';
 
 // Helper function to get the sign-up redirect URL
 String _getSignUpRedirectURL(G365Module module, String environment) {
+  // print("Getting sign-up redirect URL for module: $module in environment: $environment");
   final env = environment.toLowerCase();
 
   switch (module) {
     case G365Module.payroll:
       switch (env) {
         case "development":
-          return "https://global365-sso.netlify.app/redirectFromWebsite?moduleName=Payroll";
+          return "https://global365-sso.netlify.app/subscriptionsPlansV2?moduleName=Payroll";
         case "production":
-          return "https://myhub.global365.com/redirectFromWebsite?moduleName=Payroll";
+          return "https://myhub.global365.com/subscriptionsPlansV2?moduleName=Payroll";
         case "staging":
-          return "https://global365-myhub-sit.netlify.app/redirectFromWebsite?moduleName=Payroll";
+          return "https://global365-myhub-sit.netlify.app/subscriptionsPlansV2?moduleName=Payroll";
         default:
-          return "https://global365-sso.netlify.app/redirectFromWebsite?moduleName=Payroll";
+          return "https://global365-sso.netlify.app/subscriptionsPlansV2?moduleName=Payroll";
       }
 
     case G365Module.merchant:
       switch (env) {
         case "development":
-          return "https://global365-sso.netlify.app/redirectFromWebsite?moduleName=Merchant";
+          return "https://global365-sso.netlify.app/subscriptionsPlansV2?moduleName=Payments";
         case "production":
-          return "https://myhub.global365.com/redirectFromWebsite?moduleName=Merchant";
+          return "https://myhub.global365.com/subscriptionsPlansV2?moduleName=Payments";
         case "staging":
-          return "https://global365-myhub-sit.netlify.app/redirectFromWebsite?moduleName=Merchant";
+          return "https://global365-myhub-sit.netlify.app/subscriptionsPlansV2?moduleName=Payments";
         default:
-          return "https://global365-sso.netlify.app/redirectFromWebsite?moduleName=Merchant";
+          return "https://global365-sso.netlify.app/subscriptionsPlansV2?moduleName=Payments";
       }
 
     case G365Module.accounting:
       switch (env) {
         case "development":
-          return "https://global365-sso.netlify.app/redirectFromWebsite?moduleName=Accounting";
+          return "https://global365-sso.netlify.app/subscriptionsPlansV2?moduleName=Accounting";
         case "production":
-          return "https://myhub.global365.com/redirectFromWebsite?moduleName=Accounting";
+          return "https://myhub.global365.com/subscriptionsPlansV2?moduleName=Accounting";
         case "staging":
-          return "https://global365-myhub-sit.netlify.app/redirectFromWebsite?moduleName=Accounting";
+          return "https://global365-myhub-sit.netlify.app/subscriptionsPlansV2?moduleName=Accounting";
         default:
-          return "https://global365-sso.netlify.app/redirectFromWebsite?moduleName=Accounting";
+          return "https://global365-sso.netlify.app/subscriptionsPlansV2?moduleName=Accounting";
       }
 
     case G365Module.employeePortal:
@@ -176,7 +177,9 @@ Widget emailPasswordWidget(BuildContext context) {
                           focusNode: LoginController.to.forgotPasswordFocusNode,
                           onTap: () async {
                             Logger.log("FORGOT PASSWORD CLICKED");
-                            if (g365Module == G365Module.payroll || g365Module == G365Module.employeePortal || g365Module == G365Module.contractorPortal) {
+                            if (g365Module == G365Module.payroll ||
+                                g365Module == G365Module.employeePortal ||
+                                g365Module == G365Module.contractorPortal) {
                               GNav.pushNav(context, GRouteConfig.forgotPassword);
                             }
                           },
@@ -275,11 +278,15 @@ Widget createAccountLabel(BuildContext context) {
           focusNode: LoginController.to.signUpFocusNode,
           onTap: () {
             isFirstpurchase = true;
+            final redirectUrl = _getSignUpRedirectURL(g365Module, applicationEnviroment);
+            if (redirectUrl.isNotEmpty) {
+              LoginController.to.launchURL(redirectUrl);
+            }
             // if (g365Module == G365Module.payroll) {
             //   final redirectURL = _getSignUpRedirectURL(g365Module, applicationEnviroment);
             //   LoginController.to.launchURL(redirectURL);
             // } else {
-            GNav.pushNav(context, GRouteConfig.paymentPlanRoute);
+            // GNav.pushNav(context, GRouteConfig.paymentPlanRoute);
             // }
 
             // if (g365Module == G365Module.merchant) {
