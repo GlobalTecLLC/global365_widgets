@@ -183,13 +183,19 @@ class LoginController extends GetxController {
         return;
       }
     }
-    isPayrollDashboardStepsComplete.value = (decodedData["payload"] ?? {})['isCompanyTabs'] ?? false;
+    // isPayrollDashboardStepsComplete.value = (decodedData["payload"] ?? {})['isCompanyTabs'] ?? false;
 
     Global365Widgets.loginCallBack((decodedData["payload"] ?? {}));
     dynamic defaultCompany = listOfConpanies.firstWhere(
       (element) => element["companyId"].toString() == (decodedData["payload"] ?? {})['defaultCompanyId'].toString(),
       orElse: () => listOfConpanies.first,
     );
+    totalNoOfUsersSlots = (defaultCompany["subscription"] ?? {})["totalNoOfUsersSlots"] ?? 0;
+    usedSlotsOfUsers = (defaultCompany["subscription"] ?? {})["usedSlotsOfUsers"] ?? 0;
+    totalNoOfEmployeeSlots = (defaultCompany["subscription"] ?? {})["totalNoOfEmployeeSlots"] ?? 0;
+    usedSlotsOfEmployees = (defaultCompany["subscription"] ?? {})["usedSlotsOfEmployee"] ?? 0;
+    usedSlotsOfContractors = (defaultCompany["subscription"] ?? {})["usedSlotsOfContractors"] ?? 0;
+    loggedInUserRole = (defaultCompany)["role"] ?? "";
 
     companyId = (defaultCompany["companyId"] ?? 0).toString();
     // locationId = (defaultCompany["locationId"] ?? 0).toString();
@@ -246,6 +252,12 @@ class LoginController extends GetxController {
     companyIdentityID.value = defaultCompany["companyIdentityId"] ?? "";
     userNameForGlobals.value = (decodedData["payload"] ?? {})["firstName"] ?? "Mr.";
     //     gLogger("Company name and id is $companyId and $companyNameForGlobals");
+    prefs.setInt("totalNoOfUsersSlots", totalNoOfUsersSlots);
+    prefs.setInt("usedSlotsOfUsers", usedSlotsOfUsers);
+    prefs.setInt("totalNoOfEmployeeSlots", totalNoOfEmployeeSlots);
+    prefs.setInt("usedSlotsOfEmployee", usedSlotsOfEmployees);
+    prefs.setInt("usedSlotsOfContractors", usedSlotsOfContractors);
+    prefs.setString("loggedInUserRole", loggedInUserRole);
     prefs.setString("accessToken", accessToken);
     prefs.setBool("isPayrollDashboardStepsComplete", isPayrollDashboardStepsComplete.value);
     prefs.setString('usernameforInvitationCompare', tecEmail.text);

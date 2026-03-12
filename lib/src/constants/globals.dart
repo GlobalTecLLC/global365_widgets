@@ -24,6 +24,15 @@ String contractorId = "";
 G365Module g365Module = G365Module.accounting;
 String applicationEnviroment = "";
 
+int totalNoOfUsersSlots = 0;
+int usedSlotsOfUsers = 0;
+
+int totalNoOfEmployeeSlots = 0;
+int usedSlotsOfEmployees = 0;
+int usedSlotsOfContractors = 0;
+
+String loggedInUserRole = "";
+
 String companyId = "";
 late SharedPreferences prefs;
 
