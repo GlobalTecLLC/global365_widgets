@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
+import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/authentication/login/Controllers/login_controller.dart';
 import 'package:global365_widgets/src/authentication/signup/payroll_user_invitation/payroll_user_invitation_controller.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
@@ -37,8 +38,7 @@ Widget signUpAndAcceptWidget(BuildContext context) {
                     TextSpan(
                       children: [
                         TextSpan(
-                          text:
-                              'We are pleased to invite you to join our organization. To accept this invitation, please create a ',
+                          text: 'We are pleased to invite you to join our organization. To accept this invitation, please create a ',
                           style: GAppStyle.style13w400(color: bodyTextDark),
                         ),
                         TextSpan(
@@ -76,6 +76,7 @@ Widget signUpAndAcceptWidget(BuildContext context) {
                           //     userInvitationController.rejectUnVerifiedUser(context);
                           //   }
                           // });
+                          GNav.goNav(context, GRouteConfig.loginUsaPageRoute);
                         },
                         btnText: "Reject",
                         backgroundColor: lightBackgroundColor,
@@ -106,10 +107,7 @@ Widget signUpAndAcceptWidget(BuildContext context) {
                               onTap: () {
                                 gLogger("Accept cliecked");
                                 userInvitationController.isAccepted = true;
-                                userInvitationController.verifiedUserInvitationResponse(
-                                  context,
-                                  userInvitationController.isAccepted,
-                                );
+                                userInvitationController.verifiedUserInvitationResponse(context, userInvitationController.isAccepted);
                               },
                               btnText: "Accept",
                               backgroundColor: primaryColor,
@@ -123,10 +121,11 @@ Widget signUpAndAcceptWidget(BuildContext context) {
                               onTap: () {
                                 gLogger("Sign in to Accept 11");
                                 LoginController.to.tecEmail.text = userInvitationController.invitedUserEmail.value;
+                                LoginController.to.inviteCode.value = userInvitationController.verificationCode.value;
 
-                                // AutoRouter.of(context).replaceAll([const LoginPageUSARoute()]);
-
-                                // context.go(RouteConfig.login);
+                                GNav.goNavWithExtra(context, GRouteConfig.loginUsaPageRoute, {
+                                  'inviteToken': userInvitationController.verificationCode.value,
+                                });
                               },
                               btnText: "Sign in to Accept",
                               backgroundColor: primaryColor,
@@ -319,8 +318,7 @@ Widget signUpWidget(BuildContext context) {
                         style: GAppStyle.style14w600(),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            userInvitationController.isAgreedToBetaTesting.value =
-                                !userInvitationController.isAgreedToBetaTesting.value;
+                            userInvitationController.isAgreedToBetaTesting.value = !userInvitationController.isAgreedToBetaTesting.value;
                             userInvitationController.isFilledAllData.value =
                                 (userInvitationController.firstName.value.isNotEmpty &&
                                 userInvitationController.password.value.isNotEmpty &&

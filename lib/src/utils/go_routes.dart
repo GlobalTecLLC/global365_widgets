@@ -7,6 +7,11 @@ class GNav {
     context.go(routeName);
   }
 
+  static void goNavWithExtra(BuildContext context, String routeName, dynamic extraData) async {
+    gLogger("within goNavWithExtra and extraData is $extraData");
+    context.go(routeName, extra: extraData);
+  }
+
   static void pushNav(BuildContext context, String routeName) async {
     context.push(routeName);
   }
@@ -20,12 +25,7 @@ class GNav {
     context.push(routeName, extra: extraData);
   }
 
-  static void pushNavWithThenFunction(
-    BuildContext context,
-    String routeName,
-    dynamic extraData,
-    Function thenFunction,
-  ) async {
+  static void pushNavWithThenFunction(BuildContext context, String routeName, dynamic extraData, Function thenFunction) async {
     context.push(routeName, extra: extraData).then((onValue) {
       // Explicitly call the callback function
       thenFunction();
@@ -46,6 +46,7 @@ class GNav {
   static void popNavWithResponse(BuildContext context, dynamic data) async {
     context.pop(data);
   }
+
   static void pushReplacementNamedAfterFrame(
     BuildContext context,
     String routeName, {
@@ -61,9 +62,6 @@ class GNav {
       queryParameters: (queryParameter ?? const <String, dynamic>{}).map((k, v) => MapEntry(k, v?.toString() ?? '')),
     );
 
-    context.pushReplacement(
-      location,
-      extra: extraData ?? const <String, dynamic>{},
-    );
+    context.pushReplacement(location, extra: extraData ?? const <String, dynamic>{});
   }
 }

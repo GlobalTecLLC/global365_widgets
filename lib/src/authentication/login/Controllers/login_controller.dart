@@ -127,6 +127,22 @@ class LoginController extends GetxController {
     }
   }
 
+  Future<void> acceptPayrollUserInvite(BuildContext context) async {
+    ResponseModel response = await APIsCallPut.updateRequestWithIdwithoutbody(
+      "Users/InvitationResponseVerfiiedUser?IsAccepted=true&VerifiedCode=${inviteCode.value.trim()}",
+    );
+    gLogger(response.data);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      dynamic decodedData = jsonDecode(response.data);
+      prefs.setString("acceptedInvitationCompanyData", jsonEncode(decodedData["payload"] ?? {}));
+      GToast.succss("Invitation accepted successfully", context);
+    } else {
+      dynamic decodedData = jsonDecode(response.data);
+      GToast.error(decodedData["message"] ?? "Failed to accept invitation", context);
+    }
+    inviteCode.value = "";
+  }
+
   loginResponseHandlerForEmployeePortal(BuildContext context, dynamic decodedData) async {
     accessToken = (decodedData["payload"] ?? {})["token"];
     companyId = (decodedData["payload"] ?? {})['defaultCompanyId'].toString();
@@ -351,6 +367,12 @@ class LoginController extends GetxController {
     //       GNav.goNav(context, RouteConfig.userInvitationPageRoute);
     //       // AutoRouter.of(context).push(const UserInvitationPageRoute());
     //     } else {
+
+    // Accept payroll user invitation if inviteCode is present
+    if (inviteCode.value.isNotEmpty) {
+      await acceptPayrollUserInvite(context);
+    }
+
     GNav.goNav(context, GRouteConfig.dashboard);
     gLogger("Withing login go route");
     //       // context.go('/Dashboard');
@@ -375,9 +397,7 @@ class LoginController extends GetxController {
 
   Future<void> redirectLogin(BuildContext context, String code, bool companyStatus) async {
     ResponseModel response = await APIsCallPost.submitRequest(
-      g365Module == G365Module.payroll
-          ? "Users/LoginByUniqueCode?UniqueCode=$code"
-          : "Users/NewLoginByUniqueCode?UniqueCode=$code",
+      g365Module == G365Module.payroll ? "Users/LoginByUniqueCode?UniqueCode=$code" : "Users/NewLoginByUniqueCode?UniqueCode=$code",
       {},
     );
 
@@ -395,7 +415,6 @@ class LoginController extends GetxController {
 
   RxBool checkedValue = false.obs;
 
-  void launchURL(String url) async => await canLaunch(url)
-      ? await launch(url, forceSafariVC: true, forceWebView: true, webOnlyWindowName: '_self')
-      : throw 'Could not launch $url';
+  void launchURL(String url) async =>
+      await canLaunch(url) ? await launch(url, forceSafariVC: true, forceWebView: true, webOnlyWindowName: '_self') : throw 'Could not launch $url';
 }
