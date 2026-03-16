@@ -5,7 +5,6 @@ import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/constants/branding.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 
-
 class GTextFieldForSingleLine extends StatelessWidget {
   final String? hintText;
   final String? labelText;
@@ -114,6 +113,7 @@ class GTextFieldForSingleLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       // mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -159,83 +159,119 @@ class GTextFieldForSingleLine extends StatelessWidget {
                     verticalOffset: 10,
                     child: InkWell(onTap: onTapOfEdit, child: Icon(BootstrapIcons.pencil_fill, size: 12)),
                   ),
-                )
+                ),
             ],
           ),
         if (paddingBelowHeading != null) SizedBox(height: paddingBelowHeading),
         Container(
-          decoration: BoxDecoration(
-            color: isRed ? Colors.red : (isEnabled ? containerColor : lightBackgroundColor),
-            borderRadius: BorderRadius.circular(isFieldForTable ? 0 : Branding.tFborderR),
-            border: Border.all(width: isFieldForTable ? 0.5 : 1, color: isInValid ? Colors.red : borderColor),
-          ),
+          decoration: isFieldForTable
+              ? BoxDecoration(
+                  color: isRed ? Colors.red : (isEnabled ? containerColor : lightBackgroundColor),
+                  borderRadius: BorderRadius.circular(isFieldForTable ? 0 : Branding.tFborderR),
+                  border: Border.all(width: isFieldForTable ? 0.5 : 1, color: isInValid ? Colors.red : borderColor),
+                )
+              : null,
           width: containerWidth,
-          height: isCustomHeight ? containerHeight : Branding.tFHeight,
-          child: Center(
-            child: Material(
-              color: Colors.transparent,
-              child: TextFormField(
-                key: key1,
-                controller: controller,
-                focusNode: focusNode,
-                initialValue: intialValue,
-                textDirection: TextDirection.ltr,
-                autofocus: isAutoFocus,
-                cursorColor: Colors.black,
-                enabled: isEnabled,
-                inputFormatters:
-                    customInputFormatters ??
-                    ((maxLength != null)
-                    ? [
-                        LengthLimitingTextInputFormatter(maxLength), // Limits the input length to 3
-                        FilteringTextInputFormatter.digitsOnly, // Allows only digits
-                      ]
-                    : cvvNumber
-                    ? [
-                        LengthLimitingTextInputFormatter(3), // Limits the input length to 3
-                        FilteringTextInputFormatter.digitsOnly, // Allows only digits
-                      ]
-                    : cardNumber
-                    ? [
-                        FilteringTextInputFormatter.digitsOnly, // Allow only digits
-                        CardNumberInputFormatter(), // Apply the custom formatter
-                      ]
-                    : cardExpiry
-                    ? [
-                        FilteringTextInputFormatter.digitsOnly, // Allow only digits
-                        ExpirationDateInputFormatter(),
-                      ]
-                        : []),
-                style: (isDropdownStyle ?? false)
-                    ? const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: bodyTextDark,
-                        decorationThickness: 1.5,
-                      )
-                    : GTextFiledTheme.textStyle(fontSizeForAll).copyWith(color: textFieldColor),
-                maxLines: maxLine,
-                decoration: GTextFiledTheme.inputDecoration(
-                  fontSizeForAll: fontSizeForAll,
-                  isFieldForTable: isFieldForTable,
-                  isZeroPadding: isZeroPadding,
-                  // isExtraHeightField: isExtraHeightField,
-                  hintText: hintText ?? "",
-                  suffixIcon: suffixIcon,
-                  // hintTextDirection
-                ),
-                obscureText: isPassword ? true : false,
-                validator: validator as String? Function(String?)?,
-                onTap: onTap,
-                onSaved: onSaved as void Function(String?)?,
-                onChanged: onChange as void Function(String?)?,
-                onFieldSubmitted: onFieldSubmitted as void Function(String?)?,
-                keyboardType: isEmail
-                    ? TextInputType.emailAddress
-                    : (maxLine != null && (maxLine ?? 0) > 1)
-                    ? TextInputType.multiline
-                    : TextInputType.text,
-              ),
+          //height: (!isFieldForTable ? (isCustomHeight ? containerHeight : Branding.tFHeight) : null),
+          constraints: (isFieldForTable
+              ? BoxConstraints(minHeight: isCustomHeight ? (containerHeight ?? Branding.tFHeight) : Branding.tFHeight)
+              : null),
+          child: Theme(
+            data: Theme.of(context).copyWith(inputDecorationTheme: Theme.of(context).inputDecorationTheme.copyWith(hoverColor: Colors.white)),
+            child: TextFormField(
+              key: key1,
+              controller: controller,
+              focusNode: focusNode,
+              initialValue: intialValue,
+              textDirection: TextDirection.ltr,
+              autofocus: isAutoFocus,
+              cursorColor: Colors.black,
+              enabled: isEnabled,
+              inputFormatters:
+                  customInputFormatters ??
+                  ((maxLength != null)
+                      ? [
+                          LengthLimitingTextInputFormatter(maxLength), // Limits the input length to 3
+                          FilteringTextInputFormatter.digitsOnly, // Allows only digits
+                        ]
+                      : cvvNumber
+                      ? [
+                          LengthLimitingTextInputFormatter(3), // Limits the input length to 3
+                          FilteringTextInputFormatter.digitsOnly, // Allows only digits
+                        ]
+                      : cardNumber
+                      ? [
+                          FilteringTextInputFormatter.digitsOnly, // Allow only digits
+                          CardNumberInputFormatter(), // Apply the custom formatter
+                        ]
+                      : cardExpiry
+                      ? [
+                          FilteringTextInputFormatter.digitsOnly, // Allow only digits
+                          ExpirationDateInputFormatter(),
+                        ]
+                      : []),
+              style: (isDropdownStyle ?? false)
+                  ? const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: bodyTextDark, decorationThickness: 1.5)
+                  : GTextFiledTheme.textStyle(fontSizeForAll).copyWith(color: textFieldColor),
+              maxLines: maxLine,
+              decoration: isFieldForTable
+                  ? GTextFiledTheme.inputDecoration(
+                      fontSizeForAll: fontSizeForAll,
+                      isFieldForTable: isFieldForTable,
+                      isZeroPadding: isZeroPadding,
+                      // isExtraHeightField: isExtraHeightField,
+                      hintText: hintText ?? "",
+                      suffixIcon: suffixIcon,
+                      // hintTextDirection
+                    )
+                  : GTextFiledTheme.inputDecoration(
+                      fontSizeForAll: fontSizeForAll,
+                      isFieldForTable: isFieldForTable,
+                      isZeroPadding: isZeroPadding,
+                      hintText: hintText ?? "",
+                      suffixIcon: suffixIcon,
+                    ).copyWith(
+                      filled: true,
+                      fillColor: isRed ? Colors.red : (isEnabled ? containerColor : lightBackgroundColor),
+                      contentPadding: const EdgeInsets.only(left: 0, right: 8, top: 9, bottom: 9),
+                      errorStyle: const TextStyle(color: Colors.red, fontSize: 11, fontWeight: FontWeight.w400),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(isFieldForTable ? 0 : Branding.tFborderR),
+                        borderSide: BorderSide(width: isFieldForTable ? 0.5 : 1, color: isInValid ? Colors.red : borderColor),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(isFieldForTable ? 0 : Branding.tFborderR),
+                        borderSide: BorderSide(width: isFieldForTable ? 0.5 : 1, color: isInValid ? Colors.red : borderColor),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(isFieldForTable ? 0 : Branding.tFborderR),
+                        borderSide: BorderSide(width: isFieldForTable ? 0.5 : 1, color: isInValid ? Colors.red : borderColor),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(isFieldForTable ? 0 : Branding.tFborderR),
+                        borderSide: BorderSide(width: isFieldForTable ? 0.5 : 1, color: Colors.red),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(isFieldForTable ? 0 : Branding.tFborderR),
+                        borderSide: BorderSide(width: isFieldForTable ? 0.5 : 1, color: Colors.red),
+                      ),
+                      disabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(isFieldForTable ? 0 : Branding.tFborderR),
+                        borderSide: BorderSide(width: isFieldForTable ? 0.5 : 1, color: borderColor),
+                      ),
+                    ),
+              obscureText: isPassword ? true : false,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: validator as String? Function(String?)?,
+              onTap: onTap,
+              onSaved: onSaved as void Function(String?)?,
+              onChanged: onChange as void Function(String?)?,
+              onFieldSubmitted: onFieldSubmitted as void Function(String?)?,
+              keyboardType: isEmail
+                  ? TextInputType.emailAddress
+                  : (maxLine != null && (maxLine ?? 0) > 1)
+                  ? TextInputType.multiline
+                  : TextInputType.text,
             ),
           ),
         ),

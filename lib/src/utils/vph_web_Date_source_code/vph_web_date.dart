@@ -36,6 +36,7 @@ class GDateTextFiled extends StatefulWidget {
     this.disableBorderRadius = false,
     this.onTap,
     this.helpText,
+    this.validator,
     this.isShowHelp = false,
     this.isDisableWeekends = false,
     this.allowManualInput = true,
@@ -50,6 +51,7 @@ class GDateTextFiled extends StatefulWidget {
   final bool isDateChangeAble;
   final Function? onChange;
   final double? fontSizeForAll;
+  final Function? validator;
   final double? fontSizeForLabel;
   final FocusNode? focusNode;
   late TextEditingController dateController;
@@ -67,12 +69,22 @@ class GDateTextFiled extends StatefulWidget {
 
 class _GDateTextFiledState extends State<GDateTextFiled> {
   // late DateTime _selectedDate;
+  String? _errorText;
 
   @override
   void initState() {
     super.initState();
     // _selectedDate = DateTime.now();
     // _controller = TextEditingController(text: _selectedDate.toString().split(' ')[0]);
+  }
+
+  void _validateDate() {
+    if (widget.validator != null) {
+      final error = widget.validator!(widget.dateController.text);
+      setState(() {
+        _errorText = error;
+      });
+    }
   }
 
   Future<bool> _selectDate(BuildContext context, bool flag) async {
@@ -94,7 +106,9 @@ class _GDateTextFiledState extends State<GDateTextFiled> {
       setState(() {
         widget.selectedDate = pickedDate.start;
         widget.dateController.text = DateFormat('MM/dd/yyyy').format(widget.selectedDate);
+        _errorText = null; // Clear error when date is selected
       });
+      _validateDate(); // Validate after date selection
       return true;
     }
     return false;
@@ -153,15 +167,15 @@ class _GDateTextFiledState extends State<GDateTextFiled> {
             controller: widget.dateController,
             readOnly: !widget.isDateChangeAble || !widget.allowManualInput,
             focusNode: widget.focusNode,
-            onChanged: widget.onChange as void Function(String?)?,
+            onChanged: (value) {
+              if (widget.onChange != null) {
+                widget.onChange!(value);
+              }
+              _validateDate(); // Validate on text change
+            },
             onTap: widget.onTap,
             // onTap: ,
-            style: TextStyle(
-              color: bodyTextDark,
-              fontSize: widget.fontSizeForAll ?? 12,
-              fontWeight: FontWeight.w400,
-              fontFamily: 'Montserrat',
-            ),
+            style: TextStyle(color: bodyTextDark, fontSize: widget.fontSizeForAll ?? 12, fontWeight: FontWeight.w400, fontFamily: 'Montserrat'),
             enabled: widget.isDateChangeAble,
             keyboardType: TextInputType.text,
             inputFormatters: [DateTextFormatter()],
@@ -177,7 +191,7 @@ class _GDateTextFiledState extends State<GDateTextFiled> {
               enabledBorder: OutlineInputBorder(
                 borderRadius: widget.disableBorderRadius ? BorderRadius.circular(0) : BorderRadius.circular(Branding.tFborderR),
                 borderSide: BorderSide(
-                  color: borderColor,
+                  color: _errorText != null ? Colors.red : borderColor, // Red border on error
                   width: 1,
                   // style: BorderStyle.none,
                 ),
@@ -185,9 +199,17 @@ class _GDateTextFiledState extends State<GDateTextFiled> {
               focusedBorder: OutlineInputBorder(
                 borderRadius: widget.disableBorderRadius ? BorderRadius.circular(0) : BorderRadius.circular(Branding.tFborderR),
                 borderSide: BorderSide(
-                  color: borderColor, // Set the color of the border when focused
+                  color: _errorText != null ? Colors.red : borderColor, // Red border on error when focused
                   width: 1,
                 ),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: widget.disableBorderRadius ? BorderRadius.circular(0) : BorderRadius.circular(Branding.tFborderR),
+                borderSide: BorderSide(color: Colors.red, width: 1),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: widget.disableBorderRadius ? BorderRadius.circular(0) : BorderRadius.circular(Branding.tFborderR),
+                borderSide: BorderSide(color: Colors.red, width: 1),
               ),
               labelStyle: TextStyle(
                 color: titleColor,
@@ -201,12 +223,7 @@ class _GDateTextFiledState extends State<GDateTextFiled> {
                 fontFamily: 'Montserrat',
                 fontWeight: FontWeight.w400,
               ),
-              helperStyle: TextStyle(
-                color: titleColor,
-                fontSize: widget.fontSizeForAll ?? 11,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w400,
-              ),
+              helperStyle: TextStyle(color: titleColor, fontSize: widget.fontSizeForAll ?? 11, fontFamily: 'Montserrat', fontWeight: FontWeight.w400),
               hintStyle: TextStyle(
                 color: placeHolderColor,
                 fontSize: widget.fontSizeForAll ?? 12,
@@ -241,6 +258,15 @@ class _GDateTextFiledState extends State<GDateTextFiled> {
             ),
           ),
         ),
+        // Error text display
+        if (_errorText != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 4.0, left: 6.0),
+            child: Text(
+              _errorText!,
+              style: TextStyle(color: Colors.red, fontSize: widget.fontSizeForAll ?? 11, fontFamily: 'Montserrat', fontWeight: FontWeight.w400),
+            ),
+          ),
       ],
     );
   }
