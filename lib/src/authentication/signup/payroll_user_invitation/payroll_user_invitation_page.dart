@@ -9,6 +9,7 @@ import 'package:global365_widgets/src/authentication/signup/payroll_user_invitat
 import 'package:global365_widgets/src/authentication/signup/payroll_user_invitation/payroll_user_invitation_widgets.dart';
 import 'package:global365_widgets/src/constants/app_assets.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
+import 'package:global365_widgets/src/utils/print_log.dart';
 
 class PayrollUserInvitationPage extends StatefulWidget {
   final String invitationCode;
@@ -24,7 +25,8 @@ class _PayrollUserInvitationPageState extends State<PayrollUserInvitationPage> {
   @override
   void initState() {
     super.initState();
-    userInvitationController.getInvitedUserData(context, verficationCode: "7wKjXwGR0ldDmRi6f9wjGlFN8oOYiKSG");
+    gLogger("invitation code is ${widget.invitationCode}");
+    userInvitationController.getInvitedUserData(context, verficationCode: widget.invitationCode);
   }
 
   @override

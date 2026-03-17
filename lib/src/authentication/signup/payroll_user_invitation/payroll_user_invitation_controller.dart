@@ -22,8 +22,7 @@ class PayrollUserInvitationController extends GetxController {
   RxnBool isUserVerifiedNull = RxnBool(false);
 
   String statusCode = "";
-
-  RxString verificationCode = "7wKjXwGR0ldDmRi6f9wjGlFN8oOYiKSG".obs;
+  RxString verificationCode = "".obs;
   void getInvitedUserData(BuildContext context, {String? verficationCode}) async {
     isgettingData.value = true;
     verificationCode.value = verficationCode ?? "";
