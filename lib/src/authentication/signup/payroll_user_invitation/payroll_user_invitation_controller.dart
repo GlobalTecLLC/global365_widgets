@@ -22,15 +22,14 @@ class PayrollUserInvitationController extends GetxController {
   RxnBool isUserVerifiedNull = RxnBool(false);
 
   String statusCode = "";
-  RxString verificationCode = "".obs;
+
+  RxString verificationCode = "7wKjXwGR0ldDmRi6f9wjGlFN8oOYiKSG".obs;
   void getInvitedUserData(BuildContext context, {String? verficationCode}) async {
     isgettingData.value = true;
     verificationCode.value = verficationCode ?? "";
     // (SP-1008)GetUserInfoThroughCode
     gLogger("INSIDE THE GET INVITED USER DATA API CALL and verification code is $verficationCode");
-    ResponseModel response = await APIsCallGet.getDataWithOutAuth(
-      "Users/GetVerifiedUserInfoThroughCode?VerifiedCode=$verficationCode",
-    );
+    ResponseModel response = await APIsCallGet.getDataWithOutAuth("Users/GetVerifiedUserInfoThroughCode?VerifiedCode=$verficationCode");
 
     isgettingData.value = false;
     dynamic decodedData = jsonDecode(response.data);
@@ -134,7 +133,7 @@ class PayrollUserInvitationController extends GetxController {
     GProgressDialog(context).show();
     // (SP-1009) VerifiedUserInvitationResponse
     ResponseModel response = await APIsCallPut.updateRequestWithIdwithoutbody(
-      "Users/InvitationResponseVerfiiedUser?IsAccepted=$isAcceptedInvite&VerifiedCode=",
+      "Users/InvitationResponseVerfiiedUser?IsAccepted=$isAcceptedInvite&VerifiedCode=${verificationCode.value.trim()}",
     );
     gLogger("data: ${response.data}");
     gLogger("status code ${response.statusCode}");
