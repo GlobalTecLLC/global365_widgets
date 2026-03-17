@@ -24,7 +24,7 @@ class _PayrollUserInvitationPageState extends State<PayrollUserInvitationPage> {
   @override
   void initState() {
     super.initState();
-    userInvitationController.getInvitedUserData(context, verficationCode: widget.invitationCode);
+    userInvitationController.getInvitedUserData(context, verficationCode: "7wKjXwGR0ldDmRi6f9wjGlFN8oOYiKSG");
   }
 
   @override
@@ -48,9 +48,7 @@ class _PayrollUserInvitationPageState extends State<PayrollUserInvitationPage> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                           color: Colors.white,
-                          boxShadow: const [
-                            BoxShadow(color: Color.fromARGB(15, 5, 0, 0), blurRadius: 10, spreadRadius: 5, offset: Offset(2, 2)),
-                          ],
+                          boxShadow: const [BoxShadow(color: Color.fromARGB(15, 5, 0, 0), blurRadius: 10, spreadRadius: 5, offset: Offset(2, 2))],
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,10 +70,7 @@ class _PayrollUserInvitationPageState extends State<PayrollUserInvitationPage> {
                                       Container(
                                         decoration: BoxDecoration(
                                           color: primaryColor,
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(30),
-                                            topRight: Radius.circular(30),
-                                          ),
+                                          borderRadius: BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
                                         ),
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
@@ -125,9 +120,7 @@ class _PayrollUserInvitationPageState extends State<PayrollUserInvitationPage> {
                                     children: [
                                       Padding(
                                         padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                                        child: Center(
-                                          child: SvgPicture.asset(AppAssets.poweredByLogoWhiteIcon, width: 100, height: 100),
-                                        ),
+                                        child: Center(child: SvgPicture.asset(AppAssets.poweredByLogoWhiteIcon, width: 100, height: 100)),
                                       ),
                                       const GSizeH(10),
                                       Padding(
