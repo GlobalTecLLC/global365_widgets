@@ -122,9 +122,10 @@ Widget signUpAndAcceptWidget(BuildContext context) {
                                 gLogger("Sign in to Accept 11");
                                 LoginController.to.tecEmail.text = userInvitationController.invitedUserEmail.value;
                                 LoginController.to.inviteCode.value = userInvitationController.verificationCode.value;
-
-                                GNav.goNavWithExtra(context, GRouteConfig.loginUsaPageRoute, {
-                                  'inviteToken': userInvitationController.verificationCode.value,
+                                Future.delayed(const Duration(milliseconds: 300), () {
+                                  GNav.goNavWithExtra(context, GRouteConfig.loginUsaPageRoute, {
+                                    'inviteToken': userInvitationController.verificationCode.value,
+                                  });
                                 });
                               },
                               btnText: "Sign in to Accept",
