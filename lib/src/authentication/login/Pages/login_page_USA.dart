@@ -52,13 +52,25 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             const AppLogo(height: 50),
                             GSizeH(32),
-                            ContainerWithShadow(
-                              child: Column(
-                                children: [
-                                  title(context),
-                                  emailPasswordWidget(context),
-                                  if (g365Module != G365Module.employeePortal && g365Module != G365Module.contractorPortal) createAccountLabel(context),
-                                ],
+                            Obx(
+                              () => ContainerWithShadow(
+                                child: !LoginController.to.showOtpScreen.value
+                                    ? Column(
+                                        children: [
+                                          title(context),
+                                          emailPasswordWidget(context),
+                                          if (g365Module !=
+                                                  G365Module.employeePortal &&
+                                              g365Module !=
+                                                  G365Module.contractorPortal)
+                                            createAccountLabel(context),
+                                        ],
+                                      )
+                                    : Column(
+                                        children: [
+                                          otpVerificationWidget(context),
+                                        ],
+                                      ),
                               ),
                             ),
                           ],
@@ -68,14 +80,17 @@ class _LoginPageState extends State<LoginPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          
                           GBodyText(
                             "Terms and conditions, features, and pricing are all subject to change without notice.",
                             color: bodyText,
                             textAlign: TextAlign.center,
                           ),
                           GSizeH(5),
-                          GBodyText("© ${DateTime.now().year}, Global365 LLC. All Rights Reserved.", color: bodyText, textAlign: TextAlign.center),
+                          GBodyText(
+                            "© ${DateTime.now().year}, Global365 LLC. All Rights Reserved.",
+                            color: bodyText,
+                            textAlign: TextAlign.center,
+                          ),
                           GSizeH(20),
                         ],
                       ),

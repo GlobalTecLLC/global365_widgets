@@ -1,5 +1,6 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 // import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ import 'package:global365_widgets/src/authentication/login/Controllers/login_con
 import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/utils/logger.dart';
+import 'package:pinput/pinput.dart';
 
 // Helper function to get the sign-up redirect URL
 String _getSignUpRedirectURL(G365Module module, String environment) {
@@ -62,7 +64,9 @@ String _getSignUpRedirectURL(G365Module module, String environment) {
 }
 
 Widget title(BuildContext context) {
-  return Column(children: [GTextHeading2("Sign In to Your Account"), GSizeH(16)]);
+  return Column(
+    children: [GTextHeading2("Sign In to Your Account"), GSizeH(16)],
+  );
 }
 
 Widget emailPasswordWidget(BuildContext context) {
@@ -88,8 +92,13 @@ Widget emailPasswordWidget(BuildContext context) {
                             controller: LoginController.to.tecEmail,
                             focusNode: LoginController.to.emailFocusNode,
                             hintText: "Enter Email",
-                            isEnabled: (isLoggingInInvitedUser.isTrue) ? false : true,
-                            onFieldSubmitted: (_) => LoginController.to.passwordFocusNode.requestFocus(),
+                            isEnabled: (isLoggingInInvitedUser.isTrue)
+                                ? false
+                                : true,
+                            onFieldSubmitted: (_) => LoginController
+                                .to
+                                .passwordFocusNode
+                                .requestFocus(),
                           ),
                         ),
                         GSizeH(16),
@@ -105,7 +114,11 @@ Widget emailPasswordWidget(BuildContext context) {
                           children: [
                             Text(
                               "Phone No",
-                              style: TextStyle(fontWeight: FontWeight.w700, color: titleColor, fontSize: 14),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: titleColor,
+                                fontSize: 14,
+                              ),
                             ),
                             const GSizeH(6),
                           ],
@@ -120,14 +133,18 @@ Widget emailPasswordWidget(BuildContext context) {
                         isEnabled: !LoginController.to.loogingIn.value,
                         suffixIcon: IconButton(
                           icon: Icon(
-                            LoginController.to.passwordVisible.value ? BootstrapIcons.eye : BootstrapIcons.eye_slash,
-                            color: Colors.green, // Consider changing to primaryColor for consistency
+                            LoginController.to.passwordVisible.value
+                                ? BootstrapIcons.eye
+                                : BootstrapIcons.eye_slash,
+                            color: Colors
+                                .green, // Consider changing to primaryColor for consistency
                           ),
                           alignment: Alignment.centerLeft,
                           iconSize: 16,
                           padding: EdgeInsets.zero,
                           onPressed: () {
-                            LoginController.to.passwordVisible.value = !(LoginController.to.passwordVisible.value);
+                            LoginController.to.passwordVisible.value =
+                                !(LoginController.to.passwordVisible.value);
                           },
                         ),
                         isPassword: LoginController.to.passwordVisible.value,
@@ -143,7 +160,8 @@ Widget emailPasswordWidget(BuildContext context) {
                       children: [
                         InkWell(
                           onTap: () {
-                            LoginController.to.checkedValue.value = !LoginController.to.checkedValue.value;
+                            LoginController.to.checkedValue.value =
+                                !LoginController.to.checkedValue.value;
                           },
                           focusNode: LoginController.to.rememberMeFocusNode,
                           child: Row(
@@ -155,11 +173,19 @@ Widget emailPasswordWidget(BuildContext context) {
                                   child: Checkbox(
                                     checkColor: Colors.white,
                                     activeColor: secondaryColorOrange,
-                                    value: LoginController.to.checkedValue.value,
+                                    value:
+                                        LoginController.to.checkedValue.value,
                                     splashRadius: 0,
-                                    side: BorderSide(color: borderColor, width: 2),
+                                    side: BorderSide(
+                                      color: borderColor,
+                                      width: 2,
+                                    ),
                                     onChanged: (value) {
-                                      LoginController.to.checkedValue.value = !LoginController.to.checkedValue.value;
+                                      LoginController.to.checkedValue.value =
+                                          !LoginController
+                                              .to
+                                              .checkedValue
+                                              .value;
                                     },
                                   ),
                                 ),
@@ -167,7 +193,11 @@ Widget emailPasswordWidget(BuildContext context) {
                               GSizeW(9),
                               Text(
                                 "Remember Me",
-                                style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black, fontSize: 14),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                ),
                               ),
                             ],
                           ),
@@ -180,23 +210,39 @@ Widget emailPasswordWidget(BuildContext context) {
                             if (g365Module == G365Module.payroll ||
                                 g365Module == G365Module.employeePortal ||
                                 g365Module == G365Module.contractorPortal) {
-                              GNav.pushNav(context, GRouteConfig.forgotPassword);
+                              GNav.pushNav(
+                                context,
+                                GRouteConfig.forgotPassword,
+                              );
                             }
                           },
                           child: AnimatedBuilder(
-                            animation: LoginController.to.forgotPasswordFocusNode,
+                            animation:
+                                LoginController.to.forgotPasswordFocusNode,
                             builder: (context, child) {
-                              final hasFocus = LoginController.to.forgotPasswordFocusNode.hasFocus;
+                              final hasFocus = LoginController
+                                  .to
+                                  .forgotPasswordFocusNode
+                                  .hasFocus;
                               return Container(
                                 decoration: hasFocus
                                     ? BoxDecoration(
-                                        border: Border(bottom: BorderSide(color: secondaryColorOrange, width: 1)),
+                                        border: Border(
+                                          bottom: BorderSide(
+                                            color: secondaryColorOrange,
+                                            width: 1,
+                                          ),
+                                        ),
                                       )
                                     : null,
                                 child: Text(
                                   "Forgot Password",
                                   textAlign: TextAlign.right,
-                                  style: TextStyle(fontWeight: FontWeight.w500, color: secondaryColorOrange, fontSize: 14),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: secondaryColorOrange,
+                                    fontSize: 14,
+                                  ),
                                 ),
                               );
                             },
@@ -206,7 +252,9 @@ Widget emailPasswordWidget(BuildContext context) {
                     ),
                   ),
                   GSizeH(16),
-                  (!LoginController.to.loogingIn.value) ? _submitButton(context) : _submitButtonProcess(context),
+                  (!LoginController.to.loogingIn.value)
+                      ? _submitButton(context)
+                      : _submitButtonProcess(context),
                 ],
               ),
             ),
@@ -235,15 +283,33 @@ Widget _submitButton(BuildContext context) {
             borderRadius: BorderRadius.circular(5),
             boxShadow: hasFocus
                 ? <BoxShadow>[
-                    BoxShadow(color: secondaryColorOrange.withOpacity(0.2), offset: Offset(0, 0), blurRadius: 8, spreadRadius: 1),
+                    BoxShadow(
+                      color: secondaryColorOrange.withOpacity(0.2),
+                      offset: Offset(0, 0),
+                      blurRadius: 8,
+                      spreadRadius: 1,
+                    ),
                   ]
-                : <BoxShadow>[BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 1)],
+                : <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.grey.shade200,
+                      offset: Offset(2, 4),
+                      blurRadius: 5,
+                      spreadRadius: 1,
+                    ),
+                  ],
             color: mainColorPrimary,
-            border: hasFocus ? Border.all(color: secondaryColorOrange, width: 1) : null,
+            border: hasFocus
+                ? Border.all(color: secondaryColorOrange, width: 1)
+                : null,
           ),
           child: Text(
             "Login",
-            style: TextStyle(fontWeight: FontWeight.w700, color: whiteColor, fontSize: 18),
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              color: whiteColor,
+              fontSize: 18,
+            ),
           ),
         );
       },
@@ -258,7 +324,14 @@ Widget _submitButtonProcess(BuildContext context) {
     alignment: Alignment.center,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(5),
-      boxShadow: <BoxShadow>[BoxShadow(color: Colors.grey.shade200, offset: Offset(2, 4), blurRadius: 5, spreadRadius: 2)],
+      boxShadow: <BoxShadow>[
+        BoxShadow(
+          color: Colors.grey.shade200,
+          offset: Offset(2, 4),
+          blurRadius: 5,
+          spreadRadius: 2,
+        ),
+      ],
       color: mainColorPrimary,
     ),
     child: SpinKitThreeBounce(color: mainColorSecondry, size: 20),
@@ -272,13 +345,19 @@ Widget createAccountLabel(BuildContext context) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text("Don't have a Global365 Account?", style: GAppStyle.style14w500(color: titleColor)),
+        Text(
+          "Don't have a Global365 Account?",
+          style: GAppStyle.style14w500(color: titleColor),
+        ),
         GSizeW(4),
         InkWell(
           focusNode: LoginController.to.signUpFocusNode,
           onTap: () {
             isFirstpurchase = true;
-            final redirectUrl = _getSignUpRedirectURL(g365Module, applicationEnviroment);
+            final redirectUrl = _getSignUpRedirectURL(
+              g365Module,
+              applicationEnviroment,
+            );
             if (redirectUrl.isNotEmpty) {
               LoginController.to.launchURL(redirectUrl);
             }
@@ -317,12 +396,234 @@ Widget createAccountLabel(BuildContext context) {
               return Container(
                 decoration: hasFocus
                     ? BoxDecoration(
-                        border: Border(bottom: BorderSide(color: secondaryColorOrange, width: 1)),
+                        border: Border(
+                          bottom: BorderSide(
+                            color: secondaryColorOrange,
+                            width: 1,
+                          ),
+                        ),
                       )
                     : null,
-                child: Text("Sign Up Now", style: GAppStyle.style14w500(color: secondaryColorOrange)),
+                child: Text(
+                  "Sign Up Now",
+                  style: GAppStyle.style14w500(color: secondaryColorOrange),
+                ),
               );
             },
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+// OTP Verification Widget (inline)
+Widget otpVerificationWidget(BuildContext context) {
+  final PinTheme defaultPinTheme = PinTheme(
+    width: 50,
+    height: 60,
+    padding: const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 9),
+    textStyle: GAppStyle.style18w700(),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(6),
+      border: Border.all(color: borderColor),
+    ),
+  );
+
+  return Obx(
+    () => Stack(
+      clipBehavior: Clip.antiAlias,
+      children: [
+        Positioned(
+          child: IconButton(
+            icon: const Icon(BootstrapIcons.x),
+            color: titleColor,
+            onPressed: () {
+              LoginController.to.cancelOtpFlow();
+            },
+          ),
+          right: -20,
+          top: -20,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: GResponsive.isMobile(context) ? 16 : 24,
+            vertical: 20,
+          ),
+          child: Column(
+            children: [
+              GSizeH(10),
+              Text(
+                "Two-Factor Authentication",
+                style: TextStyle(
+                  fontFamily: "Montserrat",
+                  fontWeight: FontWeight.w700,
+                  color: titleColor,
+                  fontSize: GResponsive.isMobile(context) ? 20 : 24,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              GSizeH(8),
+
+              // Text(
+              //   "Sent via ${LoginController.to.otpMethod.value}",
+              //   style: AppStyle.style13w400(color: bodyTextDark),
+              //   textAlign: TextAlign.center,
+              // ),
+              // SizedH(16),
+              Text(
+                "Enter the 6-digit code sent to your ${LoginController.to.otpMethod.value} ending like ${LoginController.to.mfaMethods.firstWhere((method) => method['method'] == LoginController.to.otpMethod.value, orElse: () => {})['value'] ?? 'your account'}.",
+                style: GAppStyle.style13w400(color: bodyTextDark),
+                textAlign: TextAlign.center,
+              ),
+              GSizeH(24),
+              Pinput(
+                isCursorAnimationEnabled: true,
+                animationCurve: Curves.bounceIn,
+                focusedPinTheme: defaultPinTheme.copyDecorationWith(
+                  border: Border.all(color: primaryColor),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                autofocus: true,
+                controller: LoginController.to.tecOtpController,
+                closeKeyboardWhenCompleted: false,
+                onChanged: (value) {
+                  LoginController.to.isOtpButtonEnabled.value =
+                      value.length == 6;
+                },
+                length: 6,
+                cursor: Container(
+                  width: 12,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: primaryColor,
+                  ),
+                ),
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                defaultPinTheme: defaultPinTheme,
+                validator: (value) {
+                  if (value == null || value.length < 6) {
+                    return 'Enter a valid OTP';
+                  }
+                  return null;
+                },
+                onCompleted: (pin) {
+                  LoginController.to.verifyOtpInline(context);
+                },
+              ),
+              GSizeH(24),
+              Text(
+                "It may take a minute to receive your code.",
+                style: GAppStyle.style12w400(color: bodyTextDark),
+                textAlign: TextAlign.center,
+              ),
+              GSizeH(6),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Haven't received it? ",
+                    style: GAppStyle.style12w400(color: bodyTextDark),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      LoginController.to.resendOtp(context);
+                    },
+                    child: Text(
+                      "Resend a new code.",
+                      style: TextStyle(
+                        fontFamily: "Montserrat",
+                        fontWeight: FontWeight.w600,
+                        color: primaryColor,
+                        fontSize: 12,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              GSizeH(10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      GCustomCheckBox(
+                        value: LoginController.to.rememberDevice.value,
+                        onChanged: (p0) {
+                          if (p0 != null) {
+                            LoginController.to.rememberDevice.value = p0;
+                          }
+                        },
+                      ),
+                      GSizeW(4),
+                      Text(
+                        "Save this device for 60 days",
+                        style: GAppStyle.style12w400(
+                          color: LoginController.to.rememberDevice.isTrue
+                              ? primaryColor
+                              : bodyTextDark,
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (LoginController.to.mfaMethods.length > 1)
+                    GCustomButton(
+                      onTap: () {
+                        String methodToSwitchTo = LoginController.to.mfaMethods
+                            .firstWhere(
+                              (method) =>
+                                  method['method'] !=
+                                  LoginController.to.otpMethod.value,
+                              orElse: () => {},
+                            )['method'];
+                        print("Method to switch to: $methodToSwitchTo");
+                        if (methodToSwitchTo.isNotEmpty) {
+                          LoginController.to.switchOtpMethod(
+                            context,
+                            LoginController.to.otpSessionId.value,
+                            methodToSwitchTo,
+                          );
+                        } else {
+                          GToast.error(
+                            "No alternative authentication method available.",
+                            context,
+                          );
+                        }
+                      },
+                      btnText: "Switch Method",
+                      variant: ButtonVariant.emptyUnderLineWithSecondary,
+                      isUnderLine: true,
+                    ),
+                ],
+              ),
+              GSizeH(24),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8),
+                child: Obx(
+                  () => GCustomButton(
+                    onTap: LoginController.to.isOtpButtonEnabled.isTrue
+                        ? () {
+                            LoginController.to.verifyOtpInline(context);
+                          }
+                        : null,
+                    btnText: "Verify",
+                    extraPadding: true,
+                    customPadding: EdgeInsets.symmetric(vertical: 14),
+                    onlyIcon: false,
+                    textColor: whiteColor,
+                    bColor: primaryColor,
+                    backgroundColor:
+                        LoginController.to.isOtpButtonEnabled.isTrue
+                        ? primaryColor
+                        : primaryColor.withOpacity(0.5),
+                  ),
+                ),
+              ),
+              GSizeH(10),
+            ],
           ),
         ),
       ],
