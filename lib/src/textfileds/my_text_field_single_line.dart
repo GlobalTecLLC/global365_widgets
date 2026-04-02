@@ -233,7 +233,7 @@ class GTextFieldForSingleLine extends StatelessWidget {
                     ).copyWith(
                       filled: true,
                       fillColor: isRed ? Colors.red : (isEnabled ? containerColor : lightBackgroundColor),
-                      contentPadding: const EdgeInsets.only(left: 0, right: 8, top: 9, bottom: 9),
+                      contentPadding: EdgeInsets.only(left: 8, right: 8, top: 10, bottom: 10),
                       errorStyle: const TextStyle(color: Colors.red, fontSize: 11, fontWeight: FontWeight.w400),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(isFieldForTable ? 0 : Branding.tFborderR),
