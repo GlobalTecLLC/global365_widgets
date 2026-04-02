@@ -106,9 +106,9 @@ Widget globalSpinkitForLoaderswithBorder({
 
 String getModuleLogo() {
   return g365Module == G365Module.merchant
-      ? "assets/svg/logo_merchant_dark.svg"
+      ? "assets/svg/G-Logo-Payments-Dark.svg"
       : g365Module == G365Module.payroll
-      ? "assets/svg/payroll_dark.svg"
+      ? "assets/svg/G-Logo-Payroll-Dark.svg"
       : 'assets/svg/countylogo.svg';
 }
 
