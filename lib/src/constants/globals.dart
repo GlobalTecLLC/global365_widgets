@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -204,9 +205,10 @@ Widget widgetTextPlaceHolder({String placeHolderName = ""}) {
 }
 
 bool isValidEmail(String email) {
-  String pattern = r'^[a-zA-Z0-9.a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9]+\.[a-zA-Z]+';
-  RegExp regex = RegExp(pattern);
-  return regex.hasMatch(email);
+  return EmailValidator.validate(email);
+  // String pattern = r'^[a-zA-Z0-9.a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9]+\.[a-zA-Z]+';
+  // RegExp regex = RegExp(pattern);
+  // return regex.hasMatch(email);
 }
 
 bool isValidUrl(String url) {
