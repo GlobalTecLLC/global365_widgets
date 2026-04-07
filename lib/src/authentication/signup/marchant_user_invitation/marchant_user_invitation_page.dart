@@ -5,7 +5,7 @@ import 'package:g365_widgets_user/g365_widgets_user.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/signup/marchant_user_invitation/marchan_user_invitation_controller.dart';
-import 'package:global365_widgets/src/authentication/signup/payroll_user_invitation/payroll_user_invitation_widgets.dart';
+import 'package:global365_widgets/src/authentication/signup/marchant_user_invitation/marchant_user_invitation_widgets.dart';
 import 'package:global365_widgets/src/constants/app_assets.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
