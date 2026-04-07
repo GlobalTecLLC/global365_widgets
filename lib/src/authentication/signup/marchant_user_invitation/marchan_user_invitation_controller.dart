@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/authentication/login/Controllers/login_controller.dart';
+import 'package:global365_widgets/src/authentication/signup/marchant_user_invitation/marchant_user_invitation_widgets.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 import 'package:go_router/go_router.dart';
 
@@ -41,6 +42,8 @@ class MarchanUserInvitationController extends GetxController {
       invitedUserEmail.value = ((decodedData["payload"] ?? {})["email"] ?? "");
       firstNameFromAPI.value = ((decodedData["payload"] ?? {})["name"] ?? "");
       isUserVerified.value = ((decodedData["payload"] ?? {})["isVerified"] ?? false);
+      String globalEmail = prefs.getString('usernameforRemeberMe').toString();
+      isUserAlreadyLogedin = accessToken.isNotEmpty && globalEmail.isNotEmpty && (globalEmail == invitedUserEmail.value);
     } else {
       GToast.error(decodedData["message"].toString(), context);
     }
@@ -140,6 +143,14 @@ class MarchanUserInvitationController extends GetxController {
     dynamic decodedData = jsonDecode(response.data);
     if (response.statusCode == 200 || response.statusCode == 201) {
       GToast.succss(decodedData["message"], context);
+      if (isAcceptedInvite) {
+        isLoggingInInvitedUser.value = false;
+        // AutoRouter.of(context).replaceAll([const DashboardRoute()]);
+        GNav.goNav(context, GRouteConfig.dashboard);
+      } else {
+        isLoggingInInvitedUser.value = false;
+        alertForRejection(context);
+      }
     } else {
       GToast.error(decodedData["message"], context);
       gLogger("Error: ${response.data.toString()}");
@@ -245,6 +256,24 @@ class MarchanUserInvitationController extends GetxController {
   //   }
   // }
 
+  rejectUnVerifiedUser(BuildContext context) async {
+    gLogger("INSIDE rejectUnVerifiedUser");
+    GProgressDialog(context).show();
+    // (SP-1010)RejectedUnVerfiiedUser
+    ResponseModel response = await APIsCallPut.updateRequestWithIdwithoutbodyWithOutAuth(
+      "Users/RejectedUnVerfiiedUser?VerifiedCode=${verificationCode.value.trim()}",
+    );
+    GProgressDialog(context).hide();
+    dynamic decodedData = jsonDecode(response.data);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      GToast.succss(decodedData["message"], context);
+      alertForRejection(context);
+    } else {
+      GToast.error(decodedData["message"], context);
+      gLogger("Error: ${response.data.toString()}");
+    }
+  }
+
   verifyOTP(BuildContext context) async {
     gLogger("INSIDE VERIFY OTP API CALL and otp is ${otpController.text}");
 
@@ -278,7 +307,8 @@ class MarchanUserInvitationController extends GetxController {
       String accessToken1 = decodedData["payload"]["token"];
       accessToken = accessToken1;
       gLogger("accessToken: $accessToken");
-      verifyOTP(context);
+      GNav.goNav(context, GRouteConfig.loginUsaPageRoute);
+      // verifyOTP(context);
       gLogger("API Response: ${response.data}");
     } else {
       GToast.error("Invalid OTP", context);

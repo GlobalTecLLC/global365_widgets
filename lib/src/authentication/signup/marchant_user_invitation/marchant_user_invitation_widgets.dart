@@ -7,6 +7,7 @@ import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/authentication/login/Controllers/login_controller.dart';
 import 'package:global365_widgets/src/authentication/signup/marchant_user_invitation/marchan_user_invitation_controller.dart';
+import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 import 'package:pinput/pinput.dart';
@@ -42,7 +43,7 @@ Widget signUpAndAcceptWidget(BuildContext context) {
                           style: GAppStyle.style13w400(color: bodyTextDark),
                         ),
                         TextSpan(
-                          text: "Marchant",
+                          text: "Marchant ",
                           style: GAppStyle.style13w600(color: titleColor),
                         ),
                         TextSpan(
@@ -65,17 +66,14 @@ Widget signUpAndAcceptWidget(BuildContext context) {
                     children: [
                       GCustomButton(
                         onTap: () {
-                          // alertForRejectConfirmation(context, () {
-                          //   if (globals.isUserAlreadyLogedin == true) {
-                          //     userInvitationController.isAccepted = false;
-                          //     userInvitationController.verifiedUserInvitationResponse(
-                          //       context,
-                          //       userInvitationController.isAccepted,
-                          //     );
-                          //   } else {
-                          //     userInvitationController.rejectUnVerifiedUser(context);
-                          //   }
-                          // });
+                          alertForRejectConfirmation(context, () {
+                            if (isUserAlreadyLogedin == true) {
+                              userInvitationController.isAccepted = false;
+                              userInvitationController.verifiedUserInvitationResponse(context, userInvitationController.isAccepted);
+                            } else {
+                              userInvitationController.rejectUnVerifiedUser(context);
+                            }
+                          });
                           GNav.goNav(context, GRouteConfig.loginUsaPageRoute);
                         },
                         btnText: "Reject",
@@ -120,6 +118,7 @@ Widget signUpAndAcceptWidget(BuildContext context) {
                           : GCustomButton(
                               onTap: () {
                                 gLogger("Sign in to Accept 11");
+                                isLoggingInInvitedUser.value = true;
                                 LoginController.to.tecEmail.text = userInvitationController.invitedUserEmail.value;
                                 LoginController.to.inviteCode.value = userInvitationController.verificationCode.value;
                                 Future.delayed(const Duration(milliseconds: 300), () {
@@ -145,6 +144,124 @@ Widget signUpAndAcceptWidget(BuildContext context) {
   );
 }
 
+alertForRejectConfirmation(BuildContext context, VoidCallback functionToCallApi) {
+  showDialog(
+    context: context,
+    builder: (context) => StatefulBuilder(
+      builder: (BuildContext context, StateSetter setState) {
+        return Align(
+          alignment: Alignment.center,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Material(
+              borderRadius: BorderRadius.circular(10),
+              child: Column(
+                children: [
+                  Container(
+                    width: 380,
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            IconButton(
+                              icon: Icon(BootstrapIcons.x, size: 40, color: Colors.white),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.only(top: 18),
+                                child: Column(
+                                  children: [
+                                    Column(
+                                      children: [
+                                        RichText(
+                                          text: TextSpan(
+                                            text: "Are you sure you want to reject ",
+                                            style: GAppStyle.style16w600(color: titleColor),
+                                          ),
+                                        ),
+                                        RichText(
+                                          text: TextSpan(
+                                            text: "this invitation",
+                                            style: GAppStyle.style16w600(color: titleColor),
+                                            children: [
+                                              TextSpan(
+                                                text: "",
+                                                style: GAppStyle.style16w600(color: placeHolderColor),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(BootstrapIcons.x, size: 30),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 24),
+                        // Text(
+                        //   "This action is permanent and cannot\nbe undone.",
+                        //   textAlign: TextAlign.center,
+                        //   style: AppStyle.style11w400(color: bodyTextColor),
+                        // ),
+                        SizedBox(height: 24),
+                        Row(
+                          children: [
+                            const Spacer(flex: 1),
+                            Expanded(
+                              child: GCustomButton(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                btnText: "No",
+                                onlyIcon: false,
+                                textColor: titleColor,
+                                bColor: cancelBorder,
+                                backgroundColor: lightBackgroundColor,
+                              ),
+                            ),
+                            GSizeW(20),
+                            Expanded(
+                              child: GCustomButton(
+                                onTap: functionToCallApi,
+                                btnText: "Yes",
+                                onlyIcon: false,
+                                textColor: Colors.white,
+                                bColor: primaryColor,
+                                backgroundColor: primaryColor,
+                              ),
+                            ),
+                            const Spacer(flex: 1),
+                          ],
+                        ),
+                        GSizeH(10),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    ),
+  );
+}
+
 Widget signUpWidget(BuildContext context) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
@@ -161,11 +278,11 @@ Widget signUpWidget(BuildContext context) {
           TextSpan(
             children: [
               TextSpan(
-                text: 'A new ',
+                text: 'A new',
                 style: GAppStyle.style13w400(color: bodyTextDark),
               ),
               TextSpan(
-                text: "Marchant",
+                text: "Marchant ",
                 style: GAppStyle.style13w600(color: titleColor),
               ),
               TextSpan(
@@ -282,74 +399,74 @@ Widget signUpWidget(BuildContext context) {
           ),
         ),
       const GSizeH(10),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 18,
-              width: 18,
-              child: Checkbox(
-                checkColor: Colors.white,
-                activeColor: secondaryColorOrange,
-                value: userInvitationController.isAgreedToBetaTesting.value,
-                splashRadius: 0,
-                side: BorderSide(color: lightBackgroundColor, width: 2),
-                onChanged: (value) {
-                  userInvitationController.isAgreedToBetaTesting.value = !userInvitationController.isAgreedToBetaTesting.value;
-                  userInvitationController.isFilledAllData.value =
-                      (userInvitationController.firstName.value.isNotEmpty &&
-                      userInvitationController.password.value.isNotEmpty &&
-                      userInvitationController.isPasswordValid.isTrue &&
-                      userInvitationController.isAgreedToTerms.value &&
-                      userInvitationController.isAgreedToBetaTesting.value);
-                },
-              ),
-            ),
-            GSizeW(9),
-            Expanded(
-              child: SizedBox(
-                // width: 350,
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "I accept ",
-                        style: GAppStyle.style14w600(),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            userInvitationController.isAgreedToBetaTesting.value = !userInvitationController.isAgreedToBetaTesting.value;
-                            userInvitationController.isFilledAllData.value =
-                                (userInvitationController.firstName.value.isNotEmpty &&
-                                userInvitationController.password.value.isNotEmpty &&
-                                userInvitationController.isPasswordValid.isTrue &&
-                                userInvitationController.isAgreedToTerms.value &&
-                                userInvitationController.isAgreedToBetaTesting.value);
-                          },
-                      ),
-                      TextSpan(
-                        text: "Beta Testing Agreement",
-                        style: TextStyle(
-                          fontFamily: "Montserrat",
-                          color: secondaryColorOrange,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          decoration: TextDecoration.underline,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            SignUpController.to.launchURL('https://global365.com/beta-agreement');
-                          },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      // Padding(
+      //   padding: const EdgeInsets.symmetric(horizontal: 30),
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.start,
+      //     children: [
+      //       SizedBox(
+      //         height: 18,
+      //         width: 18,
+      //         child: Checkbox(
+      //           checkColor: Colors.white,
+      //           activeColor: secondaryColorOrange,
+      //           value: userInvitationController.isAgreedToBetaTesting.value,
+      //           splashRadius: 0,
+      //           side: BorderSide(color: lightBackgroundColor, width: 2),
+      //           onChanged: (value) {
+      //             userInvitationController.isAgreedToBetaTesting.value = !userInvitationController.isAgreedToBetaTesting.value;
+      //             userInvitationController.isFilledAllData.value =
+      //                 (userInvitationController.firstName.value.isNotEmpty &&
+      //                 userInvitationController.password.value.isNotEmpty &&
+      //                 userInvitationController.isPasswordValid.isTrue &&
+      //                 userInvitationController.isAgreedToTerms.value &&
+      //                 userInvitationController.isAgreedToBetaTesting.value);
+      //           },
+      //         ),
+      //       ),
+      //       GSizeW(9),
+      //       Expanded(
+      //         child: SizedBox(
+      //           // width: 350,
+      //           child: RichText(
+      //             text: TextSpan(
+      //               children: [
+      //                 TextSpan(
+      //                   text: "I accept ",
+      //                   style: GAppStyle.style14w600(),
+      //                   recognizer: TapGestureRecognizer()
+      //                     ..onTap = () {
+      //                       userInvitationController.isAgreedToBetaTesting.value = !userInvitationController.isAgreedToBetaTesting.value;
+      //                       userInvitationController.isFilledAllData.value =
+      //                           (userInvitationController.firstName.value.isNotEmpty &&
+      //                           userInvitationController.password.value.isNotEmpty &&
+      //                           userInvitationController.isPasswordValid.isTrue &&
+      //                           userInvitationController.isAgreedToTerms.value &&
+      //                           userInvitationController.isAgreedToBetaTesting.value);
+      //                     },
+      //                 ),
+      //                 TextSpan(
+      //                   text: "Beta Testing Agreement",
+      //                   style: TextStyle(
+      //                     fontFamily: "Montserrat",
+      //                     color: secondaryColorOrange,
+      //                     fontSize: 14,
+      //                     fontWeight: FontWeight.w600,
+      //                     decoration: TextDecoration.underline,
+      //                   ),
+      //                   recognizer: TapGestureRecognizer()
+      //                     ..onTap = () {
+      //                       SignUpController.to.launchURL('https://global365.com/beta-agreement');
+      //                     },
+      //                 ),
+      //               ],
+      //             ),
+      //           ),
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
       GSizeH(16),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -631,7 +748,7 @@ alertForRejection(BuildContext context) {
                             isLoggingInInvitedUser.value = false;
                             // AutoRouter.of(context).replaceAll([const LoginPageUSARoute()]);
 
-                            // context.go(RouteConfig.login);
+                            GNav.goNav(context, GRouteConfig.loginUsaPageRoute);
                           },
                           btnText: "Ok",
                           backgroundColor: primaryColor,

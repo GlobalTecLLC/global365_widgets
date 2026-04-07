@@ -87,12 +87,7 @@ Widget globalSpinkitForLoaders() {
   );
 }
 
-Widget globalSpinkitForLoaderswithBorder({
-  bool isLessHeightLoader = false,
-  double? height,
-  double? width,
-  bool isFieldForTable = false,
-}) {
+Widget globalSpinkitForLoaderswithBorder({bool isLessHeightLoader = false, double? height, double? width, bool isFieldForTable = false}) {
   return Container(
     height: height ?? (isLessHeightLoader ? 18 : 32),
     width: width,
@@ -113,14 +108,7 @@ String getModuleLogo() {
       : 'assets/svg/countylogo.svg';
 }
 
-Widget g365NetworkImage(
-  String url,
-  double height,
-  double width, {
-  BoxFit? fit = BoxFit.cover,
-  Function? onTap,
-  String placeHolderName = "",
-}) {
+Widget g365NetworkImage(String url, double height, double width, {BoxFit? fit = BoxFit.cover, Function? onTap, String placeHolderName = ""}) {
   return FadeInImage(
     height: height,
     width: width,
