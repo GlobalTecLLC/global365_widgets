@@ -25,3 +25,7 @@ export 'signup/webview_talus/talus_webview_signup.dart';
 export 'login/Pages/redirect_login.dart';
 // export payroll user invitation
 export 'signup/payroll_user_invitation/payroll_user_invitation_page.dart';
+
+//export marchant user invitation
+
+export 'signup/marchant_user_invitation/marchant_user_invitation_page.dart';
