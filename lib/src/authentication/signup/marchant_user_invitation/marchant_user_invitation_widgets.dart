@@ -11,6 +11,7 @@ import 'package:global365_widgets/src/constants/colors.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 import 'package:pinput/pinput.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 MarchanUserInvitationController userInvitationController = Get.find();
 SignUpController signUpController = Get.isRegistered<SignUpController>() ? Get.find() : Get.put(SignUpController());
@@ -120,12 +121,14 @@ Widget signUpAndAcceptWidget(BuildContext context) {
                                 gLogger("Sign in to Accept 11");
                                 isLoggingInInvitedUser.value = true;
                                 LoginController.to.tecEmail.text = userInvitationController.invitedUserEmail.value;
+                                gLogger("Email set in login controller: ${LoginController.to.tecEmail.text}");
                                 LoginController.to.inviteCode.value = userInvitationController.verificationCode.value;
                                 Future.delayed(const Duration(milliseconds: 300), () {
                                   GNav.goNavWithExtra(context, GRouteConfig.loginUsaPageRoute, {
                                     'inviteToken': userInvitationController.verificationCode.value,
                                   });
                                 });
+                                // GNav.goNav(context, GRouteConfig.loginUsaPageRoute);
                               },
                               btnText: "Sign in to Accept",
                               backgroundColor: primaryColor,
@@ -488,8 +491,10 @@ Widget signUpWidget(BuildContext context) {
                       (userInvitationController.firstName.value.isNotEmpty &&
                       userInvitationController.password.value.isNotEmpty &&
                       userInvitationController.isPasswordValid.isTrue &&
-                      userInvitationController.isAgreedToTerms.value &&
-                      userInvitationController.isAgreedToBetaTesting.value);
+                      userInvitationController.isAgreedToTerms.value
+                      // &&
+                      // userInvitationController.isAgreedToBetaTesting.value
+                      );
                 },
               ),
             ),
@@ -525,7 +530,7 @@ Widget signUpWidget(BuildContext context) {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            SignUpController.to.launchURL('https://global365.com/services');
+                            launchURL('https://global365.com/services');
                           },
                       ),
                       TextSpan(text: " and ", style: GAppStyle.style14w600()),
@@ -540,7 +545,7 @@ Widget signUpWidget(BuildContext context) {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            SignUpController.to.launchURL('https://global365.com/privacyPolicy');
+                            launchURL('https://global365.com/privacyPolicy');
                           },
                       ),
                     ],
@@ -769,4 +774,17 @@ alertForRejection(BuildContext context) {
       },
     ),
   );
+}
+
+Future<void> launchURL(String url) async {
+  if (await canLaunch(url)) {
+    try {
+      await launch(url);
+      gLogger('sucess: $url');
+    } catch (e) {
+      gLogger('Error: $e');
+    }
+  } else {
+    throw 'Could not launch $url';
+  }
 }

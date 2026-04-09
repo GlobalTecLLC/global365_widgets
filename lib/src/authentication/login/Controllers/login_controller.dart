@@ -286,6 +286,7 @@ class LoginController extends GetxController {
     //       GNav.pushNav(context, RouteConfig.paymentInfoRoute);
     //       return;
     //     }
+    gLogger("this is login payload===========> ${decodedData["payload"]}");
     if (listOfConpanies.isEmpty) {
       if ((decodedData["payload"] ?? {})["isPaymentMethodVerfied"] == false) {
         GNav.pushNav(context, GRouteConfig.paymentInfoRoute);
@@ -498,9 +499,7 @@ class LoginController extends GetxController {
 
   Future<void> redirectLogin(BuildContext context, String code, bool companyStatus) async {
     ResponseModel response = await APIsCallPost.submitRequest(
-      g365Module == G365Module.payroll
-          ? "Users/LoginByUniqueCode?UniqueCode=$code"
-          : "Users/NewLoginByUniqueCode?UniqueCode=$code",
+      g365Module == G365Module.payroll ? "Users/LoginByUniqueCode?UniqueCode=$code" : "Users/NewLoginByUniqueCode?UniqueCode=$code",
       {},
     );
 
@@ -518,7 +517,6 @@ class LoginController extends GetxController {
 
   RxBool checkedValue = false.obs;
 
-  void launchURL(String url) async => await canLaunch(url)
-      ? await launch(url, forceSafariVC: true, forceWebView: true, webOnlyWindowName: '_self')
-      : throw 'Could not launch $url';
+  void launchURL(String url) async =>
+      await canLaunch(url) ? await launch(url, forceSafariVC: true, forceWebView: true, webOnlyWindowName: '_self') : throw 'Could not launch $url';
 }

@@ -104,8 +104,9 @@ class PaymentInfoController extends GetxController {
     dynamic data = {"cardNumber": cleanedCardNumber, "expirationDate": formattedExpiry, "cvv": cardCCV.text.trim()};
     ResponseModel resp = await APIsCallPost.submitRequest("Users/ValidateAndCreateCustomerV2", data);
     GProgressDialog(context).hide();
+    Logger.log("Response Body: ${resp.data} Status Code: ${resp.statusCode}");
     dynamic responseBody = jsonDecode(resp.data);
-    Logger.log("Response Body: $responseBody");
+
     if (resp.statusCode == 200) {
       GToast.succss("Payment Information added successfully", context);
       GNav.goNav(context, GRouteConfig.setUpScreenRoute);

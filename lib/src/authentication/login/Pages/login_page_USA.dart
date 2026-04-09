@@ -3,7 +3,9 @@ import 'package:g365_widgets_user/g365_widgets_user.dart';
 import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/login/Controllers/login_controller.dart';
+import 'package:global365_widgets/src/authentication/signup/marchant_user_invitation/marchant_user_invitation_widgets.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
+import 'package:global365_widgets/src/utils/print_log.dart';
 
 import '../Widgets/login_widgets.dart';
 
@@ -25,7 +27,13 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       Get.put(LoginController());
     }
-    LoginController.to.checkIsRememberUser();
+    gLogger("within the init of login page and isLoggingInInvitedUser is $isLoggingInInvitedUser");
+    if (isLoggingInInvitedUser.isTrue) {
+      loginController.tecEmail.text = userInvitationController.invitedUserEmail.value;
+    } else {
+      loginController.checkIsRememberUser();
+    }
+    // LoginController.to.checkIsRememberUser();
     if (widget.inviteCode != null && widget.inviteCode!.isNotEmpty) {
       LoginController.to.inviteCode.value = widget.inviteCode!;
     }
@@ -59,18 +67,11 @@ class _LoginPageState extends State<LoginPage> {
                                         children: [
                                           title(context),
                                           emailPasswordWidget(context),
-                                          if (g365Module !=
-                                                  G365Module.employeePortal &&
-                                              g365Module !=
-                                                  G365Module.contractorPortal)
+                                          if (g365Module != G365Module.employeePortal && g365Module != G365Module.contractorPortal)
                                             createAccountLabel(context),
                                         ],
                                       )
-                                    : Column(
-                                        children: [
-                                          otpVerificationWidget(context),
-                                        ],
-                                      ),
+                                    : Column(children: [otpVerificationWidget(context)]),
                               ),
                             ),
                           ],
@@ -86,11 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                             textAlign: TextAlign.center,
                           ),
                           GSizeH(5),
-                          GBodyText(
-                            "© ${DateTime.now().year}, Global365 LLC. All Rights Reserved.",
-                            color: bodyText,
-                            textAlign: TextAlign.center,
-                          ),
+                          GBodyText("© ${DateTime.now().year}, Global365 LLC. All Rights Reserved.", color: bodyText, textAlign: TextAlign.center),
                           GSizeH(20),
                         ],
                       ),
