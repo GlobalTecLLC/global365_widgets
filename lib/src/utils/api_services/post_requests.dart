@@ -100,7 +100,8 @@ class APIsCallPost {
     Map<String, dynamic>? reportData,
     String? customApiUrl,
     bool includeReportData = true,
-    bool isEInvoice = false,
+    bool isEInvoice = false,bool isSendSms = false,
+    String phoneNumber = "",
   }) async {
     try {
       final String fullApiUrl = customApiUrl ?? '${apiLink}Email/SendReportEmail?Type=$reportType&CompanyId=$companyId';
@@ -111,7 +112,8 @@ class APIsCallPost {
       gLogger("reportData=====$ccTec");
       gLogger("reportData=====$bccTec");
       gLogger("reportData=====$subjectTec");
-
+ gLogger("isSendSms=====$isSendSms");
+      gLogger("phoneNumber=====$phoneNumber");
       // Headers (add Authorization if required)
       var headers = {'Authorization': '$tokenType $accessToken'};
 
@@ -121,7 +123,8 @@ class APIsCallPost {
       request.fields['subject'] = subjectTec;
       request.fields['cc'] = ccTec;
       request.fields['bcc'] = bccTec;
-      request.fields['body'] = messageBodyTec;
+      request.fields['body'] = messageBodyTec;request.fields['IsSendSMS'] = isSendSms.toString();
+      request.fields['PhoneNumber'] = phoneNumber;
       if (isEInvoice) {
         request.fields['paymentOptions'] = "both";
       }
