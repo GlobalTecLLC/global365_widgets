@@ -12,7 +12,11 @@ import 'package:global365_widgets/src/utils/api_services/response_model/resonse_
 import '../api_services/response_model/file_model/multipart_file_model.dart';
 
 class APIsCallPost {
-  static Future<ResponseModel> submitRequest(String requestUrl, dynamic data, {String? baseUrl}) async {
+  static Future<ResponseModel> submitRequest(
+    String requestUrl,
+    dynamic data, {
+    String? baseUrl,
+  }) async {
     try {
       print(tokenType + " " + accessToken);
 
@@ -22,22 +26,38 @@ class APIsCallPost {
 
       final response = await http.post(
         Uri.parse((baseUrl ?? apiLink) + requestUrl),
-        headers: <String, String>{'Accept': 'application/json', 'Content-Type': 'application/json; charset=UTF-8', 'Authorization': "$tokenType $accessToken"},
+        headers: <String, String>{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': "$tokenType $accessToken",
+        },
         body: jsonEncode(data),
       );
       // print(response.body);
 
       if (response.statusCode == 500) {
         dynamic res = jsonDecode(response.body);
-        return ResponseModel(statusCode: response.statusCode, data: res["Result"].toString());
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: res["Result"].toString(),
+        );
       } else if (response.statusCode == 401) {
         // MyToast.error("Unauthorized User");
-        return ResponseModel(statusCode: response.statusCode, data: "Unauthorized User");
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: "Unauthorized User",
+        );
       } else if (response.statusCode == 403) {
         // MyToast.error("Forbidden Access");
-        return ResponseModel(statusCode: response.statusCode, data: "Forbidden Access");
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: "Forbidden Access",
+        );
       } else {
-        return ResponseModel(statusCode: response.statusCode, data: response.body);
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: response.body,
+        );
       }
     } catch (e) {
       final res = ResponseModel(statusCode: -1, data: e.toString());
@@ -45,14 +65,21 @@ class APIsCallPost {
     }
   }
 
-  static Future<ResponseModel> submitRequestWithFile(String requestUrl, Map<String, String>? data, List<MultiPartFileModel> list) async {
+  static Future<ResponseModel> submitRequestWithFile(
+    String requestUrl,
+    Map<String, String>? data,
+    List<MultiPartFileModel> list,
+  ) async {
     try {
       // print(tokenType + " " + accessToken);
       gLogger("Data of the image is:${list.length}");
       // gLogger("Data:${jsonEncode(data)}");
       gLogger("Link:$apiLink$requestUrl");
       var headers = {'Authorization': '$tokenType $accessToken'};
-      final request = http.MultipartRequest('POST', Uri.parse(apiLink + requestUrl));
+      final request = http.MultipartRequest(
+        'POST',
+        Uri.parse(apiLink + requestUrl),
+      );
       if (data != null) {
         request.fields.addAll(data);
       }
@@ -60,7 +87,12 @@ class APIsCallPost {
         final fileBytes = list[i].fileBytes;
         final fileName = list[i].fileName;
         // final mimeType = list[i].mimeType;
-        final multipartFile = http.MultipartFile.fromBytes('file', fileBytes, filename: fileName, contentType: MediaType.parse("image/png"));
+        final multipartFile = http.MultipartFile.fromBytes(
+          'file',
+          fileBytes,
+          filename: fileName,
+          contentType: MediaType.parse("image/png"),
+        );
         request.files.add(multipartFile);
       }
 
@@ -68,18 +100,33 @@ class APIsCallPost {
 
       request.headers.addAll(headers);
       final response = await request.send();
-      gLogger("response.statusCode in the post request with file====${response.statusCode}");
+      gLogger(
+        "response.statusCode in the post request with file====${response.statusCode}",
+      );
       if (response.statusCode == 500) {
-        Map<String, dynamic> res = json.decode(await response.stream.bytesToString());
-        return ResponseModel(statusCode: response.statusCode, data: res["Result"].toString());
+        Map<String, dynamic> res = json.decode(
+          await response.stream.bytesToString(),
+        );
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: res["Result"].toString(),
+        );
       } else if (response.statusCode == 401) {
         // MyToast.error("Unauthorized User");
-        return ResponseModel(statusCode: response.statusCode, data: "Unauthorized User");
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: "Unauthorized User",
+        );
       } else if (response.statusCode == 403) {
         // MyToast.error("Forbidden Access");
-        return ResponseModel(statusCode: response.statusCode, data: "Forbidden Access");
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: "Forbidden Access",
+        );
       } else {
-        Map<String, dynamic> res = json.decode(await response.stream.bytesToString());
+        Map<String, dynamic> res = json.decode(
+          await response.stream.bytesToString(),
+        );
 
         return ResponseModel(statusCode: response.statusCode, data: res);
       }
@@ -100,11 +147,14 @@ class APIsCallPost {
     Map<String, dynamic>? reportData,
     String? customApiUrl,
     bool includeReportData = true,
-    bool isEInvoice = false,bool isSendSms = false,
+    bool isEInvoice = false,
+    bool isSendSms = false,
     String phoneNumber = "",
   }) async {
     try {
-      final String fullApiUrl = customApiUrl ?? '${apiLink}Email/SendReportEmail?Type=$reportType&CompanyId=$companyId';
+      final String fullApiUrl =
+          customApiUrl ??
+          '${apiLink}Email/SendReportEmail?Type=$reportType&CompanyId=$companyId';
 
       gLogger(fullApiUrl);
 
@@ -112,7 +162,7 @@ class APIsCallPost {
       gLogger("reportData=====$ccTec");
       gLogger("reportData=====$bccTec");
       gLogger("reportData=====$subjectTec");
- gLogger("isSendSms=====$isSendSms");
+      gLogger("isSendSms=====$isSendSms");
       gLogger("phoneNumber=====$phoneNumber");
       // Headers (add Authorization if required)
       var headers = {'Authorization': '$tokenType $accessToken'};
@@ -123,7 +173,8 @@ class APIsCallPost {
       request.fields['subject'] = subjectTec;
       request.fields['cc'] = ccTec;
       request.fields['bcc'] = bccTec;
-      request.fields['body'] = messageBodyTec;request.fields['IsSendSMS'] = isSendSms.toString();
+      request.fields['body'] = messageBodyTec;
+      request.fields['IsSendSMS'] = isSendSms.toString();
       request.fields['PhoneNumber'] = phoneNumber;
       if (isEInvoice) {
         request.fields['paymentOptions'] = "both";
@@ -135,28 +186,55 @@ class APIsCallPost {
       }
 
       // Add the PDF file
-      request.files.add(http.MultipartFile.fromBytes('attachment', pdfData, filename: reportType, contentType: MediaType('application', 'pdf')));
+      request.files.add(
+        http.MultipartFile.fromBytes(
+          'attachment',
+          pdfData,
+          filename: reportType,
+          contentType: MediaType('application', 'pdf'),
+        ),
+      );
 
       request.headers.addAll(headers);
 
       final response = await request.send();
 
       if (response.statusCode == 500) {
-        Map<String, dynamic> res = json.decode(await response.stream.bytesToString());
-        return ResponseModel(statusCode: response.statusCode, data: res["Result"].toString());
+        Map<String, dynamic> res = json.decode(
+          await response.stream.bytesToString(),
+        );
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: res["Result"].toString(),
+        );
       } else if (response.statusCode == 400) {
-        Map<String, dynamic> res = json.decode(await response.stream.bytesToString());
+        Map<String, dynamic> res = json.decode(
+          await response.stream.bytesToString(),
+        );
         return ResponseModel(statusCode: response.statusCode, data: res);
       } else if (response.statusCode == 401) {
-        return ResponseModel(statusCode: response.statusCode, data: "Unauthorized User");
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: "Unauthorized User",
+        );
       } else if (response.statusCode == 403) {
-        return ResponseModel(statusCode: response.statusCode, data: "Forbidden Access");
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: "Forbidden Access",
+        );
       } else if (response.statusCode == 200) {
-        Map<String, dynamic> res = json.decode(await response.stream.bytesToString());
+        Map<String, dynamic> res = json.decode(
+          await response.stream.bytesToString(),
+        );
         return ResponseModel(statusCode: response.statusCode, data: res);
       } else {
-        Map<String, dynamic> res = json.decode(await response.stream.bytesToString());
-        return ResponseModel(statusCode: response.statusCode, data: res["error"] ?? 'Unknown error');
+        Map<String, dynamic> res = json.decode(
+          await response.stream.bytesToString(),
+        );
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: res["error"] ?? 'Unknown error',
+        );
       }
     } catch (e) {
       gLogger('Error: $e');
@@ -164,7 +242,10 @@ class APIsCallPost {
     }
   }
 
-  static Future<ResponseModel> submitRequestWithOutAuth(String requestUrl, dynamic data) async {
+  static Future<ResponseModel> submitRequestWithOutAuth(
+    String requestUrl,
+    dynamic data,
+  ) async {
     try {
       // print(tokenType + " " + accessToken);
 
@@ -183,15 +264,27 @@ class APIsCallPost {
 
       if (response.statusCode == 500) {
         dynamic res = jsonDecode(response.body);
-        return ResponseModel(statusCode: response.statusCode, data: res["Result"].toString());
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: res["Result"].toString(),
+        );
       } else if (response.statusCode == 401) {
         // MyToast.error("Unauthorized User");
-        return ResponseModel(statusCode: response.statusCode, data: response.body);
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: response.body,
+        );
       } else if (response.statusCode == 403) {
         // MyToast.error("Forbidden Access");
-        return ResponseModel(statusCode: response.statusCode, data: "Forbidden Access");
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: "Forbidden Access",
+        );
       } else {
-        return ResponseModel(statusCode: response.statusCode, data: response.body);
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: response.body,
+        );
       }
     } catch (e) {
       final res = ResponseModel(statusCode: -1, data: e.toString());
@@ -199,7 +292,10 @@ class APIsCallPost {
     }
   }
 
-  static Future<ResponseModel> submitRequestWithOutBody(String requestUrl, {String? baseUrl}) async {
+  static Future<ResponseModel> submitRequestWithOutBody(
+    String requestUrl, {
+    String? baseUrl,
+  }) async {
     try {
       // print(tokenType + " " + accessToken);
 
@@ -208,21 +304,37 @@ class APIsCallPost {
 
       final response = await http.post(
         Uri.parse((baseUrl ?? apiLink) + requestUrl),
-        headers: <String, String>{'Accept': 'application/json', 'Content-Type': 'application/json; charset=UTF-8', 'Authorization': "$tokenType $accessToken"},
+        headers: <String, String>{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': "$tokenType $accessToken",
+        },
         // body: jsonEncode(data),
       );
 
       if (response.statusCode == 500) {
         dynamic res = jsonDecode(response.body);
-        return ResponseModel(statusCode: response.statusCode, data: res["Result"].toString());
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: res["Result"].toString(),
+        );
       } else if (response.statusCode == 401) {
         // MyToast.error("Unauthorized User");
-        return ResponseModel(statusCode: response.statusCode, data: "Unauthorized User");
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: "Unauthorized User",
+        );
       } else if (response.statusCode == 403) {
         // MyToast.error("Forbidden Access");
-        return ResponseModel(statusCode: response.statusCode, data: "Forbidden Access");
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: "Forbidden Access",
+        );
       } else {
-        return ResponseModel(statusCode: response.statusCode, data: response.body);
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: response.body,
+        );
       }
     } catch (e) {
       final res = ResponseModel(statusCode: -1, data: e.toString());
@@ -230,7 +342,9 @@ class APIsCallPost {
     }
   }
 
-  static Future<ResponseModel> submitRequestWithOutBodyWithOutAuth(String requestUrl) async {
+  static Future<ResponseModel> submitRequestWithOutBodyWithOutAuth(
+    String requestUrl,
+  ) async {
     try {
       // print(tokenType + " " + accessToken);
 
@@ -249,15 +363,27 @@ class APIsCallPost {
 
       if (response.statusCode == 500) {
         dynamic res = jsonDecode(response.body);
-        return ResponseModel(statusCode: response.statusCode, data: res["Result"].toString());
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: res["Result"].toString(),
+        );
       } else if (response.statusCode == 401) {
         // MyToast.error("Unauthorized User");
-        return ResponseModel(statusCode: response.statusCode, data: "Unauthorized User");
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: "Unauthorized User",
+        );
       } else if (response.statusCode == 403) {
         // MyToast.error("Forbidden Access");
-        return ResponseModel(statusCode: response.statusCode, data: "Forbidden Access");
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: "Forbidden Access",
+        );
       } else {
-        return ResponseModel(statusCode: response.statusCode, data: response.body);
+        return ResponseModel(
+          statusCode: response.statusCode,
+          data: response.body,
+        );
       }
     } catch (e) {
       final res = ResponseModel(statusCode: -1, data: e.toString());
