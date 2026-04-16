@@ -172,13 +172,10 @@ class GTextFieldForSingleLine extends StatelessWidget {
                 )
               : null,
           width: containerWidth,
-          //height: (!isFieldForTable ? (isCustomHeight ? containerHeight : Branding.tFHeight) : null),
-          constraints: (isFieldForTable
-              ? BoxConstraints(minHeight: isCustomHeight ? (containerHeight ?? Branding.tFHeight) : Branding.tFHeight)
-              : null),
           child: Theme(
-            data: Theme.of(context).copyWith(inputDecorationTheme: Theme.of(context).inputDecorationTheme.copyWith(hoverColor: Colors.white)),
+            data: Theme.of(context).copyWith(inputDecorationTheme: Theme.of(context).inputDecorationTheme.copyWith(hoverColor: Colors.transparent)),
             child: TextFormField(
+              textAlignVertical: TextAlignVertical.center,
               key: key1,
               controller: controller,
               focusNode: focusNode,
@@ -219,10 +216,10 @@ class GTextFieldForSingleLine extends StatelessWidget {
                       fontSizeForAll: fontSizeForAll,
                       isFieldForTable: isFieldForTable,
                       isZeroPadding: isZeroPadding,
-                      // isExtraHeightField: isExtraHeightField,
                       hintText: hintText ?? "",
                       suffixIcon: suffixIcon,
-                      // hintTextDirection
+                    ).copyWith(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 5.5),
                     )
                   : GTextFiledTheme.inputDecoration(
                       fontSizeForAll: fontSizeForAll,
@@ -233,7 +230,7 @@ class GTextFieldForSingleLine extends StatelessWidget {
                     ).copyWith(
                       filled: true,
                       fillColor: isRed ? Colors.red : (isEnabled ? containerColor : lightBackgroundColor),
-                      contentPadding: EdgeInsets.only(left: 8, right: 8, top: 10, bottom: 10),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                       errorStyle: const TextStyle(color: Colors.red, fontSize: 11, fontWeight: FontWeight.w400),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(isFieldForTable ? 0 : Branding.tFborderR),
