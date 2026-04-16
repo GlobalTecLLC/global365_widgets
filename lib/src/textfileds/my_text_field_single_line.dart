@@ -1,4 +1,5 @@
 import 'package:bootstrap_icons/bootstrap_icons.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:global365_widgets/global365_widgets.dart';
@@ -112,6 +113,7 @@ class GTextFieldForSingleLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMobileDevice = defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS;
     return Column(
       mainAxisSize: MainAxisSize.min,
       // mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.start,
@@ -175,7 +177,7 @@ class GTextFieldForSingleLine extends StatelessWidget {
           child: Theme(
             data: Theme.of(context).copyWith(inputDecorationTheme: Theme.of(context).inputDecorationTheme.copyWith(hoverColor: Colors.transparent)),
             child: TextFormField(
-              textAlignVertical: TextAlignVertical.center,
+              textAlignVertical: isMobileDevice ? TextAlignVertical.center : null,
               key: key1,
               controller: controller,
               focusNode: focusNode,
@@ -218,9 +220,7 @@ class GTextFieldForSingleLine extends StatelessWidget {
                       isZeroPadding: isZeroPadding,
                       hintText: hintText ?? "",
                       suffixIcon: suffixIcon,
-                    ).copyWith(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 5.5),
-                    )
+                    ).copyWith(contentPadding: isMobileDevice ? EdgeInsets.symmetric(horizontal: 4, vertical: 5.5) : null)
                   : GTextFiledTheme.inputDecoration(
                       fontSizeForAll: fontSizeForAll,
                       isFieldForTable: isFieldForTable,
@@ -230,7 +230,7 @@ class GTextFieldForSingleLine extends StatelessWidget {
                     ).copyWith(
                       filled: true,
                       fillColor: isRed ? Colors.red : (isEnabled ? containerColor : lightBackgroundColor),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                      contentPadding: isMobileDevice ? EdgeInsets.symmetric(horizontal: 8, vertical: 8) : EdgeInsets.only(left: 8, right: 8, top: 10, bottom: 10),
                       errorStyle: const TextStyle(color: Colors.red, fontSize: 11, fontWeight: FontWeight.w400),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(isFieldForTable ? 0 : Branding.tFborderR),
