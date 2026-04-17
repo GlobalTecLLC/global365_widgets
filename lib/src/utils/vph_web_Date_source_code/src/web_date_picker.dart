@@ -46,6 +46,7 @@ Future<DateTimeRange?> showWebDatePicker({
   bool asDialog = false,
   bool enableDateRangeSelection = false,
   bool disableWeekends = false,
+  bool disableHolidays = false,
 }) {
   if (asDialog) {
     final renderBox = context.findRenderObject()! as RenderBox;
@@ -72,6 +73,7 @@ Future<DateTimeRange?> showWebDatePicker({
               backgroundColor: backgroundColor,
               enableDateRangeSelection: enableDateRangeSelection,
               disableWeekends: disableWeekends,
+              disableHolidays: disableHolidays,
             ),
           ),
         ),
@@ -95,6 +97,7 @@ Future<DateTimeRange?> showWebDatePicker({
         backgroundColor: backgroundColor,
         enableDateRangeSelection: enableDateRangeSelection,
         disableWeekends: disableWeekends,
+        disableHolidays: disableHolidays,
       ),
       asDropDown: true,
       useTargetWidth: width != null ? false : true,
@@ -119,6 +122,7 @@ class _WebDatePicker extends StatefulWidget {
     this.backgroundColor,
     this.enableDateRangeSelection = false,
     this.disableWeekends = false,
+    this.disableHolidays = false,
   });
 
   final DateTime initialDate;
@@ -135,6 +139,7 @@ class _WebDatePicker extends StatefulWidget {
   final Color? backgroundColor;
   final bool enableDateRangeSelection;
   final bool disableWeekends;
+  final bool disableHolidays;
 
   @override
   State<_WebDatePicker> createState() => _WebDatePickerState();
@@ -201,7 +206,8 @@ class _WebDatePickerState extends State<_WebDatePicker> {
       if (_viewStartDate.month == date.month) {
         // final isEnabled = date.isInDateRange(widget.firstDate, widget.lastDate);
         final isWeekend = date.weekday == DateTime.saturday || date.weekday == DateTime.sunday;
-        final isEnabled = date.isInDateRange(widget.firstDate, widget.lastDate) && !(widget.disableWeekends && isWeekend);
+        final isHoliday = widget.disableHolidays && isUSHoliday(date);
+        final isEnabled = date.isInDateRange(widget.firstDate, widget.lastDate) && !(widget.disableWeekends && isWeekend) && !isHoliday;
         final isSelected = date.isInDateRange(_selectedStartDate, _selectedEndDate);
         final isSelectedLeft = isSelected && date.dateCompareTo(_selectedStartDate) == 0;
         final isSelectedRight = isSelected && date.dateCompareTo(_selectedEndDate) == 0;
@@ -805,4 +811,91 @@ class _PickerKey extends LocalKey {
   String toString() {
     return "_PickerKey(date: $date, viewMode: $viewMode)";
   }
+}
+
+bool isUSHoliday(DateTime date) {
+  final int year = date.year;
+  final int month = date.month;
+  final int day = date.day;
+  final int weekday = date.weekday; // 1 = Monday, 7 = Sunday
+
+  // Helper to get the Nth weekday of a month
+  DateTime nthWeekdayOfMonth(int n, int weekdayOut, int monthIn, int yearIn) {
+    int count = 0;
+    for (int d = 1; d <= 31; d++) {
+      try {
+        DateTime dt = DateTime(yearIn, monthIn, d);
+        if (dt.month != monthIn) break;
+        if (dt.weekday == weekdayOut) {
+          count++;
+          if (count == n) return dt;
+        }
+      } catch (e) {
+        break;
+      }
+    }
+    return DateTime(1970);
+  }
+
+  // Helper to get the last weekday of a month
+  DateTime lastWeekdayOfMonth(int weekdayOut, int monthIn, int yearIn) {
+    DateTime last = DateTime(1970);
+    for (int d = 1; d <= 31; d++) {
+      try {
+        DateTime dt = DateTime(yearIn, monthIn, d);
+        if (dt.month != monthIn) break;
+        if (dt.weekday == weekdayOut) {
+          last = dt;
+        }
+      } catch (e) {
+        break;
+      }
+    }
+    return last;
+  }
+
+  // 1. New Year's Day
+  if (month == 1 && day == 1) return true;
+  if (month == 1 && day == 2 && weekday == DateTime.monday) return true;
+  if (month == 12 && day == 31 && weekday == DateTime.friday) return true;
+
+  // 2. Martin Luther King Jr. Day
+  if (month == 1 && day == nthWeekdayOfMonth(3, DateTime.monday, 1, year).day) return true;
+
+  // 3. Presidents' Day (Washington's Birthday)
+  if (month == 2 && day == nthWeekdayOfMonth(3, DateTime.monday, 2, year).day) return true;
+
+  // 4. Memorial Day
+  if (month == 5 && day == lastWeekdayOfMonth(DateTime.monday, 5, year).day) return true;
+
+  // 5. Juneteenth
+  if (month == 6 && day == 19) return true;
+  if (month == 6 && day == 18 && weekday == DateTime.friday) return true;
+  if (month == 6 && day == 20 && weekday == DateTime.monday) return true;
+
+  // 6. Independence Day
+  if (month == 7 && day == 4) return true;
+  if (month == 7 && day == 3 && weekday == DateTime.friday) return true;
+  if (month == 7 && day == 5 && weekday == DateTime.monday) return true;
+
+  // 7. Labor Day
+  if (month == 9 && day == nthWeekdayOfMonth(1, DateTime.monday, 9, year).day) return true;
+
+  // 8. Columbus Day
+  if (month == 10 && day == nthWeekdayOfMonth(2, DateTime.monday, 10, year).day) return true;
+
+  // 9. Veterans Day
+  if (month == 11 && day == 11) return true;
+  if (month == 11 && day == 10 && weekday == DateTime.friday) return true;
+  if (month == 11 && day == 12 && weekday == DateTime.monday) return true;
+
+  // 10. Thanksgiving Day
+  if (month == 11 && day == nthWeekdayOfMonth(4, DateTime.thursday, 11, year).day) return true;
+
+  // 11. Christmas Day
+  if (month == 12 && day == 25) return true;
+  if (month == 12 && day == 24 && weekday == DateTime.friday) return true;
+  if (month == 12 && day == 26 && weekday == DateTime.monday) return true;
+
+  return false;
 }

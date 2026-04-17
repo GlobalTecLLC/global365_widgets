@@ -39,6 +39,7 @@ class GDateTextFiled extends StatefulWidget {
     this.validator,
     this.isShowHelp = false,
     this.isDisableWeekends = false,
+    this.isDisableHolidays = false,
     this.allowManualInput = true,
   });
   final bool allowManualInput;
@@ -60,6 +61,7 @@ class GDateTextFiled extends StatefulWidget {
   final bool disableBorderRadius;
   final void Function()? onTap;
   final bool isDisableWeekends;
+  final bool isDisableHolidays;
   final String? helpText;
   final bool? isShowHelp;
 
@@ -79,11 +81,29 @@ class _GDateTextFiledState extends State<GDateTextFiled> {
   }
 
   void _validateDate() {
+    setState(() {
+      _errorText = null;
+    });
+    if (widget.isDisableHolidays && widget.dateController.text.isNotEmpty) {
+      try {
+        final parsedDate = DateFormat('MM/dd/yyyy').parseStrict(widget.dateController.text);
+        if (isUSHoliday(parsedDate)) {
+          setState(() {
+            _errorText = "Cannot select public holiday";
+          });
+          return;
+        }
+      } catch (e) {
+        // ignore parsing error
+      }
+    }
     if (widget.validator != null) {
       final error = widget.validator!(widget.dateController.text);
-      setState(() {
-        _errorText = error;
-      });
+      if (error != null) {
+        setState(() {
+          _errorText = error;
+        });
+      }
     }
   }
 
@@ -97,6 +117,7 @@ class _GDateTextFiledState extends State<GDateTextFiled> {
       weekendDaysColor: mainColorPrimaryYellow,
       withoutOkButtons: true,
       disableWeekends: widget.isDisableWeekends,
+      disableHolidays: widget.isDisableHolidays,
       //width: 300,
       // withoutActionButtons: true,
       // weekendDaysColor: Colors.red,
