@@ -23,12 +23,19 @@ class PayrollUserInvitationController extends GetxController {
 
   String statusCode = "";
   RxString verificationCode = "".obs;
-  void getInvitedUserData(BuildContext context, {String? verficationCode}) async {
+  void getInvitedUserData(
+    BuildContext context, {
+    String? verficationCode,
+  }) async {
     isgettingData.value = true;
     verificationCode.value = verficationCode ?? "";
     // (SP-1008)GetUserInfoThroughCode
-    gLogger("INSIDE THE GET INVITED USER DATA API CALL and verification code is $verficationCode");
-    ResponseModel response = await APIsCallGet.getDataWithOutAuth("Users/GetVerifiedUserInfoThroughCode?VerifiedCode=$verficationCode");
+    gLogger(
+      "INSIDE THE GET INVITED USER DATA API CALL and verification code is $verficationCode",
+    );
+    ResponseModel response = await APIsCallGet.getDataWithOutAuth(
+      "Users/GetVerifiedUserInfoThroughCode?VerifiedCode=$verficationCode",
+    );
 
     isgettingData.value = false;
     dynamic decodedData = jsonDecode(response.data);
@@ -36,11 +43,14 @@ class PayrollUserInvitationController extends GetxController {
     gLogger("REsponseData = ${response.data}");
     if (response.statusCode == 200) {
       companyName.value = ((decodedData["payload"] ?? {})["companyName"] ?? "");
-      inviterUserName.value = ((decodedData["payload"] ?? {})["inviterName"] ?? "");
-      inviterUserEmail.value = ((decodedData["payload"] ?? {})["inviterEmail"] ?? "");
+      inviterUserName.value =
+          ((decodedData["payload"] ?? {})["inviterName"] ?? "");
+      inviterUserEmail.value =
+          ((decodedData["payload"] ?? {})["inviterEmail"] ?? "");
       invitedUserEmail.value = ((decodedData["payload"] ?? {})["email"] ?? "");
       firstNameFromAPI.value = ((decodedData["payload"] ?? {})["name"] ?? "");
-      isUserVerified.value = ((decodedData["payload"] ?? {})["isVerified"] ?? false);
+      isUserVerified.value =
+          ((decodedData["payload"] ?? {})["isVerified"] ?? false);
     } else {
       GToast.error(decodedData["message"].toString(), context);
     }
@@ -54,7 +64,7 @@ class PayrollUserInvitationController extends GetxController {
   RxString password = "".obs;
   RxBool passwordVisible = false.obs;
   RxBool isAgreedToTerms = false.obs;
-  RxBool isAgreedToBetaTesting = false.obs;
+
   RxBool isFilledAllData = false.obs;
 
   signUp(BuildContext context) async {
@@ -70,7 +80,10 @@ class PayrollUserInvitationController extends GetxController {
     gLogger("User Data: $data");
     GProgressDialog(context).show();
     // (SP-1) User Register
-    ResponseModel response = await APIsCallPost.submitRequestWithOutAuth("Users/Register", data);
+    ResponseModel response = await APIsCallPost.submitRequestWithOutAuth(
+      "Users/Register",
+      data,
+    );
     gLogger("response: ${response.data}");
     gLogger("response: ${response.statusCode}");
 
@@ -101,7 +114,9 @@ class PayrollUserInvitationController extends GetxController {
   RxString passwordStrengthText = ''.obs;
   RxBool isShowValidation = false.obs;
   void validatePassword(String password) {
-    final RegExp strongPasswordRegExp = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[0-9]).{8,}$');
+    final RegExp strongPasswordRegExp = RegExp(
+      r'^(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*(),.?":{}|<>])(?=.*[0-9]).{8,}$',
+    );
     if (strongPasswordRegExp.hasMatch(password) && password.length >= 12) {
       passwordStrength.value = 3;
       passwordStrengthText.value = 'Very Strong';
@@ -127,8 +142,13 @@ class PayrollUserInvitationController extends GetxController {
   // }
 
   bool isAccepted = false;
-  verifiedUserInvitationResponse(BuildContext context, bool isAcceptedInvite) async {
-    gLogger("INSIDE verifiedUserInvitationResponse and isaccepted: $isAcceptedInvite");
+  verifiedUserInvitationResponse(
+    BuildContext context,
+    bool isAcceptedInvite,
+  ) async {
+    gLogger(
+      "INSIDE verifiedUserInvitationResponse and isaccepted: $isAcceptedInvite",
+    );
     GProgressDialog(context).show();
     // (SP-1009) VerifiedUserInvitationResponse
     ResponseModel response = await APIsCallPut.updateRequestWithIdwithoutbody(
@@ -290,9 +310,10 @@ class PayrollUserInvitationController extends GetxController {
     gLogger("INSIDE RESEND OTP API CALL");
     GProgressDialog(context).show();
     // (SP-2) ResendVerificationCode
-    ResponseModel response = await APIsCallPost.submitRequestWithOutBodyWithOutAuth(
-      "Users/ResendVerificationCode?Email=${invitedUserEmail.value.trim()}",
-    );
+    ResponseModel response =
+        await APIsCallPost.submitRequestWithOutBodyWithOutAuth(
+          "Users/ResendVerificationCode?Email=${invitedUserEmail.value.trim()}",
+        );
     GProgressDialog(context).hide();
     dynamic decodedResponse = jsonDecode(response.data);
     if (response.statusCode == 200 || response.statusCode == 201) {
