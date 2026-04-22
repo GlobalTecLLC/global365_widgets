@@ -258,7 +258,28 @@ class LoginController extends GetxController {
     prefs.setString("userFirstName", userNameForGlobals.value);
     prefs.setBool("isAppOpen", true);
 
-    GNav.goNav(context, GRouteConfig.dashboard);
+    bool isKeyInfo = true;
+    bool isCompensation = true;
+    bool isTaxInfo = true;
+
+    final payload = decodedData["payload"];
+    if (payload != null && payload is Map) {
+      final loggedCompanies = payload["loggedCompanies"];
+      if (loggedCompanies != null && loggedCompanies is List && loggedCompanies.isNotEmpty) {
+        final employeeStatus = loggedCompanies[0]["employeeStatus"];
+        if (employeeStatus != null && employeeStatus is Map) {
+          isKeyInfo = employeeStatus["isKeyInfo"] ?? true;
+          isCompensation = employeeStatus["isCompensation"] ?? true;
+          isTaxInfo = employeeStatus["isTaxInfo"] ?? true;
+        }
+      }
+    }
+
+    if (isKeyInfo == false || isCompensation == false || isTaxInfo == false) {
+      GNav.goNav(context, GRouteConfig.incompleteInfo);
+    } else {
+      GNav.goNav(context, GRouteConfig.dashboard);
+    }
   }
 
   loginResponsehandler(BuildContext context, dynamic decodedData, {bool? companyStatus, bool? isRedirectLogin}) async {
@@ -499,7 +520,9 @@ class LoginController extends GetxController {
 
   Future<void> redirectLogin(BuildContext context, String code, bool companyStatus) async {
     ResponseModel response = await APIsCallPost.submitRequest(
-      g365Module == G365Module.payroll ? "Users/LoginByUniqueCode?UniqueCode=$code" : "Users/NewLoginByUniqueCode?UniqueCode=$code",
+      g365Module == G365Module.payroll
+          ? "Users/LoginByUniqueCode?UniqueCode=$code"
+          : "Users/NewLoginByUniqueCode?UniqueCode=$code",
       {},
     );
 
@@ -517,6 +540,7 @@ class LoginController extends GetxController {
 
   RxBool checkedValue = false.obs;
 
-  void launchURL(String url) async =>
-      await canLaunch(url) ? await launch(url, forceSafariVC: true, forceWebView: true, webOnlyWindowName: '_self') : throw 'Could not launch $url';
+  void launchURL(String url) async => await canLaunch(url)
+      ? await launch(url, forceSafariVC: true, forceWebView: true, webOnlyWindowName: '_self')
+      : throw 'Could not launch $url';
 }

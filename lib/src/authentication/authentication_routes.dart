@@ -14,4 +14,5 @@ class GRouteConfig {
   static const String dashboard = "/dashboard";
   static const String forgotPassword = "/forgotPassword";
   static const String payrollUserInvitationRoute = "/PayrollUserInvitation";
+  static const String incompleteInfo = "/incompleteInfo";
 }
