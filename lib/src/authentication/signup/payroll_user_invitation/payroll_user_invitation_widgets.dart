@@ -6,15 +6,14 @@ import 'package:get/get.dart';
 import 'package:global365_widgets/global365_widgets.dart';
 import 'package:global365_widgets/src/authentication/authentication_routes.dart';
 import 'package:global365_widgets/src/authentication/login/Controllers/login_controller.dart';
+import 'package:global365_widgets/src/authentication/signup/marchant_user_invitation/marchant_user_invitation_widgets.dart';
 import 'package:global365_widgets/src/authentication/signup/payroll_user_invitation/payroll_user_invitation_controller.dart';
 import 'package:global365_widgets/src/constants/constants.dart';
 import 'package:global365_widgets/src/utils/print_log.dart';
 import 'package:pinput/pinput.dart';
 
 PayrollUserInvitationController userInvitationController = Get.find();
-SignUpController signUpController = Get.isRegistered<SignUpController>()
-    ? Get.find()
-    : Get.put(SignUpController());
+SignUpController signUpController = Get.isRegistered<SignUpController>() ? Get.find() : Get.put(SignUpController());
 Widget signUpAndAcceptWidget(BuildContext context) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
@@ -23,9 +22,7 @@ Widget signUpAndAcceptWidget(BuildContext context) {
       userInvitationController.isUserVerifiedNull.value == null
           ? const Column(
               children: [
-                Center(
-                  child: GTextHeading4("Link is Expired", color: titleColor),
-                ),
+                Center(child: GTextHeading4("Link is Expired", color: titleColor)),
                 SizedBox(height: 30),
               ],
             )
@@ -33,10 +30,7 @@ Widget signUpAndAcceptWidget(BuildContext context) {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30),
-                  child: const GTextHeading4(
-                    "Join our organization",
-                    color: titleColor,
-                  ),
+                  child: const GTextHeading4("Join our organization", color: titleColor),
                 ),
                 const GSizeH(8),
                 Padding(
@@ -45,8 +39,7 @@ Widget signUpAndAcceptWidget(BuildContext context) {
                     TextSpan(
                       children: [
                         TextSpan(
-                          text:
-                              'We are pleased to invite you to join our organization. To accept this invitation, please create a ',
+                          text: 'We are pleased to invite you to join our organization. To accept this invitation, please create a ',
                           style: GAppStyle.style13w400(color: bodyTextDark),
                         ),
                         TextSpan(
@@ -58,11 +51,8 @@ Widget signUpAndAcceptWidget(BuildContext context) {
                           style: GAppStyle.style13w400(color: bodyTextDark),
                         ),
                         TextSpan(
-                          text:
-                              ' ${userInvitationController.invitedUserEmail.value}.',
-                          style: GAppStyle.style13w400(
-                            color: secondaryColorOrange,
-                          ),
+                          text: ' ${userInvitationController.invitedUserEmail.value}.',
+                          style: GAppStyle.style13w400(color: secondaryColorOrange),
                         ),
                       ],
                     ),
@@ -76,17 +66,14 @@ Widget signUpAndAcceptWidget(BuildContext context) {
                     children: [
                       GCustomButton(
                         onTap: () {
-                          // alertForRejectConfirmation(context, () {
-                          //   if (globals.isUserAlreadyLogedin == true) {
-                          //     userInvitationController.isAccepted = false;
-                          //     userInvitationController.verifiedUserInvitationResponse(
-                          //       context,
-                          //       userInvitationController.isAccepted,
-                          //     );
-                          //   } else {
-                          //     userInvitationController.rejectUnVerifiedUser(context);
-                          //   }
-                          // });
+                          alertForRejectConfirmation(context, () {
+                            if (isUserAlreadyLogedin == true) {
+                              userInvitationController.isAccepted = false;
+                              userInvitationController.verifiedUserInvitationResponse(context, userInvitationController.isAccepted);
+                            } else {
+                              userInvitationController.rejectUnVerifiedUser(context);
+                            }
+                          });
                           GNav.goNav(context, GRouteConfig.loginUsaPageRoute);
                         },
                         btnText: "Reject",
@@ -101,16 +88,9 @@ Widget signUpAndAcceptWidget(BuildContext context) {
                               onTap: () {
                                 gLogger("Sign up & Accept");
                                 userInvitationController.pageNumber.value = 1;
-                                userInvitationController
-                                    .functionTOClearDataofSignUp();
-                                userInvitationController.tecFirstName.text =
-                                    userInvitationController
-                                        .firstNameFromAPI
-                                        .value;
-                                userInvitationController.firstName.value =
-                                    userInvitationController
-                                        .firstNameFromAPI
-                                        .value;
+                                userInvitationController.functionTOClearDataofSignUp();
+                                userInvitationController.tecFirstName.text = userInvitationController.firstNameFromAPI.value;
+                                userInvitationController.firstName.value = userInvitationController.firstNameFromAPI.value;
                               },
                               btnText: "Sign up & Accept",
                               backgroundColor: primaryColor,
@@ -125,11 +105,7 @@ Widget signUpAndAcceptWidget(BuildContext context) {
                               onTap: () {
                                 gLogger("Accept cliecked");
                                 userInvitationController.isAccepted = true;
-                                userInvitationController
-                                    .verifiedUserInvitationResponse(
-                                      context,
-                                      userInvitationController.isAccepted,
-                                    );
+                                userInvitationController.verifiedUserInvitationResponse(context, userInvitationController.isAccepted);
                               },
                               btnText: "Accept",
                               backgroundColor: primaryColor,
@@ -142,28 +118,15 @@ Widget signUpAndAcceptWidget(BuildContext context) {
                           : GCustomButton(
                               onTap: () {
                                 gLogger("Sign in to Accept 11");
-                                LoginController.to.tecEmail.text =
-                                    userInvitationController
-                                        .invitedUserEmail
-                                        .value;
-                                LoginController.to.inviteCode.value =
-                                    userInvitationController
-                                        .verificationCode
-                                        .value;
-                                Future.delayed(
-                                  const Duration(milliseconds: 300),
-                                  () {
-                                    GNav.goNavWithExtra(
-                                      context,
-                                      GRouteConfig.loginUsaPageRoute,
-                                      {
-                                        'inviteToken': userInvitationController
-                                            .verificationCode
-                                            .value,
-                                      },
-                                    );
-                                  },
-                                );
+                                isLoggingInInvitedUser.value = true; // this is used in global books
+
+                                LoginController.to.tecEmail.text = userInvitationController.invitedUserEmail.value;
+                                LoginController.to.inviteCode.value = userInvitationController.verificationCode.value;
+                                Future.delayed(const Duration(milliseconds: 300), () {
+                                  GNav.goNavWithExtra(context, GRouteConfig.loginUsaPageRoute, {
+                                    'inviteToken': userInvitationController.verificationCode.value,
+                                  });
+                                });
                               },
                               btnText: "Sign in to Accept",
                               backgroundColor: primaryColor,
@@ -225,8 +188,7 @@ Widget signUpWidget(BuildContext context) {
             Expanded(
               child: GTextFieldForSingleLine(
                 onChange: (val) {
-                  userInvitationController.firstName.value =
-                      userInvitationController.tecFirstName.text.trim();
+                  userInvitationController.firstName.value = userInvitationController.tecFirstName.text.trim();
                   userInvitationController.isFilledAllData.value =
                       (userInvitationController.firstName.value.isNotEmpty &&
                       userInvitationController.password.value.isNotEmpty &&
@@ -257,15 +219,9 @@ Widget signUpWidget(BuildContext context) {
         padding: EdgeInsets.symmetric(horizontal: 30),
         child: GTextFieldForSingleLine(
           onChange: (val) {
-            userInvitationController.password.value = userInvitationController
-                .tecPassword
-                .text
-                .trim();
-            userInvitationController.isShowValidation.value =
-                userInvitationController.password.value.isNotEmpty;
-            userInvitationController.validatePassword(
-              userInvitationController.password.value,
-            );
+            userInvitationController.password.value = userInvitationController.tecPassword.text.trim();
+            userInvitationController.isShowValidation.value = userInvitationController.password.value.isNotEmpty;
+            userInvitationController.validatePassword(userInvitationController.password.value);
             userInvitationController.isFilledAllData.value =
                 (userInvitationController.firstName.value.isNotEmpty &&
                 userInvitationController.password.value.isNotEmpty &&
@@ -279,23 +235,15 @@ Widget signUpWidget(BuildContext context) {
           hintText: "Password",
           isPassword: userInvitationController.passwordVisible.isFalse,
           suffixIcon: InkWell(
-            child: Icon(
-              userInvitationController.passwordVisible.isFalse
-                  ? BootstrapIcons.eye_slash
-                  : BootstrapIcons.eye,
-            ),
+            child: Icon(userInvitationController.passwordVisible.isFalse ? BootstrapIcons.eye_slash : BootstrapIcons.eye),
             onTap: () {
-              userInvitationController.passwordVisible.value =
-                  !userInvitationController.passwordVisible.value;
+              userInvitationController.passwordVisible.value = !userInvitationController.passwordVisible.value;
             },
           ),
         ),
       ),
-      if (userInvitationController.isShowValidation.value &&
-          userInvitationController.password.value.isNotEmpty)
-        const GSizeH(10),
-      if (userInvitationController.isShowValidation.value &&
-          userInvitationController.password.value.isNotEmpty)
+      if (userInvitationController.isShowValidation.value && userInvitationController.password.value.isNotEmpty) const GSizeH(10),
+      if (userInvitationController.isShowValidation.value && userInvitationController.password.value.isNotEmpty)
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 30),
           child: Row(
@@ -310,10 +258,7 @@ Widget signUpWidget(BuildContext context) {
                     color: i < userInvitationController.passwordStrength.value
                         ? (userInvitationController.passwordStrength.value == 1
                               ? Colors.red
-                              : userInvitationController
-                                        .passwordStrength
-                                        .value ==
-                                    2
+                              : userInvitationController.passwordStrength.value == 2
                               ? Colors.orange
                               : Colors.green)
                         : Colors.grey,
@@ -351,8 +296,7 @@ Widget signUpWidget(BuildContext context) {
                 splashRadius: 0,
                 side: BorderSide(color: lightBackgroundColor, width: 2),
                 onChanged: (value) {
-                  userInvitationController.isAgreedToTerms.value =
-                      !userInvitationController.isAgreedToTerms.value;
+                  userInvitationController.isAgreedToTerms.value = !userInvitationController.isAgreedToTerms.value;
                   userInvitationController.isFilledAllData.value =
                       (userInvitationController.firstName.value.isNotEmpty &&
                       userInvitationController.password.value.isNotEmpty &&
@@ -373,20 +317,11 @@ Widget signUpWidget(BuildContext context) {
                         style: GAppStyle.style14w600(),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            userInvitationController.isAgreedToTerms.value =
-                                !userInvitationController.isAgreedToTerms.value;
+                            userInvitationController.isAgreedToTerms.value = !userInvitationController.isAgreedToTerms.value;
                             userInvitationController.isFilledAllData.value =
-                                (userInvitationController
-                                    .firstName
-                                    .value
-                                    .isNotEmpty &&
-                                userInvitationController
-                                    .password
-                                    .value
-                                    .isNotEmpty &&
-                                userInvitationController
-                                    .isPasswordValid
-                                    .isTrue &&
+                                (userInvitationController.firstName.value.isNotEmpty &&
+                                userInvitationController.password.value.isNotEmpty &&
+                                userInvitationController.isPasswordValid.isTrue &&
                                 userInvitationController.isAgreedToTerms.value);
                           },
                       ),
@@ -401,9 +336,7 @@ Widget signUpWidget(BuildContext context) {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            SignUpController.to.launchURL(
-                              'https://global365.com/services',
-                            );
+                            SignUpController.to.launchURL('https://global365.com/services');
                           },
                       ),
                       TextSpan(text: " and ", style: GAppStyle.style14w600()),
@@ -418,9 +351,7 @@ Widget signUpWidget(BuildContext context) {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            SignUpController.to.launchURL(
-                              'https://global365.com/privacyPolicy',
-                            );
+                            SignUpController.to.launchURL('https://global365.com/privacyPolicy');
                           },
                       ),
                     ],
@@ -450,9 +381,7 @@ Widget signUpWidget(BuildContext context) {
               icon: BootstrapIcons.arrow_left_circle_fill,
             ),
             Opacity(
-              opacity: userInvitationController.isFilledAllData.isTrue
-                  ? 1
-                  : 0.5,
+              opacity: userInvitationController.isFilledAllData.isTrue ? 1 : 0.5,
               child: GCustomButton(
                 onTap: userInvitationController.isFilledAllData.isFalse
                     ? null
@@ -493,10 +422,7 @@ Widget oTPWidget(BuildContext context) {
     children: [
       const GTextHeading3("Verify OTP", color: titleColor),
       const GSizeH(10),
-      const GTextHeading6(
-        "We have sent a verification code to your email address.",
-        color: bodyText,
-      ),
+      const GTextHeading6("We have sent a verification code to your email address.", color: bodyText),
       const GTextHeading6("Please enter it here", color: bodyText),
       const GSizeH(40),
       Padding(
@@ -519,10 +445,7 @@ Widget oTPWidget(BuildContext context) {
           cursor: Container(
             width: 12,
             height: 4,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(6),
-              color: primaryColor,
-            ),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: primaryColor),
           ),
           keyboardType: TextInputType.number,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -549,10 +472,7 @@ Widget oTPWidget(BuildContext context) {
             onTap: () {
               userInvitationController.resendOTP(context);
             },
-            child: const GTextHeading5(
-              ' Click to resend',
-              color: secondaryColorOrange,
-            ),
+            child: const GTextHeading5(' Click to resend', color: secondaryColorOrange),
           ),
         ],
       ),
@@ -576,23 +496,16 @@ Widget oTPWidget(BuildContext context) {
             ),
             Obx(
               () => Opacity(
-                opacity: userInvitationController.isButtonEnabled.value
-                    ? 1
-                    : 0.5,
+                opacity: userInvitationController.isButtonEnabled.value ? 1 : 0.5,
                 child: GCustomButton(
                   onTap: userInvitationController.isButtonEnabled.value
                       ? () {
-                          userInvitationController.confirmVerificationCode(
-                            context,
-                          );
+                          userInvitationController.verifyOTP(context);
                           // gLogger("Verify and accept Clicekd ${userInvitationController.otp}");
                         }
                       : null,
                   btnText: "Verify & Accept",
-                  backgroundColor:
-                      userInvitationController.isButtonEnabled.value
-                      ? primaryColor
-                      : lightBackground2,
+                  backgroundColor: userInvitationController.isButtonEnabled.value ? primaryColor : lightBackground2,
                   textColor: Colors.white,
                   iconColor: Colors.white,
                   bColor: Colors.transparent,
@@ -636,10 +549,7 @@ alertForRejection(BuildContext context) {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [GTextHeading3("Invitation Rejected")],
-                    ),
+                    const Row(mainAxisAlignment: MainAxisAlignment.center, children: [GTextHeading3("Invitation Rejected")]),
                     SizedBox(height: 35),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -649,7 +559,7 @@ alertForRejection(BuildContext context) {
                             isLoggingInInvitedUser.value = false;
                             // AutoRouter.of(context).replaceAll([const LoginPageUSARoute()]);
 
-                            // context.go(RouteConfig.login);
+                            GNav.goNav(context, GRouteConfig.loginUsaPageRoute);
                           },
                           btnText: "Ok",
                           backgroundColor: primaryColor,

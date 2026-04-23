@@ -28,8 +28,10 @@ class _LoginPageState extends State<LoginPage> {
       Get.put(LoginController());
     }
     gLogger("within the init of login page and isLoggingInInvitedUser is $isLoggingInInvitedUser");
+    gLogger("within the init of login page and the email is if isLoggingInvitedUser is false ${loginController.tecEmail.text}");
     if (isLoggingInInvitedUser.isTrue) {
       loginController.tecEmail.text = userInvitationController.invitedUserEmail.value;
+      gLogger("within the init of login page and the email is ${loginController.tecEmail.text}");
     } else {
       loginController.checkIsRememberUser();
     }

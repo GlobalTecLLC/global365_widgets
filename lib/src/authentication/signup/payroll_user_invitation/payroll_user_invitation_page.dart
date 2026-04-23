@@ -27,6 +27,7 @@ class _PayrollUserInvitationPageState extends State<PayrollUserInvitationPage> {
     super.initState();
     gLogger("invitation code is ${widget.invitationCode}");
     userInvitationController.getInvitedUserData(context, verficationCode: widget.invitationCode);
+    userInvitationController.functionTOClearDataofSignUp();
   }
 
   @override
