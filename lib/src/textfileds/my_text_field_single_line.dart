@@ -59,6 +59,12 @@ class GTextFieldForSingleLine extends StatelessWidget {
   final Key? key1;
   final List<TextInputFormatter>? customInputFormatters;
 
+  /// Autofill hints (e.g. [AutofillHints.creditCardNumber]) forwarded to the
+  /// underlying [TextFormField]. On Flutter web these emit the matching HTML
+  /// `autocomplete` attribute (cc-number, cc-exp, cc-csc, …) so iOS Safari
+  /// recognises the field for card / payment autofill.
+  final Iterable<String>? autofillHints;
+
   const GTextFieldForSingleLine({
     super.key,
     this.hintText,
@@ -109,6 +115,7 @@ class GTextFieldForSingleLine extends StatelessWidget {
     this.maxLength,
     this.key1,
     this.customInputFormatters,
+    this.autofillHints,
   });
 
   @override
@@ -183,6 +190,7 @@ class GTextFieldForSingleLine extends StatelessWidget {
                 autofocus: isAutoFocus,
                 cursorColor: Colors.black,
                 enabled: isEnabled,
+                autofillHints: autofillHints,
                 inputFormatters:
                     customInputFormatters ??
                     ((maxLength != null)
