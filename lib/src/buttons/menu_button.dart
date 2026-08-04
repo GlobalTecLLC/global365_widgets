@@ -296,6 +296,10 @@ class GCustomMenuButton extends StatelessWidget {
         return BootstrapIcons.trash;
       case "Email Now":
         return BootstrapIcons.envelope;
+      // "Mail Now" is the paper counterpart of "Email Now" — the invoice is printed and posted to
+      // the customer rather than emailed. Without this case it falls through to question_circle.
+      case "Mail Now":
+        return BootstrapIcons.mailbox;
       case "Print":
         return BootstrapIcons.printer;
       case "Print Now":
